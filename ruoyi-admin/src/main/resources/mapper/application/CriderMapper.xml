@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.application.mapper.CriderMapper">
+    
+    <resultMap type="Crider" id="CriderResult">
+        <result property="criderId"    column="criderId"    />
+        <result property="uId"    column="uId"    />
+        <result property="tel"    column="tel"    />
+        <result property="cardId"    column="cardId"    />
+        <result property="name"    column="name"    />
+        <result property="pass"    column="pass"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectCriderVo">
+        select criderId, uId, tel, cardId, name, pass, status from crider
+    </sql>
+
+    <select id="selectCriderList" parameterType="Crider" resultMap="CriderResult">
+        <include refid="selectCriderVo"/>
+        <where>  
+            <if test="criderId != null "> and criderId = #{criderId}</if>
+            <if test="uId != null "> and uId = #{uId}</if>
+            <if test="tel != null  and tel != ''"> and tel = #{tel}</if>
+            <if test="cardId != null  and cardId != ''"> and cardId = #{cardId}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="pass != null "> and pass = #{pass}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectCriderByCriderId" parameterType="Long" resultMap="CriderResult">
+        <include refid="selectCriderVo"/>
+        where criderId = #{criderId}
+    </select>
+
+        
+    <insert id="insertCrider" parameterType="Crider" useGeneratedKeys="true" keyProperty="criderId">
+        insert into crider
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uId != null">uId,</if>
+            <if test="tel != null and tel != ''">tel,</if>
+            <if test="cardId != null and cardId != ''">cardId,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="pass != null">pass,</if>
+            <if test="status != null">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uId != null">#{uId},</if>
+            <if test="tel != null and tel != ''">#{tel},</if>
+            <if test="cardId != null and cardId != ''">#{cardId},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="pass != null">#{pass},</if>
+            <if test="status != null">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCrider" parameterType="Crider">
+        update crider
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="uId != null">uId = #{uId},</if>
+            <if test="tel != null and tel != ''">tel = #{tel},</if>
+            <if test="cardId != null and cardId != ''">cardId = #{cardId},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="pass != null">pass = #{pass},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where criderId = #{criderId}
+    </update>
+
+    <update id="agreeCriderByCriderIds" parameterType="String">
+        update crider
+        set status = 1 , pass = 1
+        where criderId in
+        <foreach item="criderId" collection="array" open="(" separator="," close=")">
+            #{criderId}
+        </foreach>
+    </update>
+
+    <update id="refuseCriderByCriderIds" parameterType="String">
+        update crider
+        set status = 1 , pass = 0
+        where criderId in
+        <foreach item="criderId" collection="array" open="(" separator="," close=")">
+            #{criderId}
+        </foreach>
+    </update>
+
+    <delete id="deleteCriderByCriderId" parameterType="Long">
+        delete from crider where criderId = #{criderId}
+    </delete>
+
+    <delete id="deleteCriderByCriderIds" parameterType="String">
+        delete from crider where criderId in 
+        <foreach item="criderId" collection="array" open="(" separator="," close=")">
+            #{criderId}
+        </foreach>
+    </delete>
+
+    <select id="selectUIdsByCriderIds" parameterType="String" resultType="Long">
+        select distinct uId from crider where criderId in
+        <foreach item="criderId" collection="array" open="(" separator="," close=")">
+            #{criderId}
+        </foreach>
+    </select>
+
+</mapper>
