@@ -77,6 +77,10 @@ public class CstoreController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody Cstore cstore)
     {
+        cstore.setuId(getLoginUser().getUserId());
+        cstore.setPass(0);
+        cstore.setStatus(0);
+        System.out.println(cstore);
         return toAjax(cstoreService.insertCstore(cstore));
     }
 
