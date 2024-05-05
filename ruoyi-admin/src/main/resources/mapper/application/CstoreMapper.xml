@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.application.mapper.CstoreMapper">
+    
+    <resultMap type="Cstore" id="CstoreResult">
+        <result property="cstoreId"    column="cstoreId"    />
+        <result property="uId"    column="uId"    />
+        <result property="tel"    column="tel"    />
+        <result property="cardId"    column="cardId"    />
+        <result property="name"    column="name"    />
+        <result property="license"    column="license"    />
+        <result property="pass"    column="pass"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectCstoreVo">
+        select cstoreId, uId, tel, cardId, name, license, pass, status from cstore
+    </sql>
+
+    <select id="selectCstoreList" parameterType="Cstore" resultMap="CstoreResult">
+        <include refid="selectCstoreVo"/>
+        <where>  
+            <if test="cstoreId != null "> and cstoreId = #{cstoreId}</if>
+            <if test="uId != null "> and uId = #{uId}</if>
+            <if test="tel != null  and tel != ''"> and tel = #{tel}</if>
+            <if test="cardId != null  and cardId != ''"> and cardId = #{cardId}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="license != null  and license != ''"> and license = #{license}</if>
+            <if test="pass != null "> and pass = #{pass}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectCstoreByCstoreId" parameterType="Long" resultMap="CstoreResult">
+        <include refid="selectCstoreVo"/>
+        where cstoreId = #{cstoreId}
+    </select>
+        
+    <insert id="insertCstore" parameterType="Cstore" useGeneratedKeys="true" keyProperty="cstoreId">
+        insert into cstore
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uId != null">uId,</if>
+            <if test="tel != null">tel,</if>
+            <if test="cardId != null">cardId,</if>
+            <if test="name != null">name,</if>
+            <if test="license != null">license,</if>
+            <if test="pass != null">pass,</if>
+            <if test="status != null">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uId != null">#{uId},</if>
+            <if test="tel != null">#{tel},</if>
+            <if test="cardId != null">#{cardId},</if>
+            <if test="name != null">#{name},</if>
+            <if test="license != null">#{license},</if>
+            <if test="pass != null">#{pass},</if>
+            <if test="status != null">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCstore" parameterType="Cstore">
+        update cstore
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="uId != null">uId = #{uId},</if>
+            <if test="tel != null">tel = #{tel},</if>
+            <if test="cardId != null">cardId = #{cardId},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="license != null">license = #{license},</if>
+            <if test="pass != null">pass = #{pass},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where cstoreId = #{cstoreId}
+    </update>
+
+    <delete id="deleteCstoreByCstoreId" parameterType="Long">
+        delete from cstore where cstoreId = #{cstoreId}
+    </delete>
+
+    <delete id="deleteCstoreByCstoreIds" parameterType="String">
+        delete from cstore where cstoreId in 
+        <foreach item="cstoreId" collection="array" open="(" separator="," close=")">
+            #{cstoreId}
+        </foreach>
+    </delete>
+</mapper>
