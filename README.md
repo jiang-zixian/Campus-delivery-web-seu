@@ -19,19 +19,17 @@ Maven >= 3.0
 
 3. 将当前文件夹直接导入IDEA（vscode也可导入），将整个文件夹拖到IDEA的软件图标上即可导入
 
-4. 创建数据库
+4. 数据库连接
 
-    数据库取名为ry-vue(与`.\Campus-delivery-web-seu\ruoyi-admin\src\main\resources\application-druid.yml`配置文件里的配置同名即可)
+大家不用做什么了 ,直接在idea用可视化工具，方便查看数据库变化
 
-    ![alt text](readme_img/image-1.png)
+```shell
+ip: 1.94.167.138
 
-    之后用sql语言新建数据库ry-vue
-    
-    ```sql
-    CREATE DATABASE `ry-vue`
-    USE `ry-vue`
-    ```
+username: root
 
+pwd: 123456
+```
     再导入./sql文件夹下的两个sql文件，分别运行一下
 
 5. 修改配置文件
