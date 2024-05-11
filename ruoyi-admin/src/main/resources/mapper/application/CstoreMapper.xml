@@ -9,14 +9,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="uId"    column="uId"    />
         <result property="tel"    column="tel"    />
         <result property="cardId"    column="cardId"    />
-        <result property="name"    column="name"    />
+        <result property="sname"    column="sname"    />
         <result property="license"    column="license"    />
-        <result property="pass"    column="pass"    />
         <result property="status"    column="status"    />
     </resultMap>
 
     <sql id="selectCstoreVo">
-        select cstoreId, uId, tel, cardId, name, license, pass, status from cstore
+        select cstoreId, uId, tel, cardId, sname, license, status from cstore
     </sql>
 
     <select id="selectCstoreList" parameterType="Cstore" resultMap="CstoreResult">
@@ -26,9 +25,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="uId != null "> and uId = #{uId}</if>
             <if test="tel != null  and tel != ''"> and tel = #{tel}</if>
             <if test="cardId != null  and cardId != ''"> and cardId = #{cardId}</if>
-            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="sname != null  and sname != ''"> and sname like concat('%', #{sname}, '%')</if>
             <if test="license != null  and license != ''"> and license = #{license}</if>
-            <if test="pass != null "> and pass = #{pass}</if>
             <if test="status != null "> and status = #{status}</if>
         </where>
     </select>
@@ -44,18 +42,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="uId != null">uId,</if>
             <if test="tel != null">tel,</if>
             <if test="cardId != null">cardId,</if>
-            <if test="name != null">name,</if>
+            <if test="sname != null">sname,</if>
             <if test="license != null">license,</if>
-            <if test="pass != null">pass,</if>
             <if test="status != null">status,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="uId != null">#{uId},</if>
             <if test="tel != null">#{tel},</if>
             <if test="cardId != null">#{cardId},</if>
-            <if test="name != null">#{name},</if>
+            <if test="sname != null">#{sname},</if>
             <if test="license != null">#{license},</if>
-            <if test="pass != null">#{pass},</if>
             <if test="status != null">#{status},</if>
          </trim>
     </insert>
@@ -66,9 +62,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="uId != null">uId = #{uId},</if>
             <if test="tel != null">tel = #{tel},</if>
             <if test="cardId != null">cardId = #{cardId},</if>
-            <if test="name != null">name = #{name},</if>
+            <if test="sname != null">sname = #{sname},</if>
             <if test="license != null">license = #{license},</if>
-            <if test="pass != null">pass = #{pass},</if>
             <if test="status != null">status = #{status},</if>
         </trim>
         where cstoreId = #{cstoreId}
@@ -84,4 +79,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{cstoreId}
         </foreach>
     </delete>
+
+    <update id="agreeCstoreByCstoreIds" parameterType="String">
+        update cstore
+        set status = 1
+        where cstoreId in
+        <foreach item="cstoreId" collection="array" open="(" separator="," close=")">
+            #{cstoreId}
+        </foreach>
+    </update>
+
+    <update id="refuseCstoreByCstoreIds" parameterType="String">
+        update cstore
+        set status = 2
+        where cstoreId in
+        <foreach item="cstoreId" collection="array" open="(" separator="," close=")">
+            #{cstoreId}
+        </foreach>
+    </update>
+
+    <select id="selectUIdsByCstoreIds" parameterType="String" resultType="Long">
+        select distinct uId from cstore where cstoreId in
+        <foreach item="cstoreId" collection="array" open="(" separator="," close=")">
+            #{cstoreId}
+        </foreach>
+    </select>
 </mapper>

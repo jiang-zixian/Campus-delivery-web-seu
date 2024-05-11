@@ -8,10 +8,10 @@ import com.ruoyi.application.domain.Cstore;
 import com.ruoyi.application.service.ICstoreService;
 
 /**
- * 商家申请Service业务层处理
+ * 商家提交申请Service业务层处理
  * 
- * @author ruoyi
- * @date 2024-05-05
+ * @author xuguowei
+ * @date 2024-05-11
  */
 @Service
 public class CstoreServiceImpl implements ICstoreService 
@@ -20,10 +20,10 @@ public class CstoreServiceImpl implements ICstoreService
     private CstoreMapper cstoreMapper;
 
     /**
-     * 查询商家申请
+     * 查询商家提交申请
      * 
-     * @param cstoreId 商家申请主键
-     * @return 商家申请
+     * @param cstoreId 商家提交申请主键
+     * @return 商家提交申请
      */
     @Override
     public Cstore selectCstoreByCstoreId(Long cstoreId)
@@ -32,10 +32,10 @@ public class CstoreServiceImpl implements ICstoreService
     }
 
     /**
-     * 查询商家申请列表
+     * 查询商家提交申请列表
      * 
-     * @param cstore 商家申请
-     * @return 商家申请
+     * @param cstore 商家提交申请
+     * @return 商家提交申请
      */
     @Override
     public List<Cstore> selectCstoreList(Cstore cstore)
@@ -44,9 +44,9 @@ public class CstoreServiceImpl implements ICstoreService
     }
 
     /**
-     * 新增商家申请
+     * 新增商家提交申请
      * 
-     * @param cstore 商家申请
+     * @param cstore 商家提交申请
      * @return 结果
      */
     @Override
@@ -56,9 +56,9 @@ public class CstoreServiceImpl implements ICstoreService
     }
 
     /**
-     * 修改商家申请
+     * 修改商家提交申请
      * 
-     * @param cstore 商家申请
+     * @param cstore 商家提交申请
      * @return 结果
      */
     @Override
@@ -68,9 +68,9 @@ public class CstoreServiceImpl implements ICstoreService
     }
 
     /**
-     * 批量删除商家申请
+     * 批量删除商家提交申请
      * 
-     * @param cstoreIds 需要删除的商家申请主键
+     * @param cstoreIds 需要删除的商家提交申请主键
      * @return 结果
      */
     @Override
@@ -80,14 +80,50 @@ public class CstoreServiceImpl implements ICstoreService
     }
 
     /**
-     * 删除商家申请信息
+     * 删除商家提交申请信息
      * 
-     * @param cstoreId 商家申请主键
+     * @param cstoreId 商家提交申请主键
      * @return 结果
      */
     @Override
     public int deleteCstoreByCstoreId(Long cstoreId)
     {
         return cstoreMapper.deleteCstoreByCstoreId(cstoreId);
+    }
+
+    /**
+     * 同意商家申请信息 把status改为1，并授予角色骑商家权限
+     *
+     * @param cstoreIds 商家申请主键
+     * @return 结果
+     */
+    @Override
+    public int agreeCstoreByCstoreIds(Long[] cstoreIds)
+    {
+        return cstoreMapper.agreeCstoreByCstoreIds(cstoreIds);
+    }
+
+    /**
+     * 拒绝商家申请信息 把status改为2
+     *
+     * @param cstoreIds 商家申请主键
+     * @return 结果
+     */
+    @Override
+    public int refuseCstoreByCstoreIds(Long[] cstoreIds)
+    {
+        return cstoreMapper.refuseCstoreByCstoreIds(cstoreIds);
+    }
+
+    /**
+     * 查询申请的uId
+     *
+     * @param cstoreIds
+     * @return uIds
+     */
+    @Override
+    public Long[] selectUIdsByCstoreIds(Long[] cstoreIds)
+    {
+        return cstoreMapper.selectUIdsByCstoreIds(cstoreIds);
     }
 }

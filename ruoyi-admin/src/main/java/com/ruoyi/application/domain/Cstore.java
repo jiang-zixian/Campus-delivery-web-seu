@@ -6,46 +6,42 @@ import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
- * 商家申请对象 cstore
+ * 商家提交申请对象 cstore
  * 
- * @author ruoyi
- * @date 2024-05-05
+ * @author xuguowei
+ * @date 2024-05-11
  */
 public class Cstore extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /**  */
-    @Excel(name = "")
+    /** 申请ID */
+    @Excel(name = "申请ID")
     private Long cstoreId;
 
-    /**  */
-    @Excel(name = "")
+    /** 用户ID */
+    @Excel(name = "用户ID")
     private Long uId;
 
-    /**  */
-    @Excel(name = "")
+    /** 电话 */
+    @Excel(name = "电话")
     private String tel;
 
-    /**  */
-    @Excel(name = "")
+    /** 身份证 */
+    @Excel(name = "身份证")
     private String cardId;
 
-    /**  */
-    @Excel(name = "")
-    private String name;
+    /** 姓名 */
+    @Excel(name = "姓名")
+    private String sname;
 
-    /**  */
-    @Excel(name = "")
+    /** 营业执照 */
+    @Excel(name = "营业执照")
     private String license;
 
-    /**  */
-    @Excel(name = "")
-    private Integer pass;
-
-    /**  */
-    @Excel(name = "")
-    private Integer status;
+    /** 状态 */
+    @Excel(name = "状态")
+    private Long status;
 
     public void setCstoreId(Long cstoreId) 
     {
@@ -83,14 +79,14 @@ public class Cstore extends BaseEntity
     {
         return cardId;
     }
-    public void setName(String name) 
+    public void setSname(String sname) 
     {
-        this.name = name;
+        this.sname = sname;
     }
 
-    public String getName() 
+    public String getSname() 
     {
-        return name;
+        return sname;
     }
     public void setLicense(String license) 
     {
@@ -101,21 +97,12 @@ public class Cstore extends BaseEntity
     {
         return license;
     }
-    public void setPass(Integer pass) 
-    {
-        this.pass = pass;
-    }
-
-    public Integer getPass() 
-    {
-        return pass;
-    }
-    public void setStatus(Integer status) 
+    public void setStatus(Long status) 
     {
         this.status = status;
     }
 
-    public Integer getStatus() 
+    public Long getStatus() 
     {
         return status;
     }
@@ -127,9 +114,8 @@ public class Cstore extends BaseEntity
             .append("uId", getuId())
             .append("tel", getTel())
             .append("cardId", getCardId())
-            .append("name", getName())
+            .append("sname", getSname())
             .append("license", getLicense())
-            .append("pass", getPass())
             .append("status", getStatus())
             .toString();
     }
