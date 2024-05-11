@@ -21,15 +21,15 @@ Maven >= 3.0
 
 4. 数据库连接
 
-大家不用做什么了 ,直接在idea用可视化工具，方便查看数据库变化
-
-```shell
-ip: 1.94.167.138
-
-username: root
-
-pwd: 123456
-```
+   大家不用做什么了 ,直接在idea用可视化工具，方便查看数据库变化
+   
+   ```shell
+   ip: 1.94.167.138
+   
+   username: root
+   
+   pwd: 123456
+   ```
     再导入./sql文件夹下的两个sql文件，分别运行一下
 
 5. 修改配置文件
@@ -117,3 +117,7 @@ npm run dev
 - 在线体验
 演示地址：http://vue.ruoyi.vip  
 文档地址：http://doc.ruoyi.vip
+
+
+
+
