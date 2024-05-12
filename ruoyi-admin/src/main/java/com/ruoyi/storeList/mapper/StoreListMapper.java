@@ -7,7 +7,7 @@ import com.ruoyi.storeList.domain.StoreList;
  * 商家列表Mapper接口
  * 
  * @author Syl
- * @date 2024-05-11
+ * @date 2024-05-12
  */
 public interface StoreListMapper 
 {
