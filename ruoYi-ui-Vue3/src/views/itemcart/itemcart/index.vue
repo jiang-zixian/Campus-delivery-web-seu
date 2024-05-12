@@ -71,12 +71,21 @@
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="warning"
+          type="info"
           plain
           icon="Download"
           @click="handleExport"
           v-hasPermi="['itemcart:itemcart:export']"
         >导出</el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button
+          type="warning"
+          plain
+          icon="Download"
+          @click="handleExport"
+          v-hasPermi="['itemcart:itemcart:export']"
+        >购买</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -271,6 +280,18 @@ function handleExport() {
     ...queryParams.value
   }, `itemcart_${new Date().getTime()}.xlsx`)
 }
+
+/** 购买按钮操作 */
+function handlePurchase() {
+  const _itemcartIds = row.itemcartId;
+  const _uId = row.uId;
+  var date = new Date().getTime();
+
+  //购买商品的逻辑
+
+  console.log("购买商品，购物车编号为: " + _itemcartIds + "客户号为："+ _uId);
+}
+
 
 getList();
 </script>

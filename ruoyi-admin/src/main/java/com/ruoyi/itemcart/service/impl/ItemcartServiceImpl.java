@@ -90,4 +90,22 @@ public class ItemcartServiceImpl implements IItemcartService
     {
         return itemcartMapper.deleteItemcartByItemcartId(itemcartId);
     }
+
+    /**
+     * 用当前商户的当前购物车购买物品
+     *
+     * @param sid 商家id
+     * @param itemcartId 购物车id
+     * @param type 订单类型（0表示仅跑腿单，1表示商店购买自提单，2表示商店购买跑腿单）
+     * @param time 下单时间
+     * @param address 目的地址
+     * @param estimateTime 预计送达时间
+     * @return 结果
+     */
+    public int buyUseItemcart(long sid,long itemcartId,int type,String time,String address,String estimateTime);
+    {
+        // 根据
+
+        return itemcartMapper.buyUseItemcart(sid,itemcartId,type,time,address,estimateTime);
+    }
 }

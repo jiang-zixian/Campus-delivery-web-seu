@@ -101,4 +101,17 @@ public class ItemcartController extends BaseController
     {
         return toAjax(itemcartService.deleteItemcartByItemcartIds(itemcartIds));
     }
+
+    /**
+     * 用当前商户的当前购物车购买物品
+     * 后端需要的参数：商家id，购物车id，订单类型（0表示仅跑腿单，1表示商店购买自提单，2表示商店购买跑腿单），下单时间，目的地址，预计送达时间
+     */
+    @PreAuthorize("@ss.hasPermi('itemcart:itemcart:buy')")
+    @Log(title = "购物车", businessType = BusinessType.BUY)
+    @PostMapping("/buy/{itemcartId})")
+    //后端需要的参数：商家id，购物车id，订单类型（0表示仅跑腿单，1表示商店购买自提单，2表示商店购买跑腿单），下单时间，目的地址，预计送达时间
+    public AjaxResult buyUseItemcart(@RequestBody long sid,long itemcartId,int type,String time,String address,String estimateTime)
+    {
+        return toAjax(itemcartService.buyUseItemcart(sid,itemcartId,type,time,address,estimateTime));
+    }
 }

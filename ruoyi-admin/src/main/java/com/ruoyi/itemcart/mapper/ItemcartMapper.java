@@ -58,4 +58,17 @@ public interface ItemcartMapper
      * @return 结果
      */
     public int deleteItemcartByItemcartIds(Long[] itemcartIds);
+
+    /**
+     * 购买购物车
+     *
+     * @param sid 商家id
+     * @param itemcartId 购物车id
+     * @param type 类型
+     * @param time 时间
+     * @param address 地址
+     * @param estimateTime 预计时间
+     * @return 结果
+     */
+    public int buyUseItemcart(long sid,long itemcartId,int type,String time,String address,String estimateTime);
 }
