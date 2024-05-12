@@ -1,6 +1,10 @@
 ## 前言
 - ruoyi-ui-Vue2和ruoyi-ui-Vue3文件夹为前端，这里我们选用vue3的。其余文件夹为后端，大家多看看代码。
 
+## you must Know!
+大家有什么想要记录的可以看留言板
+留言板：https://typst.app/project/p5E6zFot8lSh0g4j61UAaF
+
 ## how to run this project
 ### 后端
 1. Redis下载
@@ -19,19 +23,17 @@ Maven >= 3.0
 
 3. 将当前文件夹直接导入IDEA（vscode也可导入），将整个文件夹拖到IDEA的软件图标上即可导入
 
-4. 创建数据库
+4. 数据库连接
 
-    数据库取名为ry-vue(与`.\Campus-delivery-web-seu\ruoyi-admin\src\main\resources\application-druid.yml`配置文件里的配置同名即可)
-
-    ![alt text](readme_img/image-1.png)
-
-    之后用sql语言新建数据库ry-vue
-    
-    ```sql
-    CREATE DATABASE `ry-vue`
-    USE `ry-vue`
-    ```
-
+   大家不用做什么了 ,直接在idea用可视化工具，方便查看数据库变化
+   
+   ```shell
+   ip: 1.94.167.138
+   
+   username: root
+   
+   pwd: 123456
+   ```
     再导入./sql文件夹下的两个sql文件，分别运行一下
 
 5. 修改配置文件
@@ -130,3 +132,7 @@ npm run dev
 - 在线体验
 演示地址：http://vue.ruoyi.vip  
 文档地址：http://doc.ruoyi.vip
+
+
+
+

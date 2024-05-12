@@ -61,6 +61,7 @@ export function agreeCrider(criderId) {
   })
 }
 
+//拒绝骑手申请
 export function refuseCrider(criderId) {
   return request({
     url: '/application/crider/refuse/'+ criderId,
