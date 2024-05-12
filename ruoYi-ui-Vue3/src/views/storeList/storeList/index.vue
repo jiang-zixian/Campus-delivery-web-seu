@@ -88,6 +88,13 @@
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['storeList:storeList:edit']">修改</el-button>
           <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['storeList:storeList:remove']">删除</el-button>
+
+          <router-link :to="{
+            path: '/goshopping/itemList',
+            query: { sid: scope.row.sId }}">
+            <el-button link type="primary" icon="ShoppingCart">去购物</el-button>
+          </router-link>
+
         </template>
       </el-table-column>
     </el-table>
@@ -219,6 +226,7 @@ function handleAdd() {
 function handleUpdate(row) {
   reset();
   const _sId = row.sId || ids.value
+  // console.log(row);
   getStoreList(_sId).then(response => {
     form.value = response.data;
     open.value = true;

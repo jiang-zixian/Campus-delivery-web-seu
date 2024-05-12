@@ -1,5 +1,6 @@
 <template>
   <div class="app-container">
+    <h1>这是page{{$route.query.sid}}</h1>
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="商品编号" prop="iId">
         <el-input
