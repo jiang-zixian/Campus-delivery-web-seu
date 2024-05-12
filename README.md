@@ -3,7 +3,7 @@
 
 ## you must Know!
 大家有什么想要记录的可以看留言板
-留言板：https://typst.app/project/p5E6zFot8lSh0g4j61UAaF
+留言板：https://typst.app/project/wTsaFeDxII7ht47qCAF0Ep
 
 ## how to run this project
 ### 后端
