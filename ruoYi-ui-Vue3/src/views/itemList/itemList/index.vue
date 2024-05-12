@@ -9,14 +9,14 @@
           @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="店家编号" prop="sId">
-        <el-input
-          v-model="queryParams.sId"
-          placeholder="请输入店家编号"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
+<!--      <el-form-item label="店家编号" prop="sId">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.sId"-->
+<!--          placeholder="请输入店家编号"-->
+<!--          clearable-->
+<!--          @keyup.enter="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
       <el-form-item label="商品名" prop="itemName">
         <el-input
           v-model="queryParams.itemName"
@@ -25,22 +25,22 @@
           @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="价格" prop="price">
-        <el-input
-          v-model="queryParams.price"
-          placeholder="请输入价格"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="库存数量" prop="amount">
-        <el-input
-          v-model="queryParams.amount"
-          placeholder="请输入库存数量"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
+<!--      <el-form-item label="价格" prop="price">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.price"-->
+<!--          placeholder="请输入价格"-->
+<!--          clearable-->
+<!--          @keyup.enter="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="库存数量" prop="amount">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.amount"-->
+<!--          placeholder="请输入库存数量"-->
+<!--          clearable-->
+<!--          @keyup.enter="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
       <el-form-item>
         <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
         <el-button icon="Refresh" @click="resetQuery">重置</el-button>

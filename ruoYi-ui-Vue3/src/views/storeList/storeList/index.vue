@@ -1,18 +1,18 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="商店号" prop="sId">
+      <el-form-item label="商店编码" prop="sId">
         <el-input
           v-model="queryParams.sId"
-          placeholder="请输入商店号"
+          placeholder="请输入商店编码"
           clearable
           @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="店家号" prop="uId">
+      <el-form-item label="店长编码" prop="uId">
         <el-input
           v-model="queryParams.uId"
-          placeholder="请输入店家号"
+          placeholder="请输入店长编码"
           clearable
           @keyup.enter="handleQuery"
         />
