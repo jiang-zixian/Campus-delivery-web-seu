@@ -1,6 +1,5 @@
 <template>
   <div class="app-container">
-    <h1>这是page{{$route.query.sid}}</h1>
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="商品编号" prop="iId">
         <el-input
@@ -14,6 +13,22 @@
         <el-input
           v-model="queryParams.sId"
           placeholder="请输入商家编号"
+          clearable
+          @keyup.enter="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="价格" prop="price">
+        <el-input
+          v-model="queryParams.price"
+          placeholder="请输入价格"
+          clearable
+          @keyup.enter="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="库存数量" prop="amount">
+        <el-input
+          v-model="queryParams.amount"
+          placeholder="请输入库存数量"
           clearable
           @keyup.enter="handleQuery"
         />
@@ -70,7 +85,11 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="商品编号" align="center" prop="iId" />
       <el-table-column label="商家编号" align="center" prop="sId" />
-      <el-table-column label="商品图片" align="center" prop="photo" />
+      <el-table-column label="商品图片" align="center" prop="photo" width="100">
+        <template #default="scope">
+          <image-preview :src="scope.row.photo" :width="50" :height="50"/>
+        </template>
+      </el-table-column>
       <el-table-column label="商品名" align="center" prop="itemName" />
       <el-table-column label="价格" align="center" prop="price" />
       <el-table-column label="库存数量" align="center" prop="amount" />
@@ -97,7 +116,7 @@
           <el-input v-model="form.sId" placeholder="请输入商家编号" />
         </el-form-item>
         <el-form-item label="商品图片" prop="photo">
-          <el-input v-model="form.photo" placeholder="请输入商品图片" />
+          <image-upload v-model="form.photo"/>
         </el-form-item>
         <el-form-item label="商品名" prop="itemName">
           <el-input v-model="form.itemName" type="textarea" placeholder="请输入内容" />
@@ -121,6 +140,7 @@
 
 <script setup name="ItemList">
 import { listItemList, getItemList, delItemList, addItemList, updateItemList } from "@/api/itemList/itemList";
+import {useRouter} from "vue-router";
 
 const { proxy } = getCurrentInstance();
 
@@ -134,14 +154,19 @@ const multiple = ref(true);
 const total = ref(0);
 const title = ref("");
 
+const router = useRouter();
+
 const data = reactive({
   form: {},
   queryParams: {
     pageNum: 1,
     pageSize: 10,
     iId: null,
-    sId: null,
+    sId: router.currentRoute.value.query.sid,
+    photo: null,
     itemName: null,
+    price: null,
+    amount: null
   },
   rules: {
   }

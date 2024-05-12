@@ -7,7 +7,7 @@ import com.ruoyi.itemList.domain.Item;
  * 商品列表Mapper接口
  * 
  * @author Syl
- * @date 2024-05-11
+ * @date 2024-05-12
  */
 public interface ItemMapper 
 {

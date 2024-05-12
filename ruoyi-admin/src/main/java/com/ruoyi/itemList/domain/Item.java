@@ -9,13 +9,14 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 商品列表对象 item
  * 
  * @author Syl
- * @date 2024-05-11
+ * @date 2024-05-12
  */
 public class Item extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** 商品编号 */
+    @Excel(name = "商品编号")
     private Long iId;
 
     /** 商家编号 */
