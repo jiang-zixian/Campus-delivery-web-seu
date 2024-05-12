@@ -9,10 +9,18 @@
           @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="商家编号" prop="sId">
+      <el-form-item label="店家编号" prop="sId">
         <el-input
           v-model="queryParams.sId"
-          placeholder="请输入商家编号"
+          placeholder="请输入店家编号"
+          clearable
+          @keyup.enter="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="商品名" prop="itemName">
+        <el-input
+          v-model="queryParams.itemName"
+          placeholder="请输入商品名"
           clearable
           @keyup.enter="handleQuery"
         />
@@ -84,8 +92,8 @@
     <el-table v-loading="loading" :data="itemListList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="商品编号" align="center" prop="iId" />
-      <el-table-column label="商家编号" align="center" prop="sId" />
-      <el-table-column label="商品图片" align="center" prop="photo" width="100">
+      <el-table-column label="店家编号" align="center" prop="sId" />
+      <el-table-column label="商品图像" align="center" prop="photo" width="100">
         <template #default="scope">
           <image-preview :src="scope.row.photo" :width="50" :height="50"/>
         </template>
@@ -112,14 +120,14 @@
     <!-- 添加或修改商品列表对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="itemListRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="商家编号" prop="sId">
-          <el-input v-model="form.sId" placeholder="请输入商家编号" />
+        <el-form-item label="店家编号" prop="sId">
+          <el-input v-model="form.sId" placeholder="请输入店家编号" />
         </el-form-item>
-        <el-form-item label="商品图片" prop="photo">
+        <el-form-item label="商品图像" prop="photo">
           <image-upload v-model="form.photo"/>
         </el-form-item>
         <el-form-item label="商品名" prop="itemName">
-          <el-input v-model="form.itemName" type="textarea" placeholder="请输入内容" />
+          <el-input v-model="form.itemName" placeholder="请输入商品名" />
         </el-form-item>
         <el-form-item label="价格" prop="price">
           <el-input v-model="form.price" placeholder="请输入价格" />
@@ -162,7 +170,7 @@ const data = reactive({
     pageNum: 1,
     pageSize: 10,
     iId: null,
-    sId: router.currentRoute.value.query.sid,
+    sId: router.currentRoute.value.query.sid || null,
     photo: null,
     itemName: null,
     price: null,

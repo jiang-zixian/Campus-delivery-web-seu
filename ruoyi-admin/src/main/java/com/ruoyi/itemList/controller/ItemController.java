@@ -24,8 +24,8 @@ import com.ruoyi.common.core.page.TableDataInfo;
 /**
  * 商品列表Controller
  * 
- * @author Syl
- * @date 2024-05-12
+ * @author SYL
+ * @date 2024-05-13
  */
 @RestController
 @RequestMapping("/itemList/itemList")

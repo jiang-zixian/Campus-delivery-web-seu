@@ -6,8 +6,8 @@ import com.ruoyi.itemList.domain.Item;
 /**
  * 商品列表Service接口
  * 
- * @author Syl
- * @date 2024-05-12
+ * @author SYL
+ * @date 2024-05-13
  */
 public interface IItemService 
 {
