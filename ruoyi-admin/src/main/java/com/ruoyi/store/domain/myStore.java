@@ -8,10 +8,10 @@ import com.ruoyi.common.core.domain.BaseEntity;
 /**
  * 我的商店对象 store
  * 
- * @author ruoyi
- * @date 2024-05-07
+ * @author xpl
+ * @date 2024-05-13
  */
-public class Store extends BaseEntity
+public class myStore extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
@@ -27,8 +27,8 @@ public class Store extends BaseEntity
     @Excel(name = "商店名称")
     private String sname;
 
-    /** 标志 */
-    @Excel(name = "标志")
+    /** 图标 */
+    @Excel(name = "图标")
     private String logo;
 
     /** 商店描述 */
