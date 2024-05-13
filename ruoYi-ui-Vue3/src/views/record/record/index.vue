@@ -49,10 +49,10 @@
           @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="商店地址" prop="srcPosition">
+      <el-form-item label="取货地址" prop="srcPosition">
         <el-input
           v-model="queryParams.srcPosition"
-          placeholder="请输入商店地址"
+          placeholder="请输入取货地址"
           clearable
           @keyup.enter="handleQuery"
         />
@@ -138,7 +138,7 @@
       <el-table-column label="骑手号" align="center" prop="riderId" />
       <el-table-column label="派送费" align="center" prop="deliveryPrice" />
       <el-table-column label="订单状态" align="center" prop="status" />
-      <el-table-column label="商店地址" align="center" prop="srcPosition" />
+      <el-table-column label="取货地址" align="center" prop="srcPosition" />
       <el-table-column label="送达地址" align="center" prop="destPosition" />
       <el-table-column label="下单时间" align="center" prop="srcTime" width="180">
         <template #default="scope">
@@ -170,9 +170,6 @@
     <!-- 添加或修改我的订单对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="recordRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="订单号" prop="recordId">
-          <el-input v-model="form.recordId" placeholder="请输入订单号" />
-        </el-form-item>
         <el-form-item label="客户号" prop="uId">
           <el-input v-model="form.uId" placeholder="请输入客户号" />
         </el-form-item>
@@ -188,8 +185,8 @@
         <el-form-item label="派送费" prop="deliveryPrice">
           <el-input v-model="form.deliveryPrice" placeholder="请输入派送费" />
         </el-form-item>
-        <el-form-item label="商店地址" prop="srcPosition">
-          <el-input v-model="form.srcPosition" placeholder="请输入商店地址" />
+        <el-form-item label="取货地址" prop="srcPosition">
+          <el-input v-model="form.srcPosition" placeholder="请输入取货地址" />
         </el-form-item>
         <el-form-item label="送达地址" prop="destPosition">
           <el-input v-model="form.destPosition" placeholder="请输入送达地址" />

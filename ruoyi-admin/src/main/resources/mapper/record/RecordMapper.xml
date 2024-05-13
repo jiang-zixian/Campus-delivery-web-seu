@@ -27,10 +27,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectRecordVo"/>
         <where>  
             <if test="recordId != null "> and recordId = #{recordId}</if>
-            <if test="uId != null  and uId != ''"> and uId = #{uId}</if>
-            <if test="sId != null  and sId != ''"> and sId = #{sId}</if>
+            <if test="uId != null "> and uId = #{uId}</if>
+            <if test="sId != null "> and sId = #{sId}</if>
             <if test="allItemPrice != null "> and all_item_price = #{allItemPrice}</if>
-            <if test="riderId != null  and riderId != ''"> and riderId = #{riderId}</if>
+            <if test="riderId != null "> and riderId = #{riderId}</if>
             <if test="deliveryPrice != null "> and delivery_price = #{deliveryPrice}</if>
             <if test="status != null "> and status = #{status}</if>
             <if test="srcPosition != null  and srcPosition != ''"> and src_position = #{srcPosition}</if>
@@ -46,10 +46,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where recordId = #{recordId}
     </select>
         
-    <insert id="insertRecord" parameterType="Record">
+    <insert id="insertRecord" parameterType="Record" useGeneratedKeys="true" keyProperty="recordId">
         insert into record
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="recordId != null">recordId,</if>
             <if test="uId != null">uId,</if>
             <if test="sId != null">sId,</if>
             <if test="allItemPrice != null">all_item_price,</if>
@@ -63,7 +62,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="type != null">type,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="recordId != null">#{recordId},</if>
             <if test="uId != null">#{uId},</if>
             <if test="sId != null">#{sId},</if>
             <if test="allItemPrice != null">#{allItemPrice},</if>

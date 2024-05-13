@@ -11,7 +11,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 我的订单对象 record
  * 
  * @author ruoyi
- * @date 2024-05-07
+ * @date 2024-05-11
  */
 public class Record extends BaseEntity
 {
@@ -23,11 +23,11 @@ public class Record extends BaseEntity
 
     /** 客户号 */
     @Excel(name = "客户号")
-    private String uId;
+    private Long uId;
 
     /** 商店号 */
     @Excel(name = "商店号")
-    private String sId;
+    private Long sId;
 
     /** 总价 */
     @Excel(name = "总价")
@@ -35,7 +35,7 @@ public class Record extends BaseEntity
 
     /** 骑手号 */
     @Excel(name = "骑手号")
-    private String riderId;
+    private Long riderId;
 
     /** 派送费 */
     @Excel(name = "派送费")
@@ -45,8 +45,8 @@ public class Record extends BaseEntity
     @Excel(name = "订单状态")
     private Long status;
 
-    /** 商店地址 */
-    @Excel(name = "商店地址")
+    /** 取货地址 */
+    @Excel(name = "取货地址")
     private String srcPosition;
 
     /** 送达地址 */
@@ -76,21 +76,21 @@ public class Record extends BaseEntity
     {
         return recordId;
     }
-    public void setuId(String uId) 
+    public void setuId(Long uId) 
     {
         this.uId = uId;
     }
 
-    public String getuId() 
+    public Long getuId() 
     {
         return uId;
     }
-    public void setsId(String sId) 
+    public void setsId(Long sId) 
     {
         this.sId = sId;
     }
 
-    public String getsId() 
+    public Long getsId() 
     {
         return sId;
     }
@@ -103,12 +103,12 @@ public class Record extends BaseEntity
     {
         return allItemPrice;
     }
-    public void setRiderId(String riderId) 
+    public void setRiderId(Long riderId) 
     {
         this.riderId = riderId;
     }
 
-    public String getRiderId() 
+    public Long getRiderId() 
     {
         return riderId;
     }
