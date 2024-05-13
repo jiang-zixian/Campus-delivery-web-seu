@@ -24,8 +24,8 @@ import com.ruoyi.common.core.page.TableDataInfo;
 /**
  * 商品列表Controller
  * 
- * @author Syl
- * @date 2024-05-11
+ * @author SYL
+ * @date 2024-05-13
  */
 @RestController
 @RequestMapping("/itemList/itemList")
@@ -102,4 +102,3 @@ public class ItemController extends BaseController
         return toAjax(itemService.deleteItemByIIds(iIds));
     }
 }
-

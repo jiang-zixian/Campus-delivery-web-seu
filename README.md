@@ -1,6 +1,10 @@
 ## 前言
 - ruoyi-ui-Vue2和ruoyi-ui-Vue3文件夹为前端，这里我们选用vue3的。其余文件夹为后端，大家多看看代码。
 
+## you must Know!
+大家有什么想要记录的可以看留言板
+留言板：https://typst.app/project/wTsaFeDxII7ht47qCAF0Ep
+
 ## how to run this project
 ### 后端
 1. Redis下载

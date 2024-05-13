@@ -25,7 +25,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * 商家列表Controller
  * 
  * @author Syl
- * @date 2024-05-11
+ * @date 2024-05-12
  */
 @RestController
 @RequestMapping("/storeList/storeList")
