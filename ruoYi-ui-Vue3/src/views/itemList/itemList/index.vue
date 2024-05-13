@@ -148,7 +148,7 @@
 
 <script setup name="ItemList">
 import { listItemList, getItemList, delItemList, addItemList, updateItemList } from "@/api/itemList/itemList";
-import {useRouter} from "vue-router";
+import {useRoute} from "vue-router";
 
 const { proxy } = getCurrentInstance();
 
@@ -162,7 +162,7 @@ const multiple = ref(true);
 const total = ref(0);
 const title = ref("");
 
-const router = useRouter();
+const route = useRoute();
 
 const data = reactive({
   form: {},
@@ -170,7 +170,7 @@ const data = reactive({
     pageNum: 1,
     pageSize: 10,
     iId: null,
-    sId: router.currentRoute.value.query.sid || null,
+    sId: route.params.sId || null,
     photo: null,
     itemName: null,
     price: null,
