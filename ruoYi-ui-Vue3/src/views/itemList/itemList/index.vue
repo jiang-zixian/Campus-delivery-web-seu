@@ -39,8 +39,8 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button type="primary" plain icon="ShoppingCart" @click="handleAdd"
-          v-hasPermi="['itemList:itemList:add']">新增</el-button>
+        <el-button type="primary" plain icon="ShoppingCart" :disabled="multiple" @click="addmultipleCart"
+          v-hasPermi="['itemList:itemList:add']">加入</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button type="success" plain icon="Edit" :disabled="single" @click="handleUpdate"
@@ -153,62 +153,55 @@
         </div>
       </template>
     </el-dialog>
-  </div>
+  
 
   <!-- 提交订单的dialog -->
   <el-dialog :title="title" v-model="applyall" width="500px" append-to-body>
-    <el-form ref="orderformRef" :model="orderform" :rules="rules" label-width="80px">
+    <el-form ref="orderformRef" :model="orderform" :rules="rules" label-width="100px">
       <!-- 这里选择自提或者外卖会出现不同的表单 -->
       <el-form-item label="配送方式" prop="delivery">
-        <el-radio-group v-model="form.delivery">
-          <el-radio label="1">自提</el-radio>
+        <el-radio-group v-model="orderform.type">
           <el-radio label="2">外卖</el-radio>
+          <el-radio label="1">自提</el-radio>
         </el-radio-group>
       </el-form-item>
 
-      <!-- <template v-if="form.delivery === '1'">
-        <el-form-item label="参数1" prop="para">
-          <el-input v-model="form.param1" placeholder="请输入参数1" />
-        </el-form-item>
-        <el-form-item label="参数2" prop="param2">
-          <el-input v-model="form.param2" placeholder="请输入参数2" />
-        </el-form-item>
-        <el-form-item label="参数3" prop="param3">
-          <el-input v-model="form.param3" placeholder="请输入参数3" />
+      <template v-if="orderform.type === '1'">
+        <el-form-item label="商家地址" prop="srcPosition">
+          <el-input v-model="orderform.srcPosition" placeholder="请输入商家地址" />
         </el-form-item>
       </template>
 
-      <template v-else-if="form.delivery === '2'">
-        <el-form-item label="参数1" prop="param1">
-          <el-input v-model="form.param1" placeholder="请输入参数1" />
+      <template v-else-if="orderform.type === '2'">
+        <el-form-item label="商家地址" prop="srcPosition">
+          <el-input v-model="orderform.srcPosition" placeholder="请输入商家地址" />
         </el-form-item>
-        <el-form-item label="参数2" prop="param2">
-          <el-input v-model="form.param2" placeholder="请输入参数2" />
+        <el-form-item label="目的地址" prop="destPosition">
+          <el-input v-model="orderform.destPosition" placeholder="请输入目的地址" />
         </el-form-item>
-        <el-form-item label="参数3" prop="param3">
-          <el-input v-model="form.param3" placeholder="请输入参数3" />
+        <el-form-item label="预计送达时间" prop="destTime">
+          <el-date-picker v-model="orderform.destTime" type="datetime" placeholder="请选择预计送达时间" />
         </el-form-item>
-        <el-form-item label="参数4" prop="param4">
-          <el-input v-model="form.param4" placeholder="请输入参数4" />
+        <el-form-item label="配送费" prop="deliveryPrice">
+          <el-input v-model="orderform.deliveryPrice" placeholder="请输入配送费" />
         </el-form-item>
-        <el-form-item label="参数5" prop="param5">
-          <el-input v-model="form.param5" placeholder="请输入参数5" />
-        </el-form-item>
-      </template> -->
-      <el-form-item label="总价格">
+      </template>
+
+      <el-form-item label="总价" prop="allItemPrice">
         <el-input v-model="allPrice" disabled></el-input>
       </el-form-item>
 
     </el-form>
     <template #footer>
       <div class="dialog-footer">
-        <el-button type="primary" @click="payallitem">确 定</el-button>
+        <el-button type="primary"  @click="payallitem" >确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
     </template>
     
   </el-dialog>
-
+  
+  </div>
 </template>
 
 <script setup name="ItemList">
@@ -310,12 +303,12 @@ function reset() {
     allItemPrice: null,
     riderId: null,
     deliveryPrice: null,
-    status: null,
+    status: "0",
     srcPosition: null,
     destPosition: null,
     srcTime: null,
     destTime: null,
-    type: null
+    type:"2"
   };
   proxy.resetForm("orderformRef");
 }
@@ -396,16 +389,8 @@ function handleExport() {
   }, `itemList_${new Date().getTime()}.xlsx`)
 }
 
-//成功加入购物车
-const open1 = (row) => {
-  ElNotification({
-    title: 'Success',
-    message: '成功加入购物车',
-    type: 'success',
-  })
-  addToCart(row.iId);
 
-}
+
 
 
 //购物车
@@ -426,8 +411,33 @@ const addToCart = (itemId) => {
   } else {
     cart.value[itemId] = 1;
   }
-  console.log(cart.value);
 };
+
+//成功加入购物车
+function open1(row){
+  ElNotification({
+    title: 'Success',
+    message: '成功加入购物车',
+    type: 'success',
+  })
+  addToCart(row.iId);
+}
+
+function addmultipleCart(row)
+{
+  const _iIds = row.iId || ids.value;
+  proxy.$modal.confirm('是否确认将商品编号为"' + _iIds + '"的商品加入购物车？').then(() => {
+    for (let i = 0; i < _iIds.length; i++) {
+      addToCart(_iIds[i]);
+    }
+    ElNotification({
+    title: 'Success',
+    message: '成功加入购物车',
+    type: 'success',
+  })
+  }).catch(() => { });
+
+}
 
 //打开购物车界面
 const openCart = () => {
@@ -460,8 +470,11 @@ const applyallCart = () => {
 const payallitem = () => {
   proxy.$refs["orderformRef"].validate(valid => {
     if (valid) {
+      orderform.value.allItemPrice = allPrice.value;
+      orderform.value.srcTime = Date.now();
+
       console.log(orderform.value);
-     addRecord(orderform.value).then(response => {
+      addRecord(orderform.value).then(response => {
       cart.value = [];
       cartList.value = [];
       allPrice.value = 0;
