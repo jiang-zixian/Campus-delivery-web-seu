@@ -1,18 +1,10 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="商店号" prop="sId">
+      <el-form-item label="商店编号" prop="sId">
         <el-input
           v-model="queryParams.sId"
           placeholder="请输入商店号"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="店家号" prop="uId">
-        <el-input
-          v-model="queryParams.uId"
-          placeholder="请输入店家号"
           clearable
           @keyup.enter="handleQuery"
         />
@@ -21,14 +13,6 @@
         <el-input
           v-model="queryParams.sname"
           placeholder="请输入商店名称"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="标志" prop="logo">
-        <el-input
-          v-model="queryParams.logo"
-          placeholder="请输入标志"
           clearable
           @keyup.enter="handleQuery"
         />
@@ -47,7 +31,7 @@
           icon="Plus"
           @click="handleAdd"
           v-hasPermi="['store:myStore:add']"
-        >新增</el-button>
+        >创建商店</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -82,16 +66,26 @@
     </el-row>
 
     <el-table v-loading="loading" :data="myStoreList" @selection-change="handleSelectionChange">
+      <el-table-column type="expand">
+        <template #default="props">
+            <p>商店描述: </p>
+            <p>{{ props.row.description }}</p>
+        </template>
+      </el-table-column>
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="商店号" align="center" prop="sId" />
       <el-table-column label="店家号" align="center" prop="uId" />
       <el-table-column label="商店名称" align="center" prop="sname" />
-      <el-table-column label="标志" align="center" prop="logo" />
-      <el-table-column label="商店描述" align="center" prop="description" />
+      <el-table-column label="图标" align="center" prop="logo" width="100">
+        <template #default="scope">
+          <image-preview :src="scope.row.logo" :width="50" :height="50"/>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['store:myStore:edit']">修改</el-button>
           <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['store:myStore:remove']">删除</el-button>
+          <el-button link type="primary" icon="Memo" @click="handleEditStore(scope.row)" v-hasPermi="['system:store:EditStore']">管理商品</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -116,8 +110,8 @@
         <el-form-item label="商店名称" prop="sname">
           <el-input v-model="form.sname" placeholder="请输入商店名称" />
         </el-form-item>
-        <el-form-item label="标志" prop="logo">
-          <el-input v-model="form.logo" placeholder="请输入标志" />
+        <el-form-item label="图标" prop="logo">
+          <image-upload v-model="form.logo"/>
         </el-form-item>
         <el-form-item label="商店描述" prop="description">
           <el-input v-model="form.description" type="textarea" placeholder="请输入内容" />
@@ -135,6 +129,9 @@
 
 <script setup name="MyStore">
 import { listMyStore, getMyStore, delMyStore, addMyStore, updateMyStore } from "@/api/store/myStore";
+
+
+const router = useRouter();
 
 const { proxy } = getCurrentInstance();
 
@@ -268,6 +265,11 @@ function handleExport() {
     ...queryParams.value
   }, `myStore_${new Date().getTime()}.xlsx`)
 }
+
+function handleEditStore(row) {
+  const sid = row.sId;
+  router.push("/store/EditStore/Edit/" + sid);
+};
 
 getList();
 </script>
