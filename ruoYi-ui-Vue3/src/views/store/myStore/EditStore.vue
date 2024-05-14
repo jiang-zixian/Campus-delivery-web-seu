@@ -1,6 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
+      <h1>您当前处在商店{{queryParams.sId}}</h1>
       <el-form-item label="商品编号" prop="iId">
         <el-input
             v-model="queryParams.iId"
@@ -55,7 +56,7 @@
             icon="Plus"
             @click="handleAdd"
             v-hasPermi="['itemList:itemList:add']"
-        >新增</el-button>
+        >新增商品</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -92,8 +93,8 @@
     <el-table v-loading="loading" :data="itemListList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="商品编号" align="center" prop="iId" />
-      <el-table-column label="店家编号" align="center" prop="sId" />
-      <el-table-column label="商品图像" align="center" prop="photo" width="100">
+<!--      <el-table-column label="店家编号" align="center" prop="sId" />-->
+      <el-table-column label="商品图片" align="center" prop="photo" width="100">
         <template #default="scope">
           <image-preview :src="scope.row.photo" :width="50" :height="50"/>
         </template>
@@ -117,12 +118,25 @@
         @pagination="getList"
     />
 
+    <div :style="{ display: opentest ? 'block' : 'none' }">
+      <br>
+      <br>
+      <h2 style="text-align: center;">该商店现在还没有商品，尝试来创建你的第一个商品吧</h2>
+      <el-steps style="max-width: 100%" :active="3" align-center>
+        <el-step title="Step 1" :icon="Edit" description="点击“新增商品”按钮"/>
+        <el-step title="Step 2" :icon="Picture" description="填写商品信息"/>
+        <el-step title="Step 3" :icon="Upload" description="点击“确定”上传"/>
+      </el-steps>
+    </div>
+
+
+
     <!-- 添加或修改商品列表对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="itemListRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="店家编号" prop="sId">
-          <el-input v-model="form.sId" placeholder="请输入店家编号" />
-        </el-form-item>
+<!--        <el-form-item label="店家编号" prop="sId">-->
+<!--          <el-input v-model="form.sId" placeholder="请输入店家编号" />-->
+<!--        </el-form-item>-->
         <el-form-item label="商品图像" prop="photo">
           <image-upload v-model="form.photo"/>
         </el-form-item>
@@ -149,6 +163,7 @@
 <script setup name="ItemList">
 import { listItemList, getItemList, delItemList, addItemList, updateItemList } from "@/api/itemList/itemList";
 import {useRouter} from "vue-router";
+import {Edit, Picture, Upload} from "@element-plus/icons-vue";
 
 const { proxy } = getCurrentInstance();
 
@@ -161,6 +176,7 @@ const single = ref(true);
 const multiple = ref(true);
 const total = ref(0);
 const title = ref("");
+const opentest = ref(false);
 
 const route = useRoute();
 
@@ -189,6 +205,11 @@ function getList() {
     itemListList.value = response.rows;
     total.value = response.total;
     loading.value = false;
+    if(total.value===0){
+      opentest.value=true;
+    }else{
+      opentest.value=false;
+    }
   });
 }
 
@@ -202,7 +223,7 @@ function cancel() {
 function reset() {
   form.value = {
     iId: null,
-    sId: null,
+    sId: route.params.sId || null,
     photo: null,
     itemName: null,
     price: null,
@@ -265,6 +286,7 @@ function submitForm() {
           getList();
         });
       }
+      opentest.value=false;
     }
   });
 }
