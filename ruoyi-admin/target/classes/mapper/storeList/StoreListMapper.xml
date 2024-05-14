@@ -22,6 +22,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="sId != null "> and sId = #{sId}</if>
             <if test="uId != null "> and uId = #{uId}</if>
             <if test="sname != null  and sname != ''"> and sname like concat('%', #{sname}, '%')</if>
+            <if test="logo != null  and logo != ''"> and logo = #{logo}</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
         </where>
     </select>
     

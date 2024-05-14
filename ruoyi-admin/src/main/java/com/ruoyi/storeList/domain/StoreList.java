@@ -9,7 +9,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 商家列表对象 store
  * 
  * @author Syl
- * @date 2024-05-11
+ * @date 2024-05-12
  */
 public class StoreList extends BaseEntity
 {

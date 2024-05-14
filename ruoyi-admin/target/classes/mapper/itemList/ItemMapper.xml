@@ -22,7 +22,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="iId != null "> and iId = #{iId}</if>
             <if test="sId != null "> and sId = #{sId}</if>
+            <if test="photo != null  and photo != ''"> and photo = #{photo}</if>
             <if test="itemName != null  and itemName != ''"> and itemName like concat('%', #{itemName}, '%')</if>
+            <if test="price != null "> and price = #{price}</if>
+            <if test="amount != null "> and amount = #{amount}</if>
         </where>
     </select>
     

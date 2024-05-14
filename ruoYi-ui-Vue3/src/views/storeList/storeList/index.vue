@@ -1,18 +1,18 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="商店号" prop="sId">
+      <el-form-item label="商店编码" prop="sId">
         <el-input
           v-model="queryParams.sId"
-          placeholder="请输入商店号"
+          placeholder="请输入商店编码"
           clearable
           @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="店家号" prop="uId">
+      <el-form-item label="店长编码" prop="uId">
         <el-input
           v-model="queryParams.uId"
-          placeholder="请输入店家号"
+          placeholder="请输入店长编码"
           clearable
           @keyup.enter="handleQuery"
         />
@@ -78,12 +78,17 @@
       <el-table-column label="商店号" align="center" prop="sId" />
       <el-table-column label="店家号" align="center" prop="uId" />
       <el-table-column label="商店名称" align="center" prop="sname" />
-      <el-table-column label="图标" align="center" prop="logo" />
+      <el-table-column label="图标" align="center" prop="logo" width="100">
+        <template #default="scope">
+          <image-preview :src="scope.row.logo" :width="50" :height="50"/>
+        </template>
+      </el-table-column>
       <el-table-column label="商店描述" align="center" prop="description" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['storeList:storeList:edit']">修改</el-button>
           <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['storeList:storeList:remove']">删除</el-button>
+          <el-button link type="primary" icon="ShoppingCart" @click="handlegoshopping(scope.row)">去购物</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -99,17 +104,17 @@
     <!-- 添加或修改商家列表对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="storeListRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="商店号" prop="sId">
-          <el-input v-model="form.sId" placeholder="请输入商店号" />
-        </el-form-item>
-        <el-form-item label="店家号" prop="uId">
-          <el-input v-model="form.uId" placeholder="请输入店家号" />
-        </el-form-item>
+<!--        <el-form-item label="商店号" prop="sId">-->
+<!--          <el-input v-model="form.sId" placeholder="请输入商店号" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="店家号" prop="uId">-->
+<!--          <el-input v-model="form.uId" placeholder="请输入店家号" />-->
+<!--        </el-form-item>-->
         <el-form-item label="商店名称" prop="sname">
           <el-input v-model="form.sname" placeholder="请输入商店名称" />
         </el-form-item>
         <el-form-item label="图标" prop="logo">
-          <el-input v-model="form.logo" placeholder="请输入图标" />
+          <image-upload v-model="form.logo"/>
         </el-form-item>
         <el-form-item label="商店描述" prop="description">
           <el-input v-model="form.description" type="textarea" placeholder="请输入内容" />
@@ -140,6 +145,8 @@ const multiple = ref(true);
 const total = ref(0);
 const title = ref("");
 
+const router = useRouter();
+
 const data = reactive({
   form: {},
   queryParams: {
@@ -148,6 +155,8 @@ const data = reactive({
     sId: null,
     uId: null,
     sname: null,
+    logo: null,
+    description: null
   },
   rules: {
   }
@@ -213,6 +222,7 @@ function handleAdd() {
 function handleUpdate(row) {
   reset();
   const _sId = row.sId || ids.value
+  // console.log(row);
   getStoreList(_sId).then(response => {
     form.value = response.data;
     open.value = true;
@@ -250,6 +260,12 @@ function handleDelete(row) {
     getList();
     proxy.$modal.msgSuccess("删除成功");
   }).catch(() => {});
+}
+
+/** 购物按钮跳转 */
+function handlegoshopping(row) {
+  const sid = row.sId;
+  router.push("/goshopping/itemList/store/" + sid);
 }
 
 /** 导出按钮操作 */
