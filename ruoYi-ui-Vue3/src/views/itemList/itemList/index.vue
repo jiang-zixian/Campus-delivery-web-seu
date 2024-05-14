@@ -483,7 +483,7 @@ const applyallCart = () => {
 };
 
 //提交表单
-const cartform = ref([]);
+const cartform = ref({});
 
 //支付订单
 const payallitem = () => {
@@ -492,23 +492,16 @@ const payallitem = () => {
       orderform.value.allItemPrice = computepriceplusde.value;
       orderform.value.srcTime = Date.now();
 
-      cartform.value = [];
+      cartform.value = {};
+
       for (let i = 0; i < cartList.value.length; i++) {
-        cartform.value.push({
-          iId: cartList.value[i].iId,
-          num: cartList.value[i].num
-        });
+        cartform.value[cartList.value[i].iId] = cartList.value[i].num;
       }
       console.log(cartform.value);
 
       checkitemnum(cartform.value).then(
-        response => {
-          if(response.data){
-            proxy.$modal.msgError("库存不足，请重新尝试");
-            applyall.value = false;
-
-            getList();
-          }else{
+        response => {     
+          if(response){
             postallitem(orderform.value).then(response => {
               cart.value = [];
               cartList.value = [];
@@ -518,8 +511,15 @@ const payallitem = () => {
               proxy.$modal.msgSuccess("下单成功");
 
               getList();
-            })
-        }});
+            });
+          }
+          else{
+            proxy.$modal.msgError("库存不足，请重新尝试");
+            applyall.value = false;
+            getList();
+            
+            }
+        });
     }
   }
   )

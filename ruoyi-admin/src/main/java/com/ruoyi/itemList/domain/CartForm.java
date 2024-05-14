@@ -4,21 +4,17 @@ package com.ruoyi.itemList.domain;
  * @author Xu Guowei
  * @create 2024-05-14 16:04
  */
+import java.util.Map;
+
 public class CartForm {
-    private static final long serialVersionUID = 1L;
-    private Long iId;
-    private Integer num;
+    private Map<Long, Integer> items;
 
     // getters and setters
-    public Long getIId() {
-        return iId;
+    public Map<Long, Integer> getItems() {
+        return items;
     }
 
-    public void setIId(Long iId) {
-        this.iId = iId;
-    }
-
-    public Integer getNum() {
-        return num;
+    public void setItems(Map<Long, Integer> items) {
+        this.items = items;
     }
 }

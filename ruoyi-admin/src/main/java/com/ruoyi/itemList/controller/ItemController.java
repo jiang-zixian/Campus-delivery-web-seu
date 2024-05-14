@@ -128,9 +128,9 @@ public class ItemController extends BaseController
      */
     @Log(title = "生成订单",businessType = BusinessType.INSERT)
     @PostMapping("/checkitem")
-    public AjaxResult checknum(@RequestBody List<CartForm> cartforms)
+    public Integer checknum(@RequestBody Map<Long,Integer> cartforms)
     {
-        return toAjax(itemService.isStockSufficient(cartforms));
+        return itemService.isStockSufficient(cartforms);
     }
 
 }

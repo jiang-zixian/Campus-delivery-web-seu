@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.ruoyi.itemList.mapper.ItemMapper;
 import com.ruoyi.itemList.domain.Item;
 import com.ruoyi.itemList.service.IItemService;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * 商品列表Service业务层处理
@@ -101,14 +102,31 @@ public class ItemServiceImpl implements IItemService
      * @param cartForms 商品id和数量
      * @return 结果
      */
-    public int isStockSufficient(List<CartForm> cartForms) {
-        for (CartForm cartForm : cartForms) {
-           //打印
-            System.out.println(cartForm.getIId());
-            Item item = itemMapper.selectItemByIId(cartForm.getIId());
-//            if (item.getAmount() < cartForm.getNum()) {
-//                return 0;
-//            }
+    @Override
+    public int isStockSufficient(Map<Long,Integer> cartForms) {
+        for (Map.Entry<Long, Integer> entry : cartForms.entrySet()) {
+            Long itemId = entry.getKey();
+            Integer requestedQuantity = entry.getValue();
+
+            Item item = itemMapper.selectItemByIId(itemId);
+            if (item == null) {
+                return 0;
+            }
+
+            if (item.getAmount() < requestedQuantity) {
+
+                return 0;
+            }
+        }
+
+        //削减对应的库存
+        for (Map.Entry<Long, Integer> entry : cartForms.entrySet()) {
+            Long itemId = entry.getKey();
+            Integer requestedQuantity = entry.getValue();
+
+            Item item = itemMapper.selectItemByIId(itemId);
+            item.setAmount(item.getAmount() - requestedQuantity);
+            itemMapper.updateItem(item);
         }
 
         return 1;

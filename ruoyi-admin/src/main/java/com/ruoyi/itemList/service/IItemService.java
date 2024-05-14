@@ -69,6 +69,6 @@ public interface IItemService
      * @param cartForms 商品id和数量
      * @return 结果
      */
-    public int isStockSufficient(List<CartForm> cartForms);
+    public int isStockSufficient(Map<Long,Integer> cartForms);
 
 }
