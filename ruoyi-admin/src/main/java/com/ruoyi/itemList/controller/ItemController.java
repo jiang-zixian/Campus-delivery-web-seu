@@ -2,6 +2,8 @@ package com.ruoyi.itemList.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.record.domain.Record;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -100,5 +102,16 @@ public class ItemController extends BaseController
     public AjaxResult remove(@PathVariable Long[] iIds)
     {
         return toAjax(itemService.deleteItemByIIds(iIds));
+    }
+
+    /**
+     * 新增我的订单
+     */
+    @Log(title = "购买商品", businessType = BusinessType.INSERT)
+    @PostMapping("/buy")
+    public AjaxResult buy(@RequestBody Record record)
+    {
+        record.setuId(getLoginUser().getUserId());
+        return toAjax(itemService.buy(record));
     }
 }

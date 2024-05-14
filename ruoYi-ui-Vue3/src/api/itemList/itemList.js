@@ -42,3 +42,12 @@ export function delItemList(iId) {
     method: 'delete'
   })
 }
+
+// 购买商品
+export function buy(data) {
+  return request({
+    url: '/itemList/itemList/buy',
+    method: 'post',
+    data: data
+  })
+}

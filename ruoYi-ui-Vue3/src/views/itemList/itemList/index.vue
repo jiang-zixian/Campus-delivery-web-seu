@@ -177,15 +177,15 @@
       </el-form-item>
 
       <template v-if="orderform.type === '1'">
-        <el-form-item label="商家地址" prop="srcPosition">
-          <el-input v-model="orderform.srcPosition" placeholder="请输入商家地址" />
-        </el-form-item>
+<!--        <el-form-item label="商家地址" prop="srcPosition">-->
+<!--          <el-input v-model="orderform.srcPosition" placeholder="请输入商家地址" />-->
+<!--        </el-form-item>-->
       </template>
 
       <template v-else-if="orderform.type === '2'">
-        <el-form-item label="商家地址" prop="srcPosition">
-          <el-input v-model="orderform.srcPosition" placeholder="请输入商家地址" />
-        </el-form-item>
+<!--        <el-form-item label="商家地址" prop="srcPosition">-->
+<!--          <el-input v-model="orderform.srcPosition" placeholder="请输入商家地址" />-->
+<!--        </el-form-item>-->
         <el-form-item label="目的地址" prop="destPosition">
           <el-input v-model="orderform.destPosition" placeholder="请输入目的地址" />
         </el-form-item>
@@ -215,7 +215,7 @@
 </template>
 
 <script setup name="ItemList">
-import { listItemList, getItemList, delItemList, addItemList, updateItemList } from "@/api/itemList/itemList";
+import {listItemList, getItemList, delItemList, addItemList, updateItemList, buy} from "@/api/itemList/itemList";
 import {addRecord} from "@/api/record/record";
 import { useRoute } from "vue-router";
 import { ElNotification } from 'element-plus'
@@ -494,7 +494,7 @@ const payallitem = () => {
       orderform.value.srcTime = Date.now();
 
       console.log(orderform.value);
-      addRecord(orderform.value).then(response => {
+      buy(orderform.value).then(response => {
       cart.value = [];
       cartList.value = [];
       allPrice.value = 0;
