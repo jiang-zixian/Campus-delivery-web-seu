@@ -39,20 +39,22 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button type="primary" plain icon="ShoppingCart" :disabled="multiple" @click="addmultipleCart"
-          v-hasPermi="['itemList:itemList:add']">加入</el-button>
+        <el-button type="primary" plain icon="ShoppingCart" :disabled="multiple" @click="addmultipleCart">加入</el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button type="primary" plain icon="Plus" @click="handleAdd">新增</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button type="success" plain icon="Edit" :disabled="single" @click="handleUpdate"
-          v-hasPermi="['itemList:itemList:edit']">修改</el-button>
+        >修改</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button type="danger" plain icon="Delete" :disabled="multiple" @click="handleDelete"
-          v-hasPermi="['itemList:itemList:remove']">删除</el-button>
+         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button type="warning" plain icon="Download" @click="handleExport"
-          v-hasPermi="['itemList:itemList:export']">导出</el-button>
+         >导出</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button type="success" plain icon="shopping-cart" @click="openCart">购物车</el-button>
@@ -94,7 +96,7 @@
       @pagination="getList" />
 
 
-    <el-drawer v-model="drawer" title="我的购物车" :with-header="true" :before-close="handleClose" :bottom="0" size="60%">
+    <el-drawer v-model="drawer" title="我的购物车" :with-header="true" :before-close="handleClose" :bottom="0" size="65%">
     <el-row :gutter="8">
       <el-col :span="8">
         <el-form :model="cart" ref="cartRef" :inline="true" label-width="68px">
@@ -108,7 +110,8 @@
       </el-col>
     </el-row>
       <el-row>
-        <el-table :data="cartList" border :height="tableHeight">
+        <el-table :data="cartList" border :height="tableHeight" >
+          <el-table-column type="index" :index="fun1"/>
           <el-table-column label="商品编号" align="center" prop="iId" />
           <el-table-column label="商品图像" align="center" width="100">
             <template #default="scope">
@@ -119,10 +122,17 @@
           <el-table-column label="价格" align="center" prop="price" />
           <el-table-column label="购买数量" align="center" prop="num">
             <template #default="scope">
+              <el-row>
               <el-input-number v-model="scope.row.num" @change="changeNum(scope.row.iId, scope.row.num)"
                 :min="1"></el-input-number>
+              </el-row>
             </template>
           </el-table-column>
+        <el-table-column label="操作" align="center"> 
+          <template #default="scope">
+              <el-button type="danger" plain @click="changeNum(scope.row.iId, 0),deleoneitem(scope.row.iId)" title="删除">删除</el-button>
+            </template>
+        </el-table-column>
         </el-table>
       </el-row>
     </el-drawer>
@@ -188,7 +198,7 @@
       </template>
 
       <el-form-item label="总价" prop="allItemPrice">
-        <el-input v-model="allPrice" disabled></el-input>
+        <el-input v-model="computepriceplusde" disabled></el-input>
       </el-form-item>
 
     </el-form>
@@ -445,6 +455,13 @@ const openCart = () => {
   drawer.value = true;
 };
 
+//删除一个商品
+const deleoneitem = (itemId) => {
+  delete cart.value[itemId];
+  allPrice.value -= cartList.value.find(item => item.iId === itemId).price * cartList.value.find(item => item.iId === itemId).num;
+  cartList.value = cartList.value.filter(item => item.iId !== itemId);
+};
+
 //关闭购物车界面
 const handleClose = () => {
   drawer.value = false;
@@ -452,11 +469,14 @@ const handleClose = () => {
 
 //修改数目
 const changeNum = (itemId, num) => {
+
   let old=cart.value[itemId];
   cart.value[itemId] = num;
   allPrice.value += (num-old) * cartList.value.find(item => item.iId === itemId).price;
 
   cartList.value.find(item => item.iId === itemId).num = num;
+
+
 };
 
 //支付界面
@@ -488,5 +508,13 @@ const payallitem = () => {
     }
   })};
 
+  //一个计算属性，计算总价格,转成int类型
+  const computepriceplusde = computed(() => {
+    return parseInt(allPrice.value) + parseInt(orderform.value.deliveryPrice || 0);
+  });
+
+  const fun1 = (index) => {
+    return index;
+  };
 getList();
 </script>
