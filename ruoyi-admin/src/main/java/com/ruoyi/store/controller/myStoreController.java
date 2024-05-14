@@ -16,33 +16,34 @@ import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.store.domain.Store;
-import com.ruoyi.store.service.IStoreService;
+import com.ruoyi.store.domain.myStore;
+import com.ruoyi.store.service.ImyStoreService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
  * 我的商店Controller
  * 
- * @author ruoyi
- * @date 2024-05-07
+ * @author xpl
+ * @date 2024-05-13
  */
 @RestController
 @RequestMapping("/store/myStore")
-public class StoreController extends BaseController
+public class myStoreController extends BaseController
 {
     @Autowired
-    private IStoreService storeService;
+    private ImyStoreService myStoreService;
 
     /**
      * 查询我的商店列表
      */
     @PreAuthorize("@ss.hasPermi('store:myStore:list')")
     @GetMapping("/list")
-    public TableDataInfo list(Store store)
+    public TableDataInfo list(myStore myStore)
     {
         startPage();
-        List<Store> list = storeService.selectStoreList(store);
+        myStore.setuId(getLoginUser().getUserId());
+        List<myStore> list = myStoreService.selectmyStoreList(myStore);
         return getDataTable(list);
     }
 
@@ -52,10 +53,10 @@ public class StoreController extends BaseController
     @PreAuthorize("@ss.hasPermi('store:myStore:export')")
     @Log(title = "我的商店", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, Store store)
+    public void export(HttpServletResponse response, myStore myStore)
     {
-        List<Store> list = storeService.selectStoreList(store);
-        ExcelUtil<Store> util = new ExcelUtil<Store>(Store.class);
+        List<myStore> list = myStoreService.selectmyStoreList(myStore);
+        ExcelUtil<myStore> util = new ExcelUtil<myStore>(myStore.class);
         util.exportExcel(response, list, "我的商店数据");
     }
 
@@ -66,7 +67,7 @@ public class StoreController extends BaseController
     @GetMapping(value = "/{sId}")
     public AjaxResult getInfo(@PathVariable("sId") Long sId)
     {
-        return success(storeService.selectStoreBySId(sId));
+        return success(myStoreService.selectmyStoreBySId(sId));
     }
 
     /**
@@ -75,9 +76,9 @@ public class StoreController extends BaseController
     @PreAuthorize("@ss.hasPermi('store:myStore:add')")
     @Log(title = "我的商店", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody Store store)
+    public AjaxResult add(@RequestBody myStore myStore)
     {
-        return toAjax(storeService.insertStore(store));
+        return toAjax(myStoreService.insertmyStore(myStore));
     }
 
     /**
@@ -86,9 +87,9 @@ public class StoreController extends BaseController
     @PreAuthorize("@ss.hasPermi('store:myStore:edit')")
     @Log(title = "我的商店", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody Store store)
+    public AjaxResult edit(@RequestBody myStore myStore)
     {
-        return toAjax(storeService.updateStore(store));
+        return toAjax(myStoreService.updatemyStore(myStore));
     }
 
     /**
@@ -99,6 +100,6 @@ public class StoreController extends BaseController
 	@DeleteMapping("/{sIds}")
     public AjaxResult remove(@PathVariable Long[] sIds)
     {
-        return toAjax(storeService.deleteStoreBySIds(sIds));
+        return toAjax(myStoreService.deletemyStoreBySIds(sIds));
     }
 }

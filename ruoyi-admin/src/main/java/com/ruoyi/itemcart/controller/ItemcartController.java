@@ -101,4 +101,5 @@ public class ItemcartController extends BaseController
     {
         return toAjax(itemcartService.deleteItemcartByItemcartIds(itemcartIds));
     }
+
 }

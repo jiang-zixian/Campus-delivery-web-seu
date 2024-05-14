@@ -58,4 +58,5 @@ public interface ItemcartMapper
      * @return 结果
      */
     public int deleteItemcartByItemcartIds(Long[] itemcartIds);
+
 }

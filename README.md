@@ -3,7 +3,7 @@
 
 ## you must Know!
 大家有什么想要记录的可以看留言板
-留言板：https://typst.app/project/p5E6zFot8lSh0g4j61UAaF
+留言板：https://typst.app/project/wTsaFeDxII7ht47qCAF0Ep
 
 ## how to run this project
 ### 后端
@@ -62,6 +62,17 @@ Maven >= 3.0
     |  |  \    /  \      /           
     ''-'   `'-'    `-..-'    
     ```
+
+7. 数据库配置已经更改。项目jdbc可以连接数据库，记得更新推送
+
+idea可以用可视化工具，方便查看数据库变化
+
+ip: 1.94.167.138
+
+username: root
+
+pwd: 123456
+
 
 ### 前端
 ```powershell
