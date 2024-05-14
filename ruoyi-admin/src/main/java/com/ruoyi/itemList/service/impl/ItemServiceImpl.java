@@ -1,6 +1,9 @@
 package com.ruoyi.itemList.service.impl;
 
 import java.util.List;
+import java.util.Map;
+
+import com.ruoyi.itemList.domain.CartForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.itemList.mapper.ItemMapper;
@@ -89,5 +92,25 @@ public class ItemServiceImpl implements IItemService
     public int deleteItemByIId(Long iId)
     {
         return itemMapper.deleteItemByIId(iId);
+    }
+
+
+    /**
+     * 检查商品库存是否都满足
+     *
+     * @param cartForms 商品id和数量
+     * @return 结果
+     */
+    public int isStockSufficient(List<CartForm> cartForms) {
+        for (CartForm cartForm : cartForms) {
+           //打印
+            System.out.println(cartForm.getIId());
+            Item item = itemMapper.selectItemByIId(cartForm.getIId());
+//            if (item.getAmount() < cartForm.getNum()) {
+//                return 0;
+//            }
+        }
+
+        return 1;
     }
 }

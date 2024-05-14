@@ -2,6 +2,9 @@ package com.ruoyi.itemList.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
+
+import com.ruoyi.common.core.domain.R;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +23,9 @@ import com.ruoyi.itemList.domain.Item;
 import com.ruoyi.itemList.service.IItemService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.record.service.IRecordService;
+import com.ruoyi.record.domain.Record;
+import com.ruoyi.itemList.domain.CartForm;
 
 /**
  * 商品列表Controller
@@ -33,6 +39,9 @@ public class ItemController extends BaseController
 {
     @Autowired
     private IItemService itemService;
+
+    @Autowired
+    private IRecordService iRecordService;
 
     /**
      * 查询商品列表列表
@@ -101,4 +110,27 @@ public class ItemController extends BaseController
     {
         return toAjax(itemService.deleteItemByIIds(iIds));
     }
+
+
+    /**
+     * 生成外卖订单
+     * 1代表自提 2是外卖
+     */
+    @Log(title = "生成订单",businessType = BusinessType.INSERT)
+    @PostMapping("/payallitem")
+    public AjaxResult addRecord(@RequestBody Record record)
+    {
+        return toAjax(iRecordService.insertRecord(record));
+    }
+
+    /**
+     * 检查商品库存是否满足
+     */
+    @Log(title = "生成订单",businessType = BusinessType.INSERT)
+    @PostMapping("/checkitem")
+    public AjaxResult checknum(@RequestBody List<CartForm> cartforms)
+    {
+        return toAjax(itemService.isStockSufficient(cartforms));
+    }
+
 }
