@@ -172,7 +172,20 @@ export const dynamicRoutes = [
         meta: { title: '修改生成配置', activeMenu: '/tool/gen' }
       }
     ]
-  }
+  },{
+    path: '/store/EditStore',
+    component: Layout,
+    hidden: true,
+    permissions: ['system:store:EditStore'],
+    children: [
+      {
+        path: 'Edit/:sId(\\d+)',
+        component: () => import('@/views/store/myStore/EditStore'),
+        name: 'EditStore',
+        meta: { title: '管理商品', activeMenu: '/store/myStore' }
+      }
+    ]
+  },
 ]
 
 const router = createRouter({
