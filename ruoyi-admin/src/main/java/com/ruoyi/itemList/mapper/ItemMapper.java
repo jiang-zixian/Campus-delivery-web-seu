@@ -6,8 +6,8 @@ import com.ruoyi.itemList.domain.Item;
 /**
  * 商品列表Mapper接口
  * 
- * @author Syl
- * @date 2024-05-11
+ * @author SYL
+ * @date 2024-05-13
  */
 public interface ItemMapper 
 {
@@ -58,4 +58,13 @@ public interface ItemMapper
      * @return 结果
      */
     public int deleteItemByIIds(Long[] iIds);
+
+    /**
+     * 减库存
+     *
+     * @param iId 商品ID
+     * @param num 减库存数量
+     * @return 结果
+     */
+    public int reduceStock(Long iId, Integer num);
 }

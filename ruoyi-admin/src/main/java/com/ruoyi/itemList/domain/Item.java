@@ -8,22 +8,23 @@ import com.ruoyi.common.core.domain.BaseEntity;
 /**
  * 商品列表对象 item
  * 
- * @author Syl
- * @date 2024-05-11
+ * @author SYL
+ * @date 2024-05-13
  */
 public class Item extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** 商品编号 */
+    @Excel(name = "商品编号")
     private Long iId;
 
-    /** 商家编号 */
-    @Excel(name = "商家编号")
+    /** 店家编号 */
+    @Excel(name = "店家编号")
     private Long sId;
 
-    /** 商品图片 */
-    @Excel(name = "商品图片")
+    /** 商品图像 */
+    @Excel(name = "商品图像")
     private String photo;
 
     /** 商品名 */

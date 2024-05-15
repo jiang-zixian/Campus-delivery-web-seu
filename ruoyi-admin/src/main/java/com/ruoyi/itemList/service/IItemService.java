@@ -1,13 +1,17 @@
 package com.ruoyi.itemList.service;
 
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.itemList.domain.Item;
+import com.ruoyi.itemList.domain.CartForm;
+import com.ruoyi.record.domain.Record;
 
 /**
  * 商品列表Service接口
  * 
- * @author Syl
- * @date 2024-05-11
+ * @author SYL
+ * @date 2024-05-13
  */
 public interface IItemService 
 {
@@ -58,4 +62,22 @@ public interface IItemService
      * @return 结果
      */
     public int deleteItemByIId(Long iId);
+
+
+    /**
+     * 检查商品库存是否都满足
+     *
+     * @param cartForms 商品id和数量
+     * @return 结果
+     */
+    public int isStockSufficient(Map<Long,Integer> cartForms);
+
+    /**
+     * 在商店买东西
+     *
+     * @param record 我的订单
+     * @return 结果
+     */
+    public int buy(Record record);
+
 }

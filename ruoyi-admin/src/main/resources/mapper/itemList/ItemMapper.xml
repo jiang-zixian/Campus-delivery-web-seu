@@ -22,7 +22,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="iId != null "> and iId = #{iId}</if>
             <if test="sId != null "> and sId = #{sId}</if>
+            <if test="photo != null  and photo != ''"> and photo = #{photo}</if>
             <if test="itemName != null  and itemName != ''"> and itemName like concat('%', #{itemName}, '%')</if>
+            <if test="price != null "> and price = #{price}</if>
+            <if test="amount != null "> and amount = #{amount}</if>
         </where>
     </select>
     
@@ -71,4 +74,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{iId}
         </foreach>
     </delete>
+
+<!--    /**-->
+<!--    * 减库存-->
+<!--    *-->
+<!--    * @param iId 商品ID-->
+<!--    * @param num 减库存数量-->
+<!--    * @return 结果-->
+<!--    */-->
+<!--    public int reduceStock(Long iId, Integer num);-->
+
+    <update id="reduceStock" parameterType="Item">
+        update item
+        set amount = amount - #{num}
+        where iId = #{iId}
+    </update>
 </mapper>
