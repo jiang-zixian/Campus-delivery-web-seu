@@ -365,6 +365,8 @@ function submitForm() {
           getList();
         });
       } else {
+        form.value.type = 0 ;
+        form.value.status = 0 ;
         addRiderecord(form.value).then(response => {
           proxy.$modal.msgSuccess("新增成功");
           open.value = false;
