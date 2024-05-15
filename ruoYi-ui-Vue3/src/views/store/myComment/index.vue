@@ -1,26 +1,34 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="商店编码" prop="sId">
+      <el-form-item label="评论号" prop="commentId">
         <el-input
-          v-model="queryParams.sId"
-          placeholder="请输入商店编码"
+          v-model="queryParams.commentId"
+          placeholder="请输入评论号"
           clearable
           @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="店长编码" prop="uId">
+      <el-form-item label="客户号" prop="uId">
         <el-input
           v-model="queryParams.uId"
-          placeholder="请输入店长编码"
+          placeholder="请输入客户号"
           clearable
           @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="商店名称" prop="sname">
+      <el-form-item label="商店号" prop="sId">
         <el-input
-          v-model="queryParams.sname"
-          placeholder="请输入商店名称"
+          v-model="queryParams.sId"
+          placeholder="请输入商店号"
+          clearable
+          @keyup.enter="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="订单号" prop="recordId">
+        <el-input
+          v-model="queryParams.recordId"
+          placeholder="请输入订单号"
           clearable
           @keyup.enter="handleQuery"
         />
@@ -38,7 +46,7 @@
           plain
           icon="Plus"
           @click="handleAdd"
-          v-hasPermi="['storeList:storeList:add']"
+          v-hasPermi="['store:myComment:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -48,7 +56,7 @@
           icon="Edit"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['storeList:storeList:edit']"
+          v-hasPermi="['store:myComment:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -58,7 +66,7 @@
           icon="Delete"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['storeList:storeList:remove']"
+          v-hasPermi="['store:myComment:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -67,28 +75,24 @@
           plain
           icon="Download"
           @click="handleExport"
-          v-hasPermi="['storeList:storeList:export']"
+          v-hasPermi="['store:myComment:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="storeListList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="myCommentList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
+      <el-table-column label="评论号" align="center" prop="commentId" />
+      <el-table-column label="客户号" align="center" prop="uId" />
       <el-table-column label="商店号" align="center" prop="sId" />
-      <el-table-column label="店家号" align="center" prop="uId" />
-      <el-table-column label="商店名称" align="center" prop="sname" />
-      <el-table-column label="图标" align="center" prop="logo" width="100">
-        <template #default="scope">
-          <image-preview :src="scope.row.logo" :width="50" :height="50"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="商店描述" align="center" prop="description" />
+      <el-table-column label="评论" align="center" prop="comment" />
+      <el-table-column label="追加评论" align="center" prop="recomment" />
+      <el-table-column label="订单号" align="center" prop="recordId" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
-          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['storeList:storeList:edit']">修改</el-button>
-          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['storeList:storeList:remove']">删除</el-button>
-          <el-button link type="primary" icon="ShoppingCart" @click="handlegoshopping(scope.row)">去购物</el-button>
+          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['store:myComment:edit']">修改</el-button>
+          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['store:myComment:remove']">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -101,23 +105,23 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改商家列表对话框 -->
+    <!-- 添加或修改我的评论对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
-      <el-form ref="storeListRef" :model="form" :rules="rules" label-width="80px">
-<!--        <el-form-item label="商店号" prop="sId">-->
-<!--          <el-input v-model="form.sId" placeholder="请输入商店号" />-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="店家号" prop="uId">-->
-<!--          <el-input v-model="form.uId" placeholder="请输入店家号" />-->
-<!--        </el-form-item>-->
-        <el-form-item label="商店名称" prop="sname">
-          <el-input v-model="form.sname" placeholder="请输入商店名称" />
+      <el-form ref="myCommentRef" :model="form" :rules="rules" label-width="80px">
+        <el-form-item label="客户号" prop="uId">
+          <el-input v-model="form.uId" placeholder="请输入客户号" />
         </el-form-item>
-        <el-form-item label="图标" prop="logo">
-          <image-upload v-model="form.logo"/>
+        <el-form-item label="商店号" prop="sId">
+          <el-input v-model="form.sId" placeholder="请输入商店号" />
         </el-form-item>
-        <el-form-item label="商店描述" prop="description">
-          <el-input v-model="form.description" type="textarea" placeholder="请输入内容" />
+        <el-form-item label="评论" prop="comment">
+          <el-input v-model="form.comment" type="textarea" placeholder="请输入内容" />
+        </el-form-item>
+        <el-form-item label="追加评论" prop="recomment">
+          <el-input v-model="form.recomment" type="textarea" placeholder="请输入内容" />
+        </el-form-item>
+        <el-form-item label="订单号" prop="recordId">
+          <el-input v-model="form.recordId" placeholder="请输入订单号" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -130,12 +134,12 @@
   </div>
 </template>
 
-<script setup name="StoreList">
-import { listStoreList, getStoreList, delStoreList, addStoreList, updateStoreList } from "@/api/storeList/storeList";
+<script setup name="MyComment">
+import { listMyComment, getMyComment, delMyComment, addMyComment, updateMyComment } from "@/api/store/myComment";
 
 const { proxy } = getCurrentInstance();
 
-const storeListList = ref([]);
+const myCommentList = ref([]);
 const open = ref(false);
 const loading = ref(true);
 const showSearch = ref(true);
@@ -145,18 +149,17 @@ const multiple = ref(true);
 const total = ref(0);
 const title = ref("");
 
-const router = useRouter();
-
 const data = reactive({
   form: {},
   queryParams: {
     pageNum: 1,
     pageSize: 10,
-    sId: null,
+    commentId: null,
     uId: null,
-    sname: null,
-    logo: null,
-    description: null
+    sId: null,
+    comment: null,
+    recomment: null,
+    recordId: null
   },
   rules: {
   }
@@ -164,11 +167,11 @@ const data = reactive({
 
 const { queryParams, form, rules } = toRefs(data);
 
-/** 查询商家列表列表 */
+/** 查询我的评论列表 */
 function getList() {
   loading.value = true;
-  listStoreList(queryParams.value).then(response => {
-    storeListList.value = response.rows;
+  listMyComment(queryParams.value).then(response => {
+    myCommentList.value = response.rows;
     total.value = response.total;
     loading.value = false;
   });
@@ -183,13 +186,14 @@ function cancel() {
 // 表单重置
 function reset() {
   form.value = {
-    sId: null,
+    commentId: null,
     uId: null,
-    sname: null,
-    logo: null,
-    description: null
+    sId: null,
+    comment: null,
+    recomment: null,
+    recordId: null
   };
-  proxy.resetForm("storeListRef");
+  proxy.resetForm("myCommentRef");
 }
 
 /** 搜索按钮操作 */
@@ -206,7 +210,7 @@ function resetQuery() {
 
 // 多选框选中数据
 function handleSelectionChange(selection) {
-  ids.value = selection.map(item => item.sId);
+  ids.value = selection.map(item => item.commentId);
   single.value = selection.length != 1;
   multiple.value = !selection.length;
 }
@@ -215,33 +219,32 @@ function handleSelectionChange(selection) {
 function handleAdd() {
   reset();
   open.value = true;
-  title.value = "添加商家列表";
+  title.value = "添加我的评论";
 }
 
 /** 修改按钮操作 */
 function handleUpdate(row) {
   reset();
-  const _sId = row.sId || ids.value
-  // console.log(row);
-  getStoreList(_sId).then(response => {
+  const _commentId = row.commentId || ids.value
+  getMyComment(_commentId).then(response => {
     form.value = response.data;
     open.value = true;
-    title.value = "修改商家列表";
+    title.value = "修改我的评论";
   });
 }
 
 /** 提交按钮 */
 function submitForm() {
-  proxy.$refs["storeListRef"].validate(valid => {
+  proxy.$refs["myCommentRef"].validate(valid => {
     if (valid) {
-      if (form.value.sId != null) {
-        updateStoreList(form.value).then(response => {
+      if (form.value.commentId != null) {
+        updateMyComment(form.value).then(response => {
           proxy.$modal.msgSuccess("修改成功");
           open.value = false;
           getList();
         });
       } else {
-        addStoreList(form.value).then(response => {
+        addMyComment(form.value).then(response => {
           proxy.$modal.msgSuccess("新增成功");
           open.value = false;
           getList();
@@ -253,26 +256,20 @@ function submitForm() {
 
 /** 删除按钮操作 */
 function handleDelete(row) {
-  const _sIds = row.sId || ids.value;
-  proxy.$modal.confirm('是否确认删除商家列表编号为"' + _sIds + '"的数据项？').then(function() {
-    return delStoreList(_sIds);
+  const _commentIds = row.commentId || ids.value;
+  proxy.$modal.confirm('是否确认删除我的评论编号为"' + _commentIds + '"的数据项？').then(function() {
+    return delMyComment(_commentIds);
   }).then(() => {
     getList();
     proxy.$modal.msgSuccess("删除成功");
   }).catch(() => {});
 }
 
-/** 购物按钮跳转 */
-function handlegoshopping(row) {
-  const sid = row.sId;
-  router.push("/goshopping/itemList/store/" + sid);
-}
-
 /** 导出按钮操作 */
 function handleExport() {
-  proxy.download('storeList/storeList/export', {
+  proxy.download('store/myComment/export', {
     ...queryParams.value
-  }, `storeList_${new Date().getTime()}.xlsx`)
+  }, `myComment_${new Date().getTime()}.xlsx`)
 }
 
 getList();

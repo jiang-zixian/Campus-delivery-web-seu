@@ -146,6 +146,20 @@ export const dynamicRoutes = [
     ]
   },
   {
+    path: '/goshopping/itemList',
+    component: Layout,
+    hidden: true,
+    permissions: ['goshopping:item:list'],
+    children: [
+      {
+        path: 'store/:sId(\\d+)',
+        component: () => import('@/views/itemList/itemList/index'),
+        name: 'itemList',
+        meta: { title: '商品列表', activeMenu: '/goshopping/item' }
+      }
+    ]
+  },
+  {
     path: '/tool/gen-edit',
     component: Layout,
     hidden: true,

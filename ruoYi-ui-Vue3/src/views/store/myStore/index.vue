@@ -25,14 +25,6 @@
           @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="标志" prop="logo">
-        <el-input
-          v-model="queryParams.logo"
-          placeholder="请输入标志"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
         <el-button icon="Refresh" @click="resetQuery">重置</el-button>
@@ -86,7 +78,11 @@
       <el-table-column label="商店号" align="center" prop="sId" />
       <el-table-column label="店家号" align="center" prop="uId" />
       <el-table-column label="商店名称" align="center" prop="sname" />
-      <el-table-column label="标志" align="center" prop="logo" />
+      <el-table-column label="图标" align="center" prop="logo" width="100">
+        <template #default="scope">
+          <image-preview :src="scope.row.logo" :width="50" :height="50"/>
+        </template>
+      </el-table-column>
       <el-table-column label="商店描述" align="center" prop="description" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
@@ -116,8 +112,8 @@
         <el-form-item label="商店名称" prop="sname">
           <el-input v-model="form.sname" placeholder="请输入商店名称" />
         </el-form-item>
-        <el-form-item label="标志" prop="logo">
-          <el-input v-model="form.logo" placeholder="请输入标志" />
+        <el-form-item label="图标" prop="logo">
+          <image-upload v-model="form.logo"/>
         </el-form-item>
         <el-form-item label="商店描述" prop="description">
           <el-input v-model="form.description" type="textarea" placeholder="请输入内容" />

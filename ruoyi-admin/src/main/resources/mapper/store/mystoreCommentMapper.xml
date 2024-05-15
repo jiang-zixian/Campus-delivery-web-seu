@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.store.mapper.mystoreCommentMapper">
+    
+    <resultMap type="mystoreComment" id="mystoreCommentResult">
+        <result property="commentId"    column="commentId"    />
+        <result property="uId"    column="uId"    />
+        <result property="sId"    column="sId"    />
+        <result property="comment"    column="comment"    />
+        <result property="recomment"    column="recomment"    />
+        <result property="recordId"    column="recordId"    />
+    </resultMap>
+
+    <sql id="selectmystoreCommentVo">
+        select commentId, uId, sId, comment, recomment, recordId from comment
+    </sql>
+
+    <select id="selectmystoreCommentList" parameterType="mystoreComment" resultMap="mystoreCommentResult">
+        <include refid="selectmystoreCommentVo"/>
+        <where>  
+            <if test="commentId != null "> and commentId = #{commentId}</if>
+            <if test="uId != null "> and uId = #{uId}</if>
+            <if test="sId != null "> and sId = #{sId}</if>
+            <if test="comment != null  and comment != ''"> and comment = #{comment}</if>
+            <if test="recomment != null  and recomment != ''"> and recomment = #{recomment}</if>
+            <if test="recordId != null "> and recordId = #{recordId}</if>
+        </where>
+    </select>
+    
+    <select id="selectmystoreCommentByCommentId" parameterType="Long" resultMap="mystoreCommentResult">
+        <include refid="selectmystoreCommentVo"/>
+        where commentId = #{commentId}
+    </select>
+        
+    <insert id="insertmystoreComment" parameterType="mystoreComment">
+        insert into comment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="commentId != null">commentId,</if>
+            <if test="uId != null">uId,</if>
+            <if test="sId != null">sId,</if>
+            <if test="comment != null">comment,</if>
+            <if test="recomment != null">recomment,</if>
+            <if test="recordId != null">recordId,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="commentId != null">#{commentId},</if>
+            <if test="uId != null">#{uId},</if>
+            <if test="sId != null">#{sId},</if>
+            <if test="comment != null">#{comment},</if>
+            <if test="recomment != null">#{recomment},</if>
+            <if test="recordId != null">#{recordId},</if>
+         </trim>
+    </insert>
+
+    <update id="updatemystoreComment" parameterType="mystoreComment">
+        update comment
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="uId != null">uId = #{uId},</if>
+            <if test="sId != null">sId = #{sId},</if>
+            <if test="comment != null">comment = #{comment},</if>
+            <if test="recomment != null">recomment = #{recomment},</if>
+            <if test="recordId != null">recordId = #{recordId},</if>
+        </trim>
+        where commentId = #{commentId}
+    </update>
+
+    <delete id="deletemystoreCommentByCommentId" parameterType="Long">
+        delete from comment where commentId = #{commentId}
+    </delete>
+
+    <delete id="deletemystoreCommentByCommentIds" parameterType="String">
+        delete from comment where commentId in 
+        <foreach item="commentId" collection="array" open="(" separator="," close=")">
+            #{commentId}
+        </foreach>
+    </delete>
+</mapper>
