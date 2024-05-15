@@ -215,7 +215,7 @@
 </template>
 
 <script setup name="ItemList">
-import {listItemList, getItemList, delItemList, addItemList, updateItemList, buy} from "@/api/itemList/itemList";
+import { listItemList, getItemList, delItemList, addItemList, updateItemList,postallitem,checkitemnum } from "@/api/itemList/itemList";
 import {addRecord} from "@/api/record/record";
 import { useRoute } from "vue-router";
 import { ElNotification } from 'element-plus'
@@ -402,7 +402,6 @@ function handleExport() {
 
 
 
-
 //购物车
 const cart = ref([]);
 const drawer = ref(false);
@@ -476,7 +475,6 @@ const changeNum = (itemId, num) => {
 
   cartList.value.find(item => item.iId === itemId).num = num;
 
-
 };
 
 //支付界面
@@ -485,28 +483,48 @@ const applyallCart = () => {
   applyall.value = true;
 };
 
+//提交表单
+const cartform = ref({});
 
 //支付订单
 const payallitem = () => {
   proxy.$refs["orderformRef"].validate(valid => {
     if (valid) {
-      orderform.value.allItemPrice = allPrice.value;
+      orderform.value.allItemPrice = computepriceplusde.value;
       orderform.value.srcTime = Date.now();
 
-      console.log(orderform.value);
-      buy(orderform.value).then(response => {
-      cart.value = [];
-      cartList.value = [];
-      allPrice.value = 0;
+      cartform.value = {};
 
-      applyall.value = false;
-      proxy.$modal.msgSuccess("下单成功");
+      for (let i = 0; i < cartList.value.length; i++) {
+        cartform.value[cartList.value[i].iId] = cartList.value[i].num;
+      }
+      console.log(cartform.value);
 
-      getList();
-     });
-   
+      checkitemnum(cartform.value).then(
+        response => {
+          if(response){
+            postallitem(orderform.value).then(response => {
+              cart.value = [];
+              cartList.value = [];
+              allPrice.value = 0;
+
+              applyall.value = false;
+              proxy.$modal.msgSuccess("下单成功");
+
+              getList();
+            });
+          }
+          else{
+            proxy.$modal.msgError("库存不足，请重新尝试");
+            applyall.value = false;
+            getList();
+
+            }
+        });
     }
-  })};
+  }
+  )
+};
 
   //一个计算属性，计算总价格,转成int类型
   const computepriceplusde = computed(() => {

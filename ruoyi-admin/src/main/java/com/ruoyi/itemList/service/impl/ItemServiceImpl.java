@@ -1,16 +1,15 @@
 package com.ruoyi.itemList.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
-import com.ruoyi.record.domain.Record;
-import com.ruoyi.record.mapper.RecordMapper;
-import com.ruoyi.store.domain.myStore;
+import com.ruoyi.itemList.domain.CartForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.itemList.mapper.ItemMapper;
 import com.ruoyi.itemList.domain.Item;
 import com.ruoyi.itemList.service.IItemService;
-import com.ruoyi.store.service.ImyStoreService;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * 商品列表Service业务层处理
@@ -23,12 +22,6 @@ public class ItemServiceImpl implements IItemService
 {
     @Autowired
     private ItemMapper itemMapper;
-
-    @Autowired
-    private RecordMapper recordMapper;
-
-    @Autowired
-    private ImyStoreService myStoreService;
 
     /**
      * 查询商品列表
@@ -102,22 +95,40 @@ public class ItemServiceImpl implements IItemService
         return itemMapper.deleteItemByIId(iId);
     }
 
+
     /**
-     * 在商店买东西
+     * 检查商品库存是否都满足
      *
-     * @param record 我的订单
+     * @param cartForms 商品id和数量
      * @return 结果
      */
-    public int buy(Record record){
-        if(record.getType()!=0){//在校内商店买东西
-            //商店地址自动搜索
-            myStore ms=myStoreService.selectmyStoreBySId(record.getsId());
-            record.setSrcPosition(ms.getDescription().split(" ")[0]);
+    @Override
+    public int isStockSufficient(Map<Long,Integer> cartForms) {
+        for (Map.Entry<Long, Integer> entry : cartForms.entrySet()) {
+            Long itemId = entry.getKey();
+            Integer requestedQuantity = entry.getValue();
 
-            //对应商品库存减少
-            // TODO: 2024/5/13
+            Item item = itemMapper.selectItemByIId(itemId);
+            if (item == null) {
+                return 0;
+            }
 
+            if (item.getAmount() < requestedQuantity) {
+
+                return 0;
+            }
         }
-        return recordMapper.insertRecord(record);
+
+        //削减对应的库存
+        for (Map.Entry<Long, Integer> entry : cartForms.entrySet()) {
+            Long itemId = entry.getKey();
+            Integer requestedQuantity = entry.getValue();
+
+            Item item = itemMapper.selectItemByIId(itemId);
+            item.setAmount(item.getAmount() - requestedQuantity);
+            itemMapper.updateItem(item);
+        }
+
+        return 1;
     }
 }

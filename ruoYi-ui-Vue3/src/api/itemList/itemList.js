@@ -43,6 +43,23 @@ export function delItemList(iId) {
   })
 }
 
+//生成订单
+export function postallitem(data) {
+  return request({
+    url: '/itemList/itemList/payallitem',
+    method: 'post',
+    data: data
+  })
+}
+
+//检查商品库存，传入的是一个hashmap
+export function checkitemnum(data) {
+  return request({
+    url: '/itemList/itemList/checkitem',
+    method: 'post',
+    data: data
+  })
+}
 // 购买商品
 export function buy(data) {
   return request({
