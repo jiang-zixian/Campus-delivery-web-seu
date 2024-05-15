@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.ruoyi.itemList.domain.Item;
 import com.ruoyi.itemList.domain.CartForm;
+import com.ruoyi.record.domain.Record;
 
 /**
  * 商品列表Service接口
@@ -70,5 +71,13 @@ public interface IItemService
      * @return 结果
      */
     public int isStockSufficient(Map<Long,Integer> cartForms);
+
+    /**
+     * 在商店买东西
+     *
+     * @param record 我的订单
+     * @return 结果
+     */
+    public int buy(Record record);
 
 }

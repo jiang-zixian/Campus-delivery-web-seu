@@ -4,12 +4,16 @@ import java.util.List;
 import java.util.Map;
 
 import com.ruoyi.itemList.domain.CartForm;
+import com.ruoyi.record.mapper.RecordMapper;
+import com.ruoyi.store.service.ImyStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.itemList.mapper.ItemMapper;
 import com.ruoyi.itemList.domain.Item;
 import com.ruoyi.itemList.service.IItemService;
 import org.springframework.web.bind.annotation.RequestBody;
+import com.ruoyi.record.domain.Record;
+import com.ruoyi.store.domain.myStore;
 
 /**
  * 商品列表Service业务层处理
@@ -22,6 +26,11 @@ public class ItemServiceImpl implements IItemService
 {
     @Autowired
     private ItemMapper itemMapper;
+    @Autowired
+    private RecordMapper recordMapper;
+
+    @Autowired
+    private ImyStoreService myStoreService;
 
     /**
      * 查询商品列表
@@ -130,5 +139,20 @@ public class ItemServiceImpl implements IItemService
         }
 
         return 1;
+    }
+
+    /**
+     * 在商店买东西
+     *
+     * @param record 我的订单
+     * @return 结果
+     */
+    public int buy(Record record){
+        if(record.getType()!=0){//在校内商店买东西
+            //商店地址自动搜索
+            myStore ms=myStoreService.selectmyStoreBySId(record.getsId());
+            record.setSrcPosition(ms.getDescription().split(" ")[0]);
+        }
+        return recordMapper.insertRecord(record);
     }
 }

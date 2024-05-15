@@ -120,7 +120,10 @@ public class ItemController extends BaseController
     @PostMapping("/payallitem")
     public AjaxResult addRecord(@RequestBody Record record)
     {
-        return toAjax(iRecordService.insertRecord(record));
+//        record.setuId(getLoginUser().getUserId());
+//        return toAjax(iRecordService.insertRecord(record));
+        record.setuId(getLoginUser().getUserId());
+        return toAjax(itemService.buy(record));
     }
 
     /**
