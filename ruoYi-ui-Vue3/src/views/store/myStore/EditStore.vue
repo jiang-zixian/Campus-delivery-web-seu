@@ -1,7 +1,8 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <h1>您当前处在商店{{queryParams.sId}}</h1>
+      <h1 style="text-align: center;">您当前处在商店:  <span class="store-name">{{storeName}}</span></h1>
+      <el-divider/>
       <el-form-item label="商品编号" prop="iId">
         <el-input
             v-model="queryParams.iId"
@@ -121,7 +122,7 @@
     <div :style="{ display: opentest ? 'block' : 'none' }">
       <br>
       <br>
-      <h2 style="text-align: center;">该商店现在还没有商品，尝试来创建你的第一个商品吧</h2>
+      <h2 style="text-align: center;">该商店现在还没有商品，尝试来创建你的第一个商品吧!</h2>
       <el-steps style="max-width: 100%" :active="3" align-center>
         <el-step title="Step 1" :icon="Edit" description="点击“新增商品”按钮"/>
         <el-step title="Step 2" :icon="Picture" description="填写商品信息"/>
@@ -163,7 +164,8 @@
 <script setup name="ItemList">
 import { listItemList, getItemList, delItemList, addItemList, updateItemList } from "@/api/itemList/itemList";
 import {useRouter} from "vue-router";
-import {Edit, Picture, Upload} from "@element-plus/icons-vue";
+import {Briefcase, Edit, Picture, StarFilled, Upload} from "@element-plus/icons-vue";
+import {getMyStore} from "@/api/store/myStore.js";
 
 const { proxy } = getCurrentInstance();
 
@@ -177,6 +179,7 @@ const multiple = ref(true);
 const total = ref(0);
 const title = ref("");
 const opentest = ref(false);
+const storeName = ref("");
 
 const route = useRoute();
 
@@ -211,6 +214,7 @@ function getList() {
       opentest.value=false;
     }
   });
+  console.log(typeof queryParams.sId)
 }
 
 // 取消按钮
@@ -309,5 +313,23 @@ function handleExport() {
   }, `itemList_${new Date().getTime()}.xlsx`)
 }
 
+function getStoreName(){
+  const _sId = route.params.sId;
+  getMyStore(_sId).then(response => {
+    storeName.value = response.data.sname;
+  });
+}
+
 getList();
+getStoreName();
 </script>
+
+<style>
+.store-name {
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:100%;
+  line-height:1em;
+  min-width:920px;
+  padding-left: 20px;
+}
+</style>

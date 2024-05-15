@@ -98,14 +98,6 @@
       @pagination="getList"
     />
 
-    <br>
-    <br>
-    <el-divider>
-      <el-icon><star-filled /></el-icon>
-    </el-divider>
-    <div>
-      <el-button type="primary" round>Primary</el-button>
-    </div>
 
 
     <!-- 添加或修改我的商店对话框 -->
