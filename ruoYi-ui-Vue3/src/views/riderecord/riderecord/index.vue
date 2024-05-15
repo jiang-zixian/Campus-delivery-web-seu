@@ -137,7 +137,11 @@
 <!--      <el-table-column label="总价" align="center" prop="allItemPrice" />-->
       <el-table-column label="骑手号" align="center" prop="riderId" />
       <el-table-column label="派送费" align="center" prop="deliveryPrice" />
-      <el-table-column label="订单状态" align="center" prop="status" />
+      <el-table-column label="订单状态" align="center" prop="status" >
+        <template #default="scope">
+          <span>{{ getStatusText(scope.row.status) }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="取货地址" align="center" prop="srcPosition" />
       <el-table-column label="送达地址" align="center" prop="destPosition" />
       <el-table-column label="下单时间" align="center" prop="srcTime" width="180">
@@ -258,6 +262,22 @@ const data = reactive({
   }
 });
 
+const getStatusText = computed(() => {
+  return (status) => {
+    switch (status) {
+      case 0:
+        return '已下单';
+      case 1:
+        return  '骑手已接单'
+      case 2:
+        return '订单已送达'
+        // 添加其他状态对应的文字
+      default:
+        return '其他状态';
+    }
+  };
+});
+
 const { queryParams, form, rules } = toRefs(data);
 
 /** 查询跑腿列表 */
@@ -337,6 +357,8 @@ function submitForm() {
   proxy.$refs["riderecordRef"].validate(valid => {
     if (valid) {
       if (form.value.recordId != null) {
+        form.value.type = 0 ;
+        form.value.status = 0 ;
         updateRiderecord(form.value).then(response => {
           proxy.$modal.msgSuccess("修改成功");
           open.value = false;

@@ -77,6 +77,7 @@ public class RideRecordController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody RideRecord rideRecord)
     {
+        rideRecord.setuId(getLoginUser().getUserId());
         return toAjax(rideRecordService.insertRideRecord(rideRecord));
     }
 
