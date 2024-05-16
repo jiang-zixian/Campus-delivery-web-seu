@@ -44,6 +44,7 @@ public class RecordController extends BaseController
         startPage();
         if(!getLoginUser().getUser().isAdmin())
             record.setuId(getLoginUser().getUserId());
+        record.setType(2L);;
         List<Record> list = recordService.selectRecordList(record);
         return getDataTable(list);
     }

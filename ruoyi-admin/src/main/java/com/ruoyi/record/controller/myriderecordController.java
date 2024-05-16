@@ -42,6 +42,7 @@ public class myriderecordController extends BaseController
     public TableDataInfo list(myriderecord myriderecord)
     {
         startPage();
+        myriderecord.setType(0L);;
         List<myriderecord> list = myriderecordService.selectmyriderecordList(myriderecord);
         return getDataTable(list);
     }
