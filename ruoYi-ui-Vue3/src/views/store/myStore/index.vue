@@ -98,15 +98,19 @@
       @pagination="getList"
     />
 
+
+
     <!-- 添加或修改我的商店对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="myStoreRef" :model="form" :rules="rules" label-width="80px">
+        <!--
         <el-form-item label="商店号" prop="sId">
           <el-input v-model="form.sId" placeholder="请输入商店号" />
         </el-form-item>
         <el-form-item label="店家号" prop="uId">
           <el-input v-model="form.uId" placeholder="请输入店家号" />
         </el-form-item>
+        -->
         <el-form-item label="商店名称" prop="sname">
           <el-input v-model="form.sname" placeholder="请输入商店名称" />
         </el-form-item>
@@ -114,7 +118,7 @@
           <image-upload v-model="form.logo"/>
         </el-form-item>
         <el-form-item label="商店描述" prop="description">
-          <el-input v-model="form.description" type="textarea" placeholder="请输入内容" />
+          <el-input v-model="form.description" type="textarea" placeholder="请输入内容" :autosize="{ minRows: 2, maxRows: 10 }" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -129,6 +133,7 @@
 
 <script setup name="MyStore">
 import { listMyStore, getMyStore, delMyStore, addMyStore, updateMyStore } from "@/api/store/myStore";
+import {StarFilled} from "@element-plus/icons-vue";
 
 
 const router = useRouter();
