@@ -81,11 +81,13 @@
           <image-preview :src="scope.row.logo" :width="50" :height="50"/>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width"  width="500">
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['store:myStore:edit']">修改</el-button>
           <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['store:myStore:remove']">删除</el-button>
           <el-button link type="primary" icon="Memo" @click="handleEditStore(scope.row)" v-hasPermi="['system:store:EditStore']">管理商品</el-button>
+          <el-button link type="primary" icon="Document" @click="handleCheckRecord(scope.row)" v-hasPermi="['system:store:storeRecord']">查看订单记录</el-button>
+          <el-button link type="primary" icon="ChatDotRound" @click="handleCheckComment(scope.row)" v-hasPermi="['system:store:myComment']">查看评论</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -274,7 +276,17 @@ function handleExport() {
 function handleEditStore(row) {
   const sid = row.sId;
   router.push("/store/EditStore/Edit/" + sid);
-};
+}
+
+function handleCheckRecord(row){
+  const sid = row.sId;
+  router.push("/store/storeRecord/" + sid);
+}
+
+function handleCheckComment(row){
+  const sid = row.sId;
+  router.push("/store/myComment/" + sid);
+}
 
 getList();
 </script>
