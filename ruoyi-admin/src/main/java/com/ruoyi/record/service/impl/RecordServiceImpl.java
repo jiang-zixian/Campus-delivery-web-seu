@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import com.ruoyi.record.mapper.RecordMapper;
 import com.ruoyi.record.domain.Record;
 import com.ruoyi.record.service.IRecordService;
+import com.ruoyi.store.domain.myStore;
+import com.ruoyi.store.service.ImyStoreService;
 
 /**
  * 我的订单Service业务层处理
@@ -18,6 +20,10 @@ public class RecordServiceImpl implements IRecordService
 {
     @Autowired
     private RecordMapper recordMapper;
+
+    @Autowired
+    private ImyStoreService myStoreService;
+
 
     /**
      * 查询我的订单

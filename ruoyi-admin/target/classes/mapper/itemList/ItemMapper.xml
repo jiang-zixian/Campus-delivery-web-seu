@@ -74,4 +74,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{iId}
         </foreach>
     </delete>
+
+<!--    /**-->
+<!--    * 减库存-->
+<!--    *-->
+<!--    * @param iId 商品ID-->
+<!--    * @param num 减库存数量-->
+<!--    * @return 结果-->
+<!--    */-->
+<!--    public int reduceStock(Long iId, Integer num);-->
+
+    <update id="reduceStock" parameterType="Item">
+        update item
+        set amount = amount - #{num}
+        where iId = #{iId}
+    </update>
 </mapper>

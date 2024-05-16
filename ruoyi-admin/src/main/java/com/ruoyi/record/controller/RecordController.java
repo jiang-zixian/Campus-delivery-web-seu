@@ -77,6 +77,7 @@ public class RecordController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody Record record)
     {
+        record.setuId(getLoginUser().getUserId());
         return toAjax(recordService.insertRecord(record));
     }
 

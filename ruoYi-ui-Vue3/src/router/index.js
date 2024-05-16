@@ -37,6 +37,7 @@ export const constantRoutes = [
       }
     ]
   },
+
   {
     path: '/login',
     component: () => import('@/views/login'),
@@ -141,6 +142,20 @@ export const dynamicRoutes = [
         component: () => import('@/views/monitor/job/log'),
         name: 'JobLog',
         meta: { title: '调度日志', activeMenu: '/monitor/job' }
+      }
+    ]
+  },
+  {
+    path: '/goshopping/itemList',
+    component: Layout,
+    hidden: true,
+    permissions: ['goshopping:item:list'],
+    children: [
+      {
+        path: 'store/:sId(\\d+)',
+        component: () => import('@/views/itemList/itemList/index'),
+        name: 'itemList',
+        meta: { title: '商品列表', activeMenu: '/goshopping/item' }
       }
     ]
   },

@@ -88,13 +88,7 @@
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['storeList:storeList:edit']">修改</el-button>
           <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['storeList:storeList:remove']">删除</el-button>
-
-          <router-link :to="{
-            path: '/goshopping/itemList',
-            query: { sid: scope.row.sId }}">
-            <el-button link type="primary" icon="ShoppingCart">去购物</el-button>
-          </router-link>
-
+          <el-button link type="primary" icon="ShoppingCart" @click="handlegoshopping(scope.row)">去购物</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -150,6 +144,8 @@ const single = ref(true);
 const multiple = ref(true);
 const total = ref(0);
 const title = ref("");
+
+const router = useRouter();
 
 const data = reactive({
   form: {},
@@ -264,6 +260,12 @@ function handleDelete(row) {
     getList();
     proxy.$modal.msgSuccess("删除成功");
   }).catch(() => {});
+}
+
+/** 购物按钮跳转 */
+function handlegoshopping(row) {
+  const sid = row.sId;
+  router.push("/goshopping/itemList/store/" + sid);
 }
 
 /** 导出按钮操作 */

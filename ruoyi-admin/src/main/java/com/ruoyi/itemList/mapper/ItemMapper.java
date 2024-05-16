@@ -58,4 +58,13 @@ public interface ItemMapper
      * @return 结果
      */
     public int deleteItemByIIds(Long[] iIds);
+
+    /**
+     * 减库存
+     *
+     * @param iId 商品ID
+     * @param num 减库存数量
+     * @return 结果
+     */
+    public int reduceStock(Long iId, Integer num);
 }
