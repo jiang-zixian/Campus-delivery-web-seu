@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ruoyi.store.mapper.StoreMapper">
+<mapper namespace="com.ruoyi.store.mapper.myStoreMapper">
     
-    <resultMap type="Store" id="StoreResult">
+    <resultMap type="myStore" id="myStoreResult">
         <result property="sId"    column="sId"    />
         <result property="uId"    column="uId"    />
         <result property="sname"    column="sname"    />
@@ -12,12 +12,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="description"    column="description"    />
     </resultMap>
 
-    <sql id="selectStoreVo">
+    <sql id="selectmyStoreVo">
         select sId, uId, sname, logo, description from store
     </sql>
 
-    <select id="selectStoreList" parameterType="Store" resultMap="StoreResult">
-        <include refid="selectStoreVo"/>
+    <select id="selectmyStoreList" parameterType="myStore" resultMap="myStoreResult">
+        <include refid="selectmyStoreVo"/>
         <where>  
             <if test="sId != null "> and sId = #{sId}</if>
             <if test="uId != null "> and uId = #{uId}</if>
@@ -27,12 +27,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
     
-    <select id="selectStoreBySId" parameterType="Long" resultMap="StoreResult">
-        <include refid="selectStoreVo"/>
+    <select id="selectmyStoreBySId" parameterType="Long" resultMap="myStoreResult">
+        <include refid="selectmyStoreVo"/>
         where sId = #{sId}
     </select>
         
-    <insert id="insertStore" parameterType="Store">
+    <insert id="insertmyStore" parameterType="myStore">
         insert into store
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="sId != null">sId,</if>
@@ -50,7 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateStore" parameterType="Store">
+    <update id="updatemyStore" parameterType="myStore">
         update store
         <trim prefix="SET" suffixOverrides=",">
             <if test="uId != null">uId = #{uId},</if>
@@ -61,11 +61,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where sId = #{sId}
     </update>
 
-    <delete id="deleteStoreBySId" parameterType="Long">
+    <delete id="deletemyStoreBySId" parameterType="Long">
         delete from store where sId = #{sId}
     </delete>
 
-    <delete id="deleteStoreBySIds" parameterType="String">
+    <delete id="deletemyStoreBySIds" parameterType="String">
         delete from store where sId in 
         <foreach item="sId" collection="array" open="(" separator="," close=")">
             #{sId}

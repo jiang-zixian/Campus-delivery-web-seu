@@ -60,3 +60,11 @@ export function checkitemnum(data) {
     data: data
   })
 }
+// 购买商品
+export function buy(data) {
+  return request({
+    url: '/itemList/itemList/buy',
+    method: 'post',
+    data: data
+  })
+}

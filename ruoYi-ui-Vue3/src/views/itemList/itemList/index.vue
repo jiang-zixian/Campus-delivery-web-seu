@@ -50,11 +50,11 @@
       </el-col>
       <el-col :span="1.5">
         <el-button type="danger" plain icon="Delete" :disabled="multiple" @click="handleDelete"
-         >删除</el-button>
+        >删除</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button type="warning" plain icon="Download" @click="handleExport"
-         >导出</el-button>
+        >导出</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button type="success" plain icon="shopping-cart" @click="openCart">购物车</el-button>
@@ -79,36 +79,36 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)"
-            v-hasPermi="['itemList:itemList:edit']">修改</el-button>
+                     v-hasPermi="['itemList:itemList:edit']">修改</el-button>
           <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)"
-            v-hasPermi="['itemList:itemList:remove']">删除</el-button>
+                     v-hasPermi="['itemList:itemList:remove']">删除</el-button>
         </template>
       </el-table-column>
       <el-table-column align="center" class-name="fixed-width">
         <template #default="scope">
           <el-button type="primary" icon="ShoppingCart" plain circle @click="open1(scope.row)"
-            title="加入购物车"></el-button>
+                     title="加入购物车"></el-button>
         </template>
       </el-table-column>
     </el-table>
 
     <pagination v-show="total > 0" :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize"
-      @pagination="getList" />
+                @pagination="getList" />
 
 
     <el-drawer v-model="drawer" title="我的购物车" :with-header="true" :before-close="handleClose" :bottom="0" size="65%">
-    <el-row :gutter="8">
-      <el-col :span="8">
-        <el-form :model="cart" ref="cartRef" :inline="true" label-width="68px">
-          <el-form-item label="总价格">
-            <el-input v-model="allPrice" disabled></el-input>
-          </el-form-item>
-        </el-form>
-      </el-col>
-      <el-col :span="6">
-        <el-button type="primary" @click="applyallCart">提交订单</el-button>
-      </el-col>
-    </el-row>
+      <el-row :gutter="8">
+        <el-col :span="8">
+          <el-form :model="cart" ref="cartRef" :inline="true" label-width="68px">
+            <el-form-item label="总价格">
+              <el-input v-model="allPrice" disabled></el-input>
+            </el-form-item>
+          </el-form>
+        </el-col>
+        <el-col :span="6">
+          <el-button type="primary" @click="applyallCart">提交订单</el-button>
+        </el-col>
+      </el-row>
       <el-row>
         <el-table :data="cartList" border :height="tableHeight" >
           <el-table-column type="index" :index="fun1"/>
@@ -123,16 +123,16 @@
           <el-table-column label="购买数量" align="center" prop="num">
             <template #default="scope">
               <el-row>
-              <el-input-number v-model="scope.row.num" @change="changeNum(scope.row.iId, scope.row.num)"
-                :min="1"></el-input-number>
+                <el-input-number v-model="scope.row.num" @change="changeNum(scope.row.iId, scope.row.num)"
+                                 :min="1"></el-input-number>
               </el-row>
             </template>
           </el-table-column>
-        <el-table-column label="操作" align="center"> 
-          <template #default="scope">
+          <el-table-column label="操作" align="center">
+            <template #default="scope">
               <el-button type="danger" plain @click="changeNum(scope.row.iId, 0),deleoneitem(scope.row.iId)" title="删除">删除</el-button>
             </template>
-        </el-table-column>
+          </el-table-column>
         </el-table>
       </el-row>
     </el-drawer>
@@ -163,54 +163,54 @@
         </div>
       </template>
     </el-dialog>
-  
 
-  <!-- 提交订单的dialog -->
-  <el-dialog :title="title" v-model="applyall" width="500px" append-to-body>
-    <el-form ref="orderformRef" :model="orderform" :rules="rules" label-width="100px">
-      <!-- 这里选择自提或者外卖会出现不同的表单 -->
-      <el-form-item label="配送方式" prop="delivery">
-        <el-radio-group v-model="orderform.type">
-          <el-radio label="2">外卖</el-radio>
-          <el-radio label="1">自提</el-radio>
-        </el-radio-group>
-      </el-form-item>
 
-      <template v-if="orderform.type === '1'">
-        <el-form-item label="商家地址" prop="srcPosition">
-          <el-input v-model="orderform.srcPosition" placeholder="请输入商家地址" />
+    <!-- 提交订单的dialog -->
+    <el-dialog :title="title" v-model="applyall" width="500px" append-to-body>
+      <el-form ref="orderformRef" :model="orderform" :rules="rules" label-width="100px">
+        <!-- 这里选择自提或者外卖会出现不同的表单 -->
+        <el-form-item label="配送方式" prop="delivery">
+          <el-radio-group v-model="orderform.type">
+            <el-radio label="2">外卖</el-radio>
+            <el-radio label="1">自提</el-radio>
+          </el-radio-group>
         </el-form-item>
+
+        <template v-if="orderform.type === '1'">
+<!--          <el-form-item label="商家地址" prop="srcPosition">-->
+<!--            <el-input v-model="orderform.srcPosition" placeholder="请输入商家地址" />-->
+<!--          </el-form-item>-->
+        </template>
+
+        <template v-else-if="orderform.type === '2'">
+<!--          <el-form-item label="商家地址" prop="srcPosition">-->
+<!--            <el-input v-model="orderform.srcPosition" placeholder="请输入商家地址" />-->
+<!--          </el-form-item>-->
+          <el-form-item label="目的地址" prop="destPosition">
+            <el-input v-model="orderform.destPosition" placeholder="请输入目的地址" />
+          </el-form-item>
+          <el-form-item label="预计送达时间" prop="destTime">
+            <el-date-picker v-model="orderform.destTime" type="datetime" placeholder="请选择预计送达时间" />
+          </el-form-item>
+          <el-form-item label="配送费" prop="deliveryPrice">
+            <el-input v-model="orderform.deliveryPrice" placeholder="请输入配送费" />
+          </el-form-item>
+        </template>
+
+        <el-form-item label="总价" prop="allItemPrice">
+          <el-input v-model="computepriceplusde" disabled></el-input>
+        </el-form-item>
+
+      </el-form>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button type="primary"  @click="payallitem" >确 定</el-button>
+          <el-button @click="cancel">取 消</el-button>
+        </div>
       </template>
 
-      <template v-else-if="orderform.type === '2'">
-        <el-form-item label="商家地址" prop="srcPosition">
-          <el-input v-model="orderform.srcPosition" placeholder="请输入商家地址" />
-        </el-form-item>
-        <el-form-item label="目的地址" prop="destPosition">
-          <el-input v-model="orderform.destPosition" placeholder="请输入目的地址" />
-        </el-form-item>
-        <el-form-item label="预计送达时间" prop="destTime">
-          <el-date-picker v-model="orderform.destTime" type="datetime" placeholder="请选择预计送达时间" />
-        </el-form-item>
-        <el-form-item label="配送费" prop="deliveryPrice">
-          <el-input v-model="orderform.deliveryPrice" placeholder="请输入配送费" />
-        </el-form-item>
-      </template>
+    </el-dialog>
 
-      <el-form-item label="总价" prop="allItemPrice">
-        <el-input v-model="computepriceplusde" disabled></el-input>
-      </el-form-item>
-
-    </el-form>
-    <template #footer>
-      <div class="dialog-footer">
-        <el-button type="primary"  @click="payallitem" >确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
-      </div>
-    </template>
-    
-  </el-dialog>
-  
   </div>
 </template>
 
@@ -245,11 +245,10 @@ const data = reactive({
     price: null,
     amount: null
   },
-  rules: {
-  }
+  rules: {}
 });
 
-const { queryParams, form, rules } = toRefs(data);
+const {queryParams, form, rules} = toRefs(data);
 
 /** 查询商品列表列表 */
 function getList() {
@@ -317,7 +316,7 @@ function reset() {
     destPosition: null,
     srcTime: null,
     destTime: null,
-    type:"2"
+    type: "2"
   };
   proxy.resetForm("orderformRef");
 }
@@ -388,7 +387,8 @@ function handleDelete(row) {
   }).then(() => {
     getList();
     proxy.$modal.msgSuccess("删除成功");
-  }).catch(() => { });
+  }).catch(() => {
+  });
 }
 
 /** 导出按钮操作 */
@@ -397,8 +397,6 @@ function handleExport() {
     ...queryParams.value
   }, `itemList_${new Date().getTime()}.xlsx`)
 }
-
-
 
 
 //购物车
@@ -410,7 +408,7 @@ const allPrice = ref(0);
 //订单对话框
 const applyall = ref(false);
 
-const orderform=ref({});
+const orderform = ref({});
 
 // 添加商品到购物车
 const addToCart = (itemId) => {
@@ -422,7 +420,7 @@ const addToCart = (itemId) => {
 };
 
 //成功加入购物车
-function open1(row){
+function open1(row) {
   ElNotification({
     title: 'Success',
     message: '成功加入购物车',
@@ -431,19 +429,19 @@ function open1(row){
   addToCart(row.iId);
 }
 
-function addmultipleCart(row)
-{
+function addmultipleCart(row) {
   const _iIds = row.iId || ids.value;
   proxy.$modal.confirm('是否确认将商品编号为"' + _iIds + '"的商品加入购物车？').then(() => {
     for (let i = 0; i < _iIds.length; i++) {
       addToCart(_iIds[i]);
     }
     ElNotification({
-    title: 'Success',
-    message: '成功加入购物车',
-    type: 'success',
-  })
-  }).catch(() => { });
+      title: 'Success',
+      message: '成功加入购物车',
+      type: 'success',
+    })
+  }).catch(() => {
+  });
 
 }
 
@@ -468,9 +466,9 @@ const handleClose = () => {
 //修改数目
 const changeNum = (itemId, num) => {
 
-  let old=cart.value[itemId];
+  let old = cart.value[itemId];
   cart.value[itemId] = num;
-  allPrice.value += (num-old) * cartList.value.find(item => item.iId === itemId).price;
+  allPrice.value += (num - old) * cartList.value.find(item => item.iId === itemId).price;
 
   cartList.value.find(item => item.iId === itemId).num = num;
 
@@ -488,50 +486,56 @@ const cartform = ref({});
 //支付订单
 const payallitem = () => {
   proxy.$refs["orderformRef"].validate(valid => {
-    if (valid) {
-      orderform.value.allItemPrice = computepriceplusde.value;
-      orderform.value.srcTime = Date.now();
+        if (valid) {
+          //reset();
+          orderform.value.allItemPrice = computepriceplusde.value;
+          orderform.value.srcTime = Date.now();
 
-      cartform.value = {};
+          cartform.value = {};
 
-      for (let i = 0; i < cartList.value.length; i++) {
-        cartform.value[cartList.value[i].iId] = cartList.value[i].num;
-      }
-      console.log(cartform.value);
-
-      checkitemnum(cartform.value).then(
-        response => {     
-          if(response){
-            postallitem(orderform.value).then(response => {
-              cart.value = [];
-              cartList.value = [];
-              allPrice.value = 0;
-
-              applyall.value = false;
-              proxy.$modal.msgSuccess("下单成功");
-
-              getList();
-            });
+          for (let i = 0; i < cartList.value.length; i++) {
+            cartform.value[cartList.value[i].iId] = cartList.value[i].num;
           }
-          else{
-            proxy.$modal.msgError("库存不足，请重新尝试");
-            applyall.value = false;
-            getList();
-            
-            }
-        });
-    }
-  }
+          console.log(cartform.value);
+
+          checkitemnum(cartform.value).then(
+              response => {
+                // if(route.params.sId){
+                //   proxy.$modal.msgError("sid为"+route.params.sId);
+                // }
+                // if(!orderform.value.sId){
+                //   proxy.$modal.msgError("sid为空");
+                // }
+                if (response) {
+                  postallitem(orderform.value).then(response => {
+                    cart.value = [];
+                    cartList.value = [];
+                    allPrice.value = 0;
+
+                    applyall.value = false;
+                    proxy.$modal.msgSuccess("下单成功");
+
+                    getList();
+                  });
+                } else {
+                  proxy.$modal.msgError("库存不足，请重新尝试");
+                  applyall.value = false;
+                  getList();
+
+                }
+              });
+        }
+      }
   )
 };
 
-  //一个计算属性，计算总价格,转成int类型
-  const computepriceplusde = computed(() => {
-    return parseInt(allPrice.value) + parseInt(orderform.value.deliveryPrice || 0);
-  });
+//一个计算属性，计算总价格,转成int类型
+const computepriceplusde = computed(() => {
+  return parseInt(allPrice.value) + parseInt(orderform.value.deliveryPrice || 0);
+});
 
-  const fun1 = (index) => {
-    return index;
-  };
+const fun1 = (index) => {
+  return index;
+};
 getList();
 </script>

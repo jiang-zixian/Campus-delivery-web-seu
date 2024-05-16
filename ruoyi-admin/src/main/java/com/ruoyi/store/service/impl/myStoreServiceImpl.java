@@ -3,21 +3,21 @@ package com.ruoyi.store.service.impl;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.store.mapper.StoreMapper;
-import com.ruoyi.store.domain.Store;
-import com.ruoyi.store.service.IStoreService;
+import com.ruoyi.store.mapper.myStoreMapper;
+import com.ruoyi.store.domain.myStore;
+import com.ruoyi.store.service.ImyStoreService;
 
 /**
  * 我的商店Service业务层处理
  * 
- * @author ruoyi
- * @date 2024-05-07
+ * @author xpl
+ * @date 2024-05-13
  */
 @Service
-public class StoreServiceImpl implements IStoreService 
+public class myStoreServiceImpl implements ImyStoreService 
 {
     @Autowired
-    private StoreMapper storeMapper;
+    private myStoreMapper myStoreMapper;
 
     /**
      * 查询我的商店
@@ -26,45 +26,45 @@ public class StoreServiceImpl implements IStoreService
      * @return 我的商店
      */
     @Override
-    public Store selectStoreBySId(Long sId)
+    public myStore selectmyStoreBySId(Long sId)
     {
-        return storeMapper.selectStoreBySId(sId);
+        return myStoreMapper.selectmyStoreBySId(sId);
     }
 
     /**
      * 查询我的商店列表
      * 
-     * @param store 我的商店
+     * @param myStore 我的商店
      * @return 我的商店
      */
     @Override
-    public List<Store> selectStoreList(Store store)
+    public List<myStore> selectmyStoreList(myStore myStore)
     {
-        return storeMapper.selectStoreList(store);
+        return myStoreMapper.selectmyStoreList(myStore);
     }
 
     /**
      * 新增我的商店
      * 
-     * @param store 我的商店
+     * @param myStore 我的商店
      * @return 结果
      */
     @Override
-    public int insertStore(Store store)
+    public int insertmyStore(myStore myStore)
     {
-        return storeMapper.insertStore(store);
+        return myStoreMapper.insertmyStore(myStore);
     }
 
     /**
      * 修改我的商店
      * 
-     * @param store 我的商店
+     * @param myStore 我的商店
      * @return 结果
      */
     @Override
-    public int updateStore(Store store)
+    public int updatemyStore(myStore myStore)
     {
-        return storeMapper.updateStore(store);
+        return myStoreMapper.updatemyStore(myStore);
     }
 
     /**
@@ -74,9 +74,9 @@ public class StoreServiceImpl implements IStoreService
      * @return 结果
      */
     @Override
-    public int deleteStoreBySIds(Long[] sIds)
+    public int deletemyStoreBySIds(Long[] sIds)
     {
-        return storeMapper.deleteStoreBySIds(sIds);
+        return myStoreMapper.deletemyStoreBySIds(sIds);
     }
 
     /**
@@ -86,8 +86,8 @@ public class StoreServiceImpl implements IStoreService
      * @return 结果
      */
     @Override
-    public int deleteStoreBySId(Long sId)
+    public int deletemyStoreBySId(Long sId)
     {
-        return storeMapper.deleteStoreBySId(sId);
+        return myStoreMapper.deletemyStoreBySId(sId);
     }
 }
