@@ -63,7 +63,7 @@
     </el-row>
 
 
-
+    <!-- 商品列表 -->
     <el-table v-loading="loading" :data="itemListList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="商品编号" align="center" prop="iId" />
@@ -95,7 +95,7 @@
     <pagination v-show="total > 0" :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize"
                 @pagination="getList" />
 
-
+    <!-- 购物车列表 -->
     <el-drawer v-model="drawer" title="我的购物车" :with-header="true" :before-close="handleClose" :bottom="0" size="65%">
       <el-row :gutter="8">
         <el-col :span="8">
@@ -111,7 +111,7 @@
       </el-row>
       <el-row>
         <el-table :data="cartList" border :height="tableHeight" >
-          <el-table-column type="index" :index="fun1"/>
+<!--          <el-table-column label="编号" type="index" :index="fun1"/>-->
           <el-table-column label="商品编号" align="center" prop="iId" />
           <el-table-column label="商品图像" align="center" width="100">
             <template #default="scope">
@@ -535,7 +535,7 @@ const computepriceplusde = computed(() => {
 });
 
 const fun1 = (index) => {
-  return index;
+  return index+1;
 };
 getList();
 </script>
