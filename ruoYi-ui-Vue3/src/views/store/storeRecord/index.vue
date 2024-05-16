@@ -43,7 +43,7 @@
           placeholder="请选择送达时间">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="订单状态" prop="destTime">
+      <el-form-item label="订单状态" prop="status">
         <el-select
             v-model="queryParams.status"
             placeholder="请选择订单状态"
@@ -273,7 +273,7 @@ const options = [
   },
   {
     value: null,
-    label: '其他状态',
+    label: '全部',
   },
 ]
 
