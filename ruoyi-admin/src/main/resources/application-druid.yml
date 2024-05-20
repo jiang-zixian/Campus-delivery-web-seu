@@ -6,8 +6,8 @@ spring:
         druid:
             # 主库数据源
             master:
-                url: jdbc:mysql://1.94.167.138:3306/takeaway
-                username: root
+                url: jdbc:mysql://116.62.44.111:3306/takeaway
+                username: test001
                 password: 123456
             # 从库数据源
             slave:

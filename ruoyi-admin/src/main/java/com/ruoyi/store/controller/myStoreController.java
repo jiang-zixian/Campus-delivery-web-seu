@@ -78,6 +78,7 @@ public class myStoreController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody myStore myStore)
     {
+        myStore.setuId(getLoginUser().getUserId());
         return toAjax(myStoreService.insertmyStore(myStore));
     }
 

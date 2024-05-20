@@ -173,6 +173,19 @@ export const dynamicRoutes = [
       }
     ]
   },{
+    path: '/store',
+    component: Layout,
+    hidden: true,
+    permissions: ['system:store:storeRecord'],
+    children: [
+      {
+        path: 'storeRecord/:sId(\\d+)',
+        component: () => import('@/views/store/storeRecord/index'),
+        name: 'storeRecord',
+        meta: { title: '商店订单记录', activeMenu: '/store/storeRecord' }
+      }
+    ]
+  },{
     path: '/store/EditStore',
     component: Layout,
     hidden: true,
@@ -183,6 +196,19 @@ export const dynamicRoutes = [
         component: () => import('@/views/store/myStore/EditStore'),
         name: 'EditStore',
         meta: { title: '管理商品', activeMenu: '/store/myStore' }
+      }
+    ]
+  },{
+    path: '/store',
+    component: Layout,
+    hidden: true,
+    permissions: ['system:store:myComment'],
+    children: [
+      {
+        path: 'myComment/:sId(\\d+)',
+        component: () => import('@/views/store/myComment/index'),
+        name: 'myComment',
+        meta: { title: '商店评论', activeMenu: '/store/myComment' }
       }
     ]
   },
