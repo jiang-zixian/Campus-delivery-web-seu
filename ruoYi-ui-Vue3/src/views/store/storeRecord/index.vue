@@ -1,6 +1,8 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
+      <h1 style="text-align: center;">您当前处在商店:  <span class="store-name">{{storeName}}</span></h1>
+      <el-divider/>
       <el-form-item label="订单号" prop="recordId">
         <el-input
           v-model="queryParams.recordId"
@@ -17,50 +19,10 @@
           @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="商店号" prop="sId">
-        <el-input
-          v-model="queryParams.sId"
-          placeholder="请输入商店号"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="总价" prop="allItemPrice">
-        <el-input
-          v-model="queryParams.allItemPrice"
-          placeholder="请输入总价"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
       <el-form-item label="骑手号" prop="riderId">
         <el-input
           v-model="queryParams.riderId"
           placeholder="请输入骑手号"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="派送费" prop="deliveryPrice">
-        <el-input
-          v-model="queryParams.deliveryPrice"
-          placeholder="请输入派送费"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="取货地址" prop="srcPosition">
-        <el-input
-          v-model="queryParams.srcPosition"
-          placeholder="请输入取货地址"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="送达地址" prop="destPosition">
-        <el-input
-          v-model="queryParams.destPosition"
-          placeholder="请输入送达地址"
           clearable
           @keyup.enter="handleQuery"
         />
@@ -81,6 +43,21 @@
           placeholder="请选择送达时间">
         </el-date-picker>
       </el-form-item>
+      <el-form-item label="订单状态" prop="status">
+        <el-select
+            v-model="queryParams.status"
+            placeholder="请选择订单状态"
+            size="large"
+            style="width: 240px"
+        >
+          <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
         <el-button icon="Refresh" @click="resetQuery">重置</el-button>
@@ -88,35 +65,35 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="Plus"
-          @click="handleAdd"
-          v-hasPermi="['store:storeRecord:add']"
-        >新增</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="success"
-          plain
-          icon="Edit"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['store:storeRecord:edit']"
-        >修改</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="danger"
-          plain
-          icon="Delete"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['store:storeRecord:remove']"
-        >删除</el-button>
-      </el-col>
+<!--      <el-col :span="1.5">-->
+<!--        <el-button-->
+<!--          type="primary"-->
+<!--          plain-->
+<!--          icon="Plus"-->
+<!--          @click="handleAdd"-->
+<!--          v-hasPermi="['store:storeRecord:add']"-->
+<!--        >新增</el-button>-->
+<!--      </el-col>-->
+<!--      <el-col :span="1.5">-->
+<!--        <el-button-->
+<!--          type="success"-->
+<!--          plain-->
+<!--          icon="Edit"-->
+<!--          :disabled="single"-->
+<!--          @click="handleUpdate"-->
+<!--          v-hasPermi="['store:storeRecord:edit']"-->
+<!--        >修改</el-button>-->
+<!--      </el-col>-->
+<!--      <el-col :span="1.5">-->
+<!--        <el-button-->
+<!--          type="danger"-->
+<!--          plain-->
+<!--          icon="Delete"-->
+<!--          :disabled="multiple"-->
+<!--          @click="handleDelete"-->
+<!--          v-hasPermi="['store:storeRecord:remove']"-->
+<!--        >删除</el-button>-->
+<!--      </el-col>-->
       <el-col :span="1.5">
         <el-button
           type="warning"
@@ -133,30 +110,34 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="订单号" align="center" prop="recordId" />
       <el-table-column label="客户号" align="center" prop="uId" />
-      <el-table-column label="商店号" align="center" prop="sId" />
+<!--      <el-table-column label="商店号" align="center" prop="sId" />-->
       <el-table-column label="总价" align="center" prop="allItemPrice" />
       <el-table-column label="骑手号" align="center" prop="riderId" />
       <el-table-column label="派送费" align="center" prop="deliveryPrice" />
-      <el-table-column label="订单状态" align="center" prop="status" />
+      <el-table-column label="订单状态" align="center" prop="status" >
+      <template #default="scope">
+        <span>{{ getStatusText(scope.row.status) }}</span>
+      </template>
+      </el-table-column>
       <el-table-column label="取货地址" align="center" prop="srcPosition" />
       <el-table-column label="送达地址" align="center" prop="destPosition" />
       <el-table-column label="下单时间" align="center" prop="srcTime" width="180">
         <template #default="scope">
-          <span>{{ parseTime(scope.row.srcTime, '{y}-{m}-{d}') }}</span>
+          <span>{{ parseTime(scope.row.srcTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="送达时间" align="center" prop="destTime" width="180">
         <template #default="scope">
-          <span>{{ parseTime(scope.row.destTime, '{y}-{m}-{d}') }}</span>
+          <span>{{ parseTime(scope.row.destTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="订单类型" align="center" prop="type" />
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
-        <template #default="scope">
-          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['store:storeRecord:edit']">修改</el-button>
-          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['store:storeRecord:remove']">删除</el-button>
-        </template>
-      </el-table-column>
+<!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
+<!--        <template #default="scope">-->
+<!--          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['store:storeRecord:edit']">修改</el-button>-->
+<!--          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['store:storeRecord:remove']">删除</el-button>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
     </el-table>
     
     <pagination
@@ -220,6 +201,7 @@
 
 <script setup name="StoreRecord">
 import { listStoreRecord, getStoreRecord, delStoreRecord, addStoreRecord, updateStoreRecord } from "@/api/store/storeRecord";
+import {getMyStore} from "@/api/store/myStore.js";
 
 const { proxy } = getCurrentInstance();
 
@@ -232,6 +214,8 @@ const single = ref(true);
 const multiple = ref(true);
 const total = ref(0);
 const title = ref("");
+const storeName = ref("");
+const route = useRoute();
 
 const data = reactive({
   form: {},
@@ -240,7 +224,7 @@ const data = reactive({
     pageSize: 10,
     recordId: null,
     uId: null,
-    sId: null,
+    sId: route.params.sId || null,
     allItemPrice: null,
     riderId: null,
     deliveryPrice: null,
@@ -255,7 +239,43 @@ const data = reactive({
   }
 });
 
+
 const { queryParams, form, rules } = toRefs(data);
+
+const getStatusText = computed(() => {
+  return (status) => {
+    switch (status) {
+      case 0:
+        return '已下单';
+      case 1:
+        return  '骑手已接单'
+      case 2:
+        return '订单已送达'
+        // 添加其他状态对应的文字
+      default:
+        return '其他状态';
+    }
+  };
+});
+
+const options = [
+  {
+    value: '0',
+    label: '已下单',
+  },
+  {
+    value: '1',
+    label: '骑手已接单',
+  },
+  {
+    value: '2',
+    label: '订单已送达',
+  },
+  {
+    value: null,
+    label: '全部',
+  },
+]
 
 /** 查询商店订单记录列表 */
 function getList() {
@@ -367,6 +387,13 @@ function handleExport() {
     ...queryParams.value
   }, `storeRecord_${new Date().getTime()}.xlsx`)
 }
+function getStoreName(){
+  const _sId = route.params.sId;
+  getMyStore(_sId).then(response => {
+    storeName.value = response.data.sname;
+  });
+}
 
 getList();
+getStoreName();
 </script>

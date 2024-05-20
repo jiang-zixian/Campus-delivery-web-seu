@@ -1,14 +1,16 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-<!--      <el-form-item label="评论号" prop="commentId">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.commentId"-->
-<!--          placeholder="请输入评论号"-->
-<!--          clearable-->
-<!--          @keyup.enter="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
+      <h1 style="text-align: center;">您当前处在商店:  <span class="store-name">{{storeName}}</span></h1>
+      <el-divider/>
+      <el-form-item label="评论号" prop="commentId">
+        <el-input
+          v-model="queryParams.commentId"
+          placeholder="请输入评论号"
+          clearable
+          @keyup.enter="handleQuery"
+        />
+      </el-form-item>
 <!--      <el-form-item label="客户号" prop="uId">-->
 <!--        <el-input-->
 <!--          v-model="queryParams.uId"-->
@@ -17,14 +19,14 @@
 <!--          @keyup.enter="handleQuery"-->
 <!--        />-->
 <!--      </el-form-item>-->
-      <el-form-item label="商店号" prop="sId">
-        <el-input
-          v-model="queryParams.sId"
-          placeholder="请输入商店号"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
+<!--      <el-form-item label="商店号" prop="sId">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.sId"-->
+<!--          placeholder="请输入商店号"-->
+<!--          clearable-->
+<!--          @keyup.enter="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
       <el-form-item label="订单号" prop="recordId">
         <el-input
           v-model="queryParams.recordId"
@@ -86,7 +88,7 @@
       <el-table-column label="评论号" align="center" prop="commentId" />
       <el-table-column label="客户号" align="center" prop="uId" />
       <el-table-column label="订单号" align="center" prop="recordId" />
-      <el-table-column label="商店号" align="center" prop="sId" />
+<!--      <el-table-column label="商店号" align="center" prop="sId" />-->
       <el-table-column label="评论" align="center"  width="500" prop="comment" />
       <el-table-column label="回复" align="center"  width="500" prop="recomment" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -137,6 +139,7 @@
 
 <script setup name="MyComment">
 import { listMyComment, getMyComment, delMyComment, addMyComment, updateMyComment } from "@/api/store/myComment";
+import {getMyStore} from "@/api/store/myStore.js";
 
 const { proxy } = getCurrentInstance();
 
@@ -149,6 +152,9 @@ const single = ref(true);
 const multiple = ref(true);
 const total = ref(0);
 const title = ref("");
+const storeName = ref("");
+
+const route = useRoute();
 
 const data = reactive({
   form: {},
@@ -157,7 +163,7 @@ const data = reactive({
     pageSize: 10,
     commentId: null,
     uId: null,
-    sId: null,
+    sId: route.params.sId || null,
     comment: null,
     recomment: null,
     recordId: null
@@ -273,5 +279,13 @@ function handleExport() {
   }, `myComment_${new Date().getTime()}.xlsx`)
 }
 
+function getStoreName(){
+  const _sId = route.params.sId;
+  getMyStore(_sId).then(response => {
+    storeName.value = response.data.sname;
+  });
+}
+
 getList();
+getStoreName();
 </script>
