@@ -42,6 +42,7 @@ public class zitiRecordController extends BaseController
     public TableDataInfo list(zitiRecord zitiRecord)
     {
         startPage();
+        zitiRecord.setType(1L);;
         List<zitiRecord> list = zitiRecordService.selectzitiRecordList(zitiRecord);
         return getDataTable(list);
     }
