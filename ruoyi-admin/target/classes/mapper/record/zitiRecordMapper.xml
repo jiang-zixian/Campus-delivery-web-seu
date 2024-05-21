@@ -35,8 +35,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="status != null "> and status = #{status}</if>
             <if test="srcPosition != null  and srcPosition != ''"> and src_position = #{srcPosition}</if>
             <if test="destPosition != null  and destPosition != ''"> and dest_position = #{destPosition}</if>
-            <if test="srcTime != null "> and Date(src_time) = #{srcTime}</if>
-            <if test="destTime != null "> and Date(dest_time) = #{destTime}</if>
+            <if test="srcTime != null "> and src_time = #{srcTime}</if>
+            <if test="destTime != null "> and dest_time = #{destTime}</if>
             <if test="type != null "> and type = #{type}</if>
         </where>
     </select>
