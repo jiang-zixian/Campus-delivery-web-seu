@@ -7,8 +7,8 @@ spring:
             # 主库数据源
             master:
                 url: jdbc:mysql://116.62.44.111:3306/takeaway
-                username: test001
-                password: 123456
+                username: root
+                password: 123
             # 从库数据源
             slave:
                 # 从数据源开关/默认关闭
