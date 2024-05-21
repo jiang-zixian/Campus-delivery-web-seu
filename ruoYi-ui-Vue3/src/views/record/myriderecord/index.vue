@@ -155,12 +155,20 @@
         </template>
       </el-table-column>
 <!--      <el-table-column label="订单类型" align="center" prop="type" />-->
-<!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
-<!--        <template #default="scope">-->
-<!--          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['record:myriderecord:edit']">修改</el-button>-->
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+        <template #default="scope">
+          <el-button
+              link
+              type="primary"
+              icon="Edit"
+              @click="openCommentDialog(scope.row)"
+              v-hasPermi="['record:myriderecord:edit']"
+          >
+            评价
+          </el-button>
 <!--          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['record:myriderecord:remove']">删除</el-button>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
+        </template>
+      </el-table-column>
     </el-table>
     
     <pagination
@@ -171,50 +179,17 @@
       @pagination="getList"
     />
 
+
     <!-- 添加或修改我的跑腿订单对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="myriderecordRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="客户号" prop="uId">
-          <el-input v-model="form.uId" placeholder="请输入客户号" />
-        </el-form-item>
-        <el-form-item label="商店号" prop="sId">
-          <el-input v-model="form.sId" placeholder="请输入商店号" />
-        </el-form-item>
-        <el-form-item label="总价" prop="allItemPrice">
-          <el-input v-model="form.allItemPrice" placeholder="请输入总价" />
-        </el-form-item>
-        <el-form-item label="骑手号" prop="riderId">
-          <el-input v-model="form.riderId" placeholder="请输入骑手号" />
-        </el-form-item>
-        <el-form-item label="派送费" prop="deliveryPrice">
-          <el-input v-model="form.deliveryPrice" placeholder="请输入派送费" />
-        </el-form-item>
-        <el-form-item label="取货地址" prop="srcPosition">
-          <el-input v-model="form.srcPosition" placeholder="请输入取货地址" />
-        </el-form-item>
-        <el-form-item label="送达地址" prop="destPosition">
-          <el-input v-model="form.destPosition" placeholder="请输入送达地址" />
-        </el-form-item>
-        <el-form-item label="下单时间" prop="srcTime">
-          <el-date-picker clearable
-            v-model="form.srcTime"
-            type="date"
-            value-format="YYYY-MM-DD"
-            placeholder="请选择下单时间">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="送达时间" prop="destTime">
-          <el-date-picker clearable
-            v-model="form.destTime"
-            type="date"
-            value-format="YYYY-MM-DD"
-            placeholder="请选择送达时间">
-          </el-date-picker>
+        <el-form-item label="评论">
+          <el-input v-model="form.comment" type="textarea" placeholder="请输入评论内容"></el-input>
         </el-form-item>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="submitForm">确 定</el-button>
+          <el-button type="primary" @click="Comment">确 定</el-button>
           <el-button @click="cancel">取 消</el-button>
         </div>
       </template>
@@ -223,7 +198,14 @@
 </template>
 
 <script setup name="Myriderecord">
-import { listMyriderecord, getMyriderecord, delMyriderecord, addMyriderecord, updateMyriderecord } from "@/api/record/myriderecord";
+import {
+  listMyriderecord,
+  getMyriderecord,
+  delMyriderecord,
+  addMyriderecord,
+  updateMyriderecord,
+  commentMyriderecord
+} from "@/api/record/myriderecord";
 
 const { proxy } = getCurrentInstance();
 
@@ -253,7 +235,8 @@ const data = reactive({
     destPosition: null,
     srcTime: null,
     destTime: null,
-    type: null
+    type: null,
+    comment: null
   },
   rules: {
   }
@@ -339,6 +322,16 @@ function handleAdd() {
   title.value = "添加我的跑腿订单";
 }
 
+function openCommentDialog(row)
+{
+  const _recordId = row.recordId || ids.value
+  getMyriderecord(_recordId).then(response => {
+    form.value = response.data;
+    open.value = true;
+    title.value = "评价我的跑腿订单";
+  });
+}
+
 /** 修改按钮操作 */
 function handleUpdate(row) {
   reset();
@@ -350,6 +343,21 @@ function handleUpdate(row) {
   });
 }
 
+function Comment()
+{
+  proxy.$refs["myriderecordRef"].validate(valid => {
+    if (valid) {
+
+      commentMyriderecord(form.value).then(response =>
+          {
+            proxy.$modal.msgSuccess("评价成功");
+            open.value = false;
+          }
+      )
+
+    }
+  });
+}
 /** 提交按钮 */
 function submitForm() {
   proxy.$refs["myriderecordRef"].validate(valid => {
