@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ruoyi.record.mapper.RecordMapper">
+<mapper namespace="com.ruoyi.record.mapper.myriderecordMapper">
     
-    <resultMap type="Record" id="RecordResult">
+    <resultMap type="myriderecord" id="myriderecordResult">
         <result property="recordId"    column="recordId"    />
         <result property="uId"    column="uId"    />
         <result property="sId"    column="sId"    />
@@ -19,12 +19,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="type"    column="type"    />
     </resultMap>
 
-    <sql id="selectRecordVo">
+    <sql id="selectmyriderecordVo">
         select recordId, uId, sId, all_item_price, riderId, delivery_price, status, src_position, dest_position, src_time, dest_time, type from record
     </sql>
 
-    <select id="selectRecordList" parameterType="Record" resultMap="RecordResult">
-        <include refid="selectRecordVo"/>
+    <select id="selectmyriderecordList" parameterType="myriderecord" resultMap="myriderecordResult">
+        <include refid="selectmyriderecordVo"/>
         <where>  
             <if test="recordId != null "> and recordId = #{recordId}</if>
             <if test="uId != null "> and uId = #{uId}</if>
@@ -35,18 +35,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="status != null "> and status = #{status}</if>
             <if test="srcPosition != null  and srcPosition != ''"> and src_position = #{srcPosition}</if>
             <if test="destPosition != null  and destPosition != ''"> and dest_position = #{destPosition}</if>
-            <if test="srcTime != null "> and Date(src_time) = #{srcTime}</if>
-            <if test="destTime != null "> and Date(dest_time) = #{destTime}</if>
+            <if test="srcTime != null "> and src_time = #{srcTime}</if>
+            <if test="destTime != null "> and dest_time = #{destTime}</if>
             <if test="type != null "> and type = #{type}</if>
         </where>
     </select>
     
-    <select id="selectRecordByRecordId" parameterType="Long" resultMap="RecordResult">
-        <include refid="selectRecordVo"/>
+    <select id="selectmyriderecordByRecordId" parameterType="Long" resultMap="myriderecordResult">
+        <include refid="selectmyriderecordVo"/>
         where recordId = #{recordId}
     </select>
         
-    <insert id="insertRecord" parameterType="Record" useGeneratedKeys="true" keyProperty="recordId">
+    <insert id="insertmyriderecord" parameterType="myriderecord" useGeneratedKeys="true" keyProperty="recordId">
         insert into record
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="uId != null">uId,</if>
@@ -76,7 +76,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateRecord" parameterType="Record">
+    <update id="updatemyriderecord" parameterType="myriderecord">
         update record
         <trim prefix="SET" suffixOverrides=",">
             <if test="uId != null">uId = #{uId},</if>
@@ -94,11 +94,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where recordId = #{recordId}
     </update>
 
-    <delete id="deleteRecordByRecordId" parameterType="Long">
+    <delete id="deletemyriderecordByRecordId" parameterType="Long">
         delete from record where recordId = #{recordId}
     </delete>
 
-    <delete id="deleteRecordByRecordIds" parameterType="String">
+    <delete id="deletemyriderecordByRecordIds" parameterType="String">
         delete from record where recordId in 
         <foreach item="recordId" collection="array" open="(" separator="," close=")">
             #{recordId}

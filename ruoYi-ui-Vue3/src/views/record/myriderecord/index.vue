@@ -17,22 +17,22 @@
           @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="商店号" prop="sId">
-        <el-input
-          v-model="queryParams.sId"
-          placeholder="请输入商店号"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="总价" prop="allItemPrice">
-        <el-input
-          v-model="queryParams.allItemPrice"
-          placeholder="请输入总价"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
+<!--      <el-form-item label="商店号" prop="sId">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.sId"-->
+<!--          placeholder="请输入商店号"-->
+<!--          clearable-->
+<!--          @keyup.enter="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="总价" prop="allItemPrice">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.allItemPrice"-->
+<!--          placeholder="请输入总价"-->
+<!--          clearable-->
+<!--          @keyup.enter="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
       <el-form-item label="骑手号" prop="riderId">
         <el-input
           v-model="queryParams.riderId"
@@ -94,7 +94,7 @@
 <!--          plain-->
 <!--          icon="Plus"-->
 <!--          @click="handleAdd"-->
-<!--          v-hasPermi="['record:record:add']"-->
+<!--          v-hasPermi="['record:myriderecord:add']"-->
 <!--        >新增</el-button>-->
 <!--      </el-col>-->
 <!--      <el-col :span="1.5">-->
@@ -104,7 +104,7 @@
 <!--          icon="Edit"-->
 <!--          :disabled="single"-->
 <!--          @click="handleUpdate"-->
-<!--          v-hasPermi="['record:record:edit']"-->
+<!--          v-hasPermi="['record:myriderecord:edit']"-->
 <!--        >修改</el-button>-->
 <!--      </el-col>-->
 <!--      <el-col :span="1.5">-->
@@ -114,7 +114,7 @@
 <!--          icon="Delete"-->
 <!--          :disabled="multiple"-->
 <!--          @click="handleDelete"-->
-<!--          v-hasPermi="['record:record:remove']"-->
+<!--          v-hasPermi="['record:myriderecord:remove']"-->
 <!--        >删除</el-button>-->
 <!--      </el-col>-->
       <el-col :span="1.5">
@@ -123,18 +123,18 @@
           plain
           icon="Download"
           @click="handleExport"
-          v-hasPermi="['record:record:export']"
+          v-hasPermi="['record:myriderecord:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="recordList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="myriderecordList" @selection-change="handleSelectionChange">
 <!--      <el-table-column type="selection" width="55" align="center" />-->
       <el-table-column label="订单号" align="center" prop="recordId" />
       <el-table-column label="客户号" align="center" prop="uId" />
-      <el-table-column label="商店号" align="center" prop="sId" />
-      <el-table-column label="总价" align="center" prop="allItemPrice" />
+<!--      <el-table-column label="商店号" align="center" prop="sId" />-->
+<!--      <el-table-column label="总价" align="center" prop="allItemPrice" />-->
       <el-table-column label="骑手号" align="center" prop="riderId" />
       <el-table-column label="派送费" align="center" prop="deliveryPrice" />
       <el-table-column label="订单状态" align="center" prop="status" >
@@ -154,16 +154,15 @@
           <span>{{ parseTime(scope.row.destTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>
         </template>
       </el-table-column>
-
-      <!--      <el-table-column label="订单类型" align="center" prop="type" /> -->
+<!--      <el-table-column label="订单类型" align="center" prop="type" />-->
 <!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
 <!--        <template #default="scope">-->
-<!--          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['record:record:edit']">修改</el-button>-->
-<!--          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['record:record:remove']">删除</el-button>-->
+<!--          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['record:myriderecord:edit']">修改</el-button>-->
+<!--          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['record:myriderecord:remove']">删除</el-button>-->
 <!--        </template>-->
 <!--      </el-table-column>-->
     </el-table>
-
+    
     <pagination
       v-show="total>0"
       :total="total"
@@ -172,9 +171,9 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改我的订单对话框 -->
+    <!-- 添加或修改我的跑腿订单对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
-      <el-form ref="recordRef" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="myriderecordRef" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="客户号" prop="uId">
           <el-input v-model="form.uId" placeholder="请输入客户号" />
         </el-form-item>
@@ -223,12 +222,12 @@
   </div>
 </template>
 
-<script setup name="Record">
-import { listRecord, getRecord, delRecord, addRecord, updateRecord } from "@/api/record/record";
+<script setup name="Myriderecord">
+import { listMyriderecord, getMyriderecord, delMyriderecord, addMyriderecord, updateMyriderecord } from "@/api/record/myriderecord";
 
 const { proxy } = getCurrentInstance();
 
-const recordList = ref([]);
+const myriderecordList = ref([]);
 const open = ref(false);
 const loading = ref(true);
 const showSearch = ref(true);
@@ -279,11 +278,11 @@ const getStatusText = computed(() => {
 
 const { queryParams, form, rules } = toRefs(data);
 
-/** 查询我的订单列表 */
+/** 查询我的跑腿订单列表 */
 function getList() {
   loading.value = true;
-  listRecord(queryParams.value).then(response => {
-    recordList.value = response.rows;
+  listMyriderecord(queryParams.value).then(response => {
+    myriderecordList.value = response.rows;
     total.value = response.total;
     loading.value = false;
   });
@@ -311,7 +310,7 @@ function reset() {
     destTime: null,
     type: null
   };
-  proxy.resetForm("recordRef");
+  proxy.resetForm("myriderecordRef");
 }
 
 /** 搜索按钮操作 */
@@ -337,32 +336,32 @@ function handleSelectionChange(selection) {
 function handleAdd() {
   reset();
   open.value = true;
-  title.value = "添加我的订单";
+  title.value = "添加我的跑腿订单";
 }
 
 /** 修改按钮操作 */
 function handleUpdate(row) {
   reset();
   const _recordId = row.recordId || ids.value
-  getRecord(_recordId).then(response => {
+  getMyriderecord(_recordId).then(response => {
     form.value = response.data;
     open.value = true;
-    title.value = "修改我的订单";
+    title.value = "修改我的跑腿订单";
   });
 }
 
 /** 提交按钮 */
 function submitForm() {
-  proxy.$refs["recordRef"].validate(valid => {
+  proxy.$refs["myriderecordRef"].validate(valid => {
     if (valid) {
       if (form.value.recordId != null) {
-        updateRecord(form.value).then(response => {
+        updateMyriderecord(form.value).then(response => {
           proxy.$modal.msgSuccess("修改成功");
           open.value = false;
           getList();
         });
       } else {
-        addRecord(form.value).then(response => {
+        addMyriderecord(form.value).then(response => {
           proxy.$modal.msgSuccess("新增成功");
           open.value = false;
           getList();
@@ -375,8 +374,8 @@ function submitForm() {
 /** 删除按钮操作 */
 function handleDelete(row) {
   const _recordIds = row.recordId || ids.value;
-  proxy.$modal.confirm('是否确认删除我的订单编号为"' + _recordIds + '"的数据项？').then(function() {
-    return delRecord(_recordIds);
+  proxy.$modal.confirm('是否确认删除我的跑腿订单编号为"' + _recordIds + '"的数据项？').then(function() {
+    return delMyriderecord(_recordIds);
   }).then(() => {
     getList();
     proxy.$modal.msgSuccess("删除成功");
@@ -385,9 +384,9 @@ function handleDelete(row) {
 
 /** 导出按钮操作 */
 function handleExport() {
-  proxy.download('record/record/export', {
+  proxy.download('record/myriderecord/export', {
     ...queryParams.value
-  }, `record_${new Date().getTime()}.xlsx`)
+  }, `myriderecord_${new Date().getTime()}.xlsx`)
 }
 
 getList();

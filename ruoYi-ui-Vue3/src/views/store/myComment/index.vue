@@ -1,8 +1,6 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <h1 style="text-align: center;">您当前处在商店:  <span class="store-name">{{storeName}}</span></h1>
-      <el-divider/>
       <el-form-item label="评论号" prop="commentId">
         <el-input
           v-model="queryParams.commentId"
@@ -11,22 +9,22 @@
           @keyup.enter="handleQuery"
         />
       </el-form-item>
-<!--      <el-form-item label="客户号" prop="uId">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.uId"-->
-<!--          placeholder="请输入客户号"-->
-<!--          clearable-->
-<!--          @keyup.enter="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
-<!--      <el-form-item label="商店号" prop="sId">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.sId"-->
-<!--          placeholder="请输入商店号"-->
-<!--          clearable-->
-<!--          @keyup.enter="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
+      <el-form-item label="客户号" prop="uId">
+        <el-input
+          v-model="queryParams.uId"
+          placeholder="请输入客户号"
+          clearable
+          @keyup.enter="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="商店号" prop="sId">
+        <el-input
+          v-model="queryParams.sId"
+          placeholder="请输入商店号"
+          clearable
+          @keyup.enter="handleQuery"
+        />
+      </el-form-item>
       <el-form-item label="订单号" prop="recordId">
         <el-input
           v-model="queryParams.recordId"
@@ -42,35 +40,35 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="primary"-->
-<!--          plain-->
-<!--          icon="Plus"-->
-<!--          @click="handleAdd"-->
-<!--          v-hasPermi="['store:myComment:add']"-->
-<!--        >新增</el-button>-->
-<!--      </el-col>-->
+      <el-col :span="1.5">
+        <el-button
+          type="primary"
+          plain
+          icon="Plus"
+          @click="handleAdd"
+          v-hasPermi="['store:myComment:add']"
+        >新增</el-button>
+      </el-col>
       <el-col :span="1.5">
         <el-button
           type="success"
           plain
-          icon="Eleme"
+          icon="Edit"
           :disabled="single"
           @click="handleUpdate"
           v-hasPermi="['store:myComment:edit']"
-        >回复</el-button>
+        >修改</el-button>
       </el-col>
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="danger"-->
-<!--          plain-->
-<!--          icon="Delete"-->
-<!--          :disabled="multiple"-->
-<!--          @click="handleDelete"-->
-<!--          v-hasPermi="['store:myComment:remove']"-->
-<!--        >删除</el-button>-->
-<!--      </el-col>-->
+      <el-col :span="1.5">
+        <el-button
+          type="danger"
+          plain
+          icon="Delete"
+          :disabled="multiple"
+          @click="handleDelete"
+          v-hasPermi="['store:myComment:remove']"
+        >删除</el-button>
+      </el-col>
       <el-col :span="1.5">
         <el-button
           type="warning"
@@ -87,15 +85,14 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="评论号" align="center" prop="commentId" />
       <el-table-column label="客户号" align="center" prop="uId" />
+      <el-table-column label="商店号" align="center" prop="sId" />
+      <el-table-column label="评论" align="center" prop="comment" />
+      <el-table-column label="追加评论" align="center" prop="recomment" />
       <el-table-column label="订单号" align="center" prop="recordId" />
-<!--      <el-table-column label="商店号" align="center" prop="sId" />-->
-      <el-table-column label="评论" align="center"  width="500" prop="comment" />
-      <el-table-column label="回复" align="center"  width="500" prop="recomment" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
-<!--          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['store:myComment:edit']">修改</el-button>-->
-<!--          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['store:myComment:remove']">删除</el-button>-->
-          <el-button link type="primary" icon="Eleme" @click="handleUpdate(scope.row)" v-hasPermi="['store:myComment:edit']">回复</el-button>
+          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['store:myComment:edit']">修改</el-button>
+          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['store:myComment:remove']">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -111,20 +108,20 @@
     <!-- 添加或修改我的评论对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="myCommentRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="订单号" prop="recordId">
-          <el-input v-model="form.recordId" disabled placeholder="请输入订单号" />
-        </el-form-item>
         <el-form-item label="客户号" prop="uId">
-          <el-input v-model="form.uId" disabled placeholder="请输入客户号" />
+          <el-input v-model="form.uId" placeholder="请输入客户号" />
         </el-form-item>
         <el-form-item label="商店号" prop="sId">
-          <el-input v-model="form.sId" disabled placeholder="请输入商店号" />
+          <el-input v-model="form.sId" placeholder="请输入商店号" />
         </el-form-item>
         <el-form-item label="评论" prop="comment">
-          <el-input v-model="form.comment" disabled type="textarea" placeholder="请输入内容" :autosize="{ minRows: 2, maxRows: 10 }"/>
+          <el-input v-model="form.comment" type="textarea" placeholder="请输入内容" />
         </el-form-item>
-        <el-form-item label="回复" prop="recomment">
-          <el-input v-model="form.recomment" type="textarea" placeholder="请输入内容" :autosize="{ minRows: 2, maxRows: 10 }"/>
+        <el-form-item label="追加评论" prop="recomment">
+          <el-input v-model="form.recomment" type="textarea" placeholder="请输入内容" />
+        </el-form-item>
+        <el-form-item label="订单号" prop="recordId">
+          <el-input v-model="form.recordId" placeholder="请输入订单号" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -139,7 +136,6 @@
 
 <script setup name="MyComment">
 import { listMyComment, getMyComment, delMyComment, addMyComment, updateMyComment } from "@/api/store/myComment";
-import {getMyStore} from "@/api/store/myStore.js";
 
 const { proxy } = getCurrentInstance();
 
@@ -152,9 +148,6 @@ const single = ref(true);
 const multiple = ref(true);
 const total = ref(0);
 const title = ref("");
-const storeName = ref("");
-
-const route = useRoute();
 
 const data = reactive({
   form: {},
@@ -163,7 +156,7 @@ const data = reactive({
     pageSize: 10,
     commentId: null,
     uId: null,
-    sId: route.params.sId || null,
+    sId: null,
     comment: null,
     recomment: null,
     recordId: null
@@ -279,13 +272,5 @@ function handleExport() {
   }, `myComment_${new Date().getTime()}.xlsx`)
 }
 
-function getStoreName(){
-  const _sId = route.params.sId;
-  getMyStore(_sId).then(response => {
-    storeName.value = response.data.sname;
-  });
-}
-
 getList();
-getStoreName();
 </script>
