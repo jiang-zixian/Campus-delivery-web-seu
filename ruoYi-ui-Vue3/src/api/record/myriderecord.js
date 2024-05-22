@@ -46,8 +46,8 @@ export function delMyriderecord(recordId) {
 //评价我的跑腿订单
 export function commentMyriderecord(data) {
   return request({
-    url: '/record/myriderecord/' ,
-    method: 'post' ,
+    url: '/record/myriderecord/comment',
+    method: 'post',
     data: data
   })
 }
