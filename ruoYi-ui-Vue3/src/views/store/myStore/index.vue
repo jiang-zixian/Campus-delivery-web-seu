@@ -68,8 +68,10 @@
     <el-table v-loading="loading" :data="myStoreList" @selection-change="handleSelectionChange">
       <el-table-column type="expand">
         <template #default="props">
-            <p>商店描述: </p>
-            <p>{{ props.row.description }}</p>
+            <p><b>商店地点: </b></p>
+            <p>{{ splitDescription1(props.row.description) }}</p>
+            <p><b>商店描述: </b></p>
+            <p>{{ splitDescription2(props.row.description) }}</p>
         </template>
       </el-table-column>
       <el-table-column type="selection" width="55" align="center" />
@@ -85,9 +87,9 @@
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['store:myStore:edit']">修改</el-button>
           <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['store:myStore:remove']">删除</el-button>
-          <el-button link type="primary" icon="Memo" @click="handleEditStore(scope.row)" v-hasPermi="['system:store:EditStore']">管理商品</el-button>
-          <el-button link type="primary" icon="Document" @click="handleCheckRecord(scope.row)" v-hasPermi="['system:store:storeRecord']">查看订单记录</el-button>
-          <el-button link type="primary" icon="ChatDotRound" @click="handleCheckComment(scope.row)" v-hasPermi="['system:store:myComment']">查看评论</el-button>
+          <el-button link type="primary" icon="Memo" @click="handleEditStore(scope.row)" v-hasPermi="['store:myStore:EditStore']">管理商品</el-button>
+          <el-button link type="primary" icon="Document" @click="handleCheckRecord(scope.row)" v-hasPermi="['store:myStore:storeRecord']">查看订单记录</el-button>
+          <el-button link type="primary" icon="ChatDotRound" @click="handleCheckComment(scope.row)" v-hasPermi="['store:myStore:myComment']">查看评论</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -286,6 +288,16 @@ function handleCheckRecord(row){
 function handleCheckComment(row){
   const sid = row.sId;
   router.push("/store/myComment/" + sid);
+}
+
+function splitDescription1(str) {
+  const parts = str.split(' ');
+  return parts[0];
+}
+
+function splitDescription2(str) {
+  const parts = str.split(' ');
+  return parts.slice(1).join(' ');
 }
 
 getList();
