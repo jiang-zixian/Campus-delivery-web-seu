@@ -176,7 +176,7 @@ export const dynamicRoutes = [
     path: '/store',
     component: Layout,
     hidden: true,
-    permissions: ['system:store:storeRecord'],
+    permissions: ['store:myStore:storeRecord'],
     children: [
       {
         path: 'storeRecord/:sId(\\d+)',
@@ -189,7 +189,7 @@ export const dynamicRoutes = [
     path: '/store/EditStore',
     component: Layout,
     hidden: true,
-    permissions: ['system:store:EditStore'],
+    permissions: ['store:myStore:EditStore'],
     children: [
       {
         path: 'Edit/:sId(\\d+)',
@@ -202,13 +202,26 @@ export const dynamicRoutes = [
     path: '/store',
     component: Layout,
     hidden: true,
-    permissions: ['system:store:myComment'],
+    permissions: ['store:myStore:myComment'],
     children: [
       {
         path: 'myComment/:sId(\\d+)',
         component: () => import('@/views/store/myComment/index'),
         name: 'myComment',
         meta: { title: '商店评论', activeMenu: '/store/myComment' }
+      }
+    ]
+  },{
+    path: '/rider',
+    component: Layout,
+    hidden: true,
+    permissions: ['rider:takeOrders:currentOrder'],
+    children: [
+      {
+        path: 'currentOrder/:recordId(\\d+)',
+        component: () => import('@/views/rider/takeOrders/currentOrder'),
+        name: 'currentOrder',
+        meta: { title: '当前接单', activeMenu: '/rider/currentOrder' }
       }
     ]
   },
