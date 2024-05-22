@@ -161,7 +161,7 @@
   </div>
 </template>
 
-<script setup name="ItemList">
+<script setup name="EditStore">
 import { listItemList, getItemList, delItemList, addItemList, updateItemList } from "@/api/itemList/itemList";
 import {useRouter} from "vue-router";
 import {Briefcase, Edit, Picture, StarFilled, Upload} from "@element-plus/icons-vue";
