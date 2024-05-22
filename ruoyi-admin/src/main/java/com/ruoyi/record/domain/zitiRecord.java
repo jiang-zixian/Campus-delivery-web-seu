@@ -54,13 +54,13 @@ public class zitiRecord extends BaseEntity
     private String destPosition;
 
     /** 下单时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "下单时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Excel(name = "下单时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
     private Date srcTime;
 
     /** 送达时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "送达时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Excel(name = "送达时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
     private Date destTime;
 
     /** 订单类型 */
