@@ -88,6 +88,7 @@ public class orderRecordController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody orderRecord orderRecord)
     {
+        orderRecord.setRiderId(getLoginUser().getUserId());
         return toAjax(orderRecordService.updateorderRecord(orderRecord));
     }
 

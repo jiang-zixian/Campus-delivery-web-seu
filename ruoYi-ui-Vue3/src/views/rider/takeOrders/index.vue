@@ -84,7 +84,6 @@
       <el-table-column label="客户号" align="center" prop="uId" />
       <el-table-column label="商店号" align="center" prop="sId" />
       <el-table-column label="总价" align="center" prop="allItemPrice" />
-      <el-table-column label="骑手号" align="center" prop="riderId" />
       <el-table-column label="派送费" align="center" prop="deliveryPrice" />
       <el-table-column label="订单状态" align="center" prop="status">
       <template #default="scope">
@@ -103,7 +102,11 @@
           <span>{{ parseTime(scope.row.destTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="订单类型" align="center" prop="type" />
+      <el-table-column label="订单类型" align="center" prop="type"  width="180">
+      <template #default="scope">
+        <span>{{ getTypeText(scope.row.type) }}</span>
+      </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
 <!--          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['rider:takeOrders:edit']">修改</el-button>-->
@@ -224,6 +227,22 @@ const getStatusText = computed(() => {
         // 添加其他状态对应的文字
       default:
         return '其他状态';
+    }
+  };
+});
+
+const getTypeText = computed(() => {
+  return (type) => {
+    switch (type) {
+      case 0:
+        return '校外外卖跑腿单';
+      case 1:
+        return  '校内商家自提'
+      case 2:
+        return '校内商家跑腿单'
+        // 添加其他状态对应的文字
+      default:
+        return '其他类型';
     }
   };
 });
