@@ -17,6 +17,10 @@ import directive from './directive' // directive
 import plugins from './plugins' // plugins
 import { download } from '@/utils/request'
 
+
+import VueAMap, {initAMapApiLoader} from '@vuemap/vue-amap';
+import '@vuemap/vue-amap/dist/style.css'
+
 // svg图标
 import 'virtual:svg-icons-register'
 import SvgIcon from '@/components/SvgIcon'
@@ -72,6 +76,20 @@ app.use(plugins)
 app.use(elementIcons)
 app.component('svg-icon', SvgIcon)
 
+app.use(VueAMap);
+
+initAMapApiLoader({
+  key: '16d994a24f46afd34d2da4ea7edb43ec', // 高德key
+  plugin: ['AMap.Geocoder', 'AMap.PlaceSearch', 'AMap.Geolocation', 'AMap.CitySearch'], // 插件集合，根据自己的需求添加
+  uiVersion: '1.0.11', // 不加会报错，加上吧
+  v: '1.4.15' // 默认高德 sdk 版本为 1.4.4
+})
+// 申请的Web端（JS API）的需要写上下面这段话
+window._AMapSecurityConfig = {
+  securityJsCode: '5e139ff492901ceed7b956c78abd9a60' // 高德Web端安全密钥
+}
+
+
 directive(app)
 
 // 使用element-plus 并且设置全局的大小
@@ -82,3 +100,6 @@ app.use(ElementPlus, {
 })
 
 app.mount('#app')
+
+
+
