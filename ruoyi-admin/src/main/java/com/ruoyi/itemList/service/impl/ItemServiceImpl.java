@@ -133,9 +133,11 @@ public class ItemServiceImpl implements IItemService
             Long itemId = entry.getKey();
             Integer requestedQuantity = entry.getValue();
 
+
             Item item = itemMapper.selectItemByIId(itemId);
             item.setAmount(item.getAmount() - requestedQuantity);
             itemMapper.updateItem(item);
+
         }
 
         return 1;
