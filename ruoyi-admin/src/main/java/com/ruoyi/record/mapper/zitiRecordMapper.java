@@ -2,6 +2,7 @@ package com.ruoyi.record.mapper;
 
 import java.util.List;
 import com.ruoyi.record.domain.zitiRecord;
+import com.ruoyi.store.domain.mystoreComment;
 
 /**
  * 自提订单Mapper接口
@@ -58,4 +59,6 @@ public interface zitiRecordMapper
      * @return 结果
      */
     public int deletezitiRecordByRecordIds(Long[] recordIds);
+
+    public int insertzitirecordcomment(mystoreComment mystoreComment);
 }

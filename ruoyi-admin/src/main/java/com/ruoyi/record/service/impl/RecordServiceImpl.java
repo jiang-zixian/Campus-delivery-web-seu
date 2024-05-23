@@ -1,6 +1,8 @@
 package com.ruoyi.record.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.store.domain.mystoreComment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.record.mapper.RecordMapper;
@@ -95,5 +97,11 @@ public class RecordServiceImpl implements IRecordService
     public int deleteRecordByRecordId(Long recordId)
     {
         return recordMapper.deleteRecordByRecordId(recordId);
+    }
+
+    @Override
+    public int insertrecordcomment(mystoreComment mystoreComment)
+    {
+        return recordMapper.insertrecordcomment(mystoreComment);
     }
 }

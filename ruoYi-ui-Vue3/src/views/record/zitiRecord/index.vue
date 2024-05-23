@@ -130,7 +130,7 @@
     </el-row>
 
     <el-table v-loading="loading" :data="zitiRecordList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
+<!--      <el-table-column type="selection" width="55" align="center" />-->
       <el-table-column label="订单号" align="center" prop="recordId" />
       <el-table-column label="客户号" align="center" prop="uId" />
       <el-table-column label="商店号" align="center" prop="sId" />
@@ -236,7 +236,7 @@
     </el-dialog>
 
     <el-dialog :title="title" v-model="opencomment" width="500px" append-to-body>
-      <el-form ref="recordRef" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="zitiRecordRef" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="评论">
           <el-input v-model="form.comment" type="textarea" placeholder="请输入评论内容"></el-input>
         </el-form-item>
@@ -254,7 +254,14 @@
 </template>
 
 <script setup name="ZitiRecord">
-import { listZitiRecord, getZitiRecord, delZitiRecord, addZitiRecord, updateZitiRecord } from "@/api/record/zitiRecord";
+import {
+  listZitiRecord,
+  getZitiRecord,
+  delZitiRecord,
+  addZitiRecord,
+  updateZitiRecord,
+  comment
+} from "@/api/record/zitiRecord";
 
 
 

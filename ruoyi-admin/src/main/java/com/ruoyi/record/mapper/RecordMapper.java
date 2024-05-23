@@ -2,6 +2,7 @@ package com.ruoyi.record.mapper;
 
 import java.util.List;
 import com.ruoyi.record.domain.Record;
+import com.ruoyi.store.domain.mystoreComment;
 
 /**
  * 我的订单Mapper接口
@@ -58,4 +59,6 @@ public interface RecordMapper
      * @return 结果
      */
     public int deleteRecordByRecordIds(Long[] recordIds);
+
+    public int insertrecordcomment(mystoreComment mystoreComment);
 }

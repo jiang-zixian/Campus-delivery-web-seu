@@ -2,6 +2,7 @@ package com.ruoyi.record.service;
 
 import java.util.List;
 import com.ruoyi.record.domain.Record;
+import com.ruoyi.store.domain.mystoreComment;
 
 /**
  * 我的订单Service接口
@@ -58,4 +59,6 @@ public interface IRecordService
      * @return 结果
      */
     public int deleteRecordByRecordId(Long recordId);
+
+    public int insertrecordcomment(mystoreComment mystoreComment);
 }
