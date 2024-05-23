@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Validator;
+
+import com.ruoyi.system.service.ISysRoleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,9 @@ import com.ruoyi.system.service.ISysUserService;
 public class SysUserServiceImpl implements ISysUserService
 {
     private static final Logger log = LoggerFactory.getLogger(SysUserServiceImpl.class);
+
+    @Autowired
+    private ISysRoleService roleService;
 
     @Autowired
     private SysUserMapper userMapper;
@@ -274,7 +279,20 @@ public class SysUserServiceImpl implements ISysUserService
     @Override
     public boolean registerUser(SysUser user)
     {
-        return userMapper.insertUser(user) > 0;
+
+        int result=userMapper.insertUser(user);
+        //TODO
+        //打印100个换行
+        for(int i=0;i<100;i++)
+            System.out.println();
+
+        Long uid=user.getUserId();
+        System.out.println(uid);
+        Long[] uids=new Long[1];
+        uids[0]=uid;
+        System.out.println("------------");
+        roleService.insertAuthUsers(2L,uids);
+        return  result> 0;
     }
 
     /**
