@@ -168,7 +168,7 @@
               link
               type="primary"
               icon="Edit"
-              @click="openCommentDialog(scope.row)"
+              @click.once="openCommentDialog(scope.row)"
               v-hasPermi="['record:zitiRecord:edit']"
           >
             评价
@@ -235,19 +235,24 @@
       </template>
     </el-dialog>
 
-    <el-dialog :title="title" v-model="opencomment" width="500px" append-to-body>
-      <el-form ref="zitiRecordRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="评论">
-          <el-input v-model="form.comment" type="textarea" placeholder="请输入评论内容"></el-input>
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <div class="dialog-footer">
-          <el-button type="primary" @click="Comment">确 定</el-button>
-          <el-button @click="cancel">取 消</el-button>
-        </div>
-      </template>
-    </el-dialog>
+    <template>
+      <div>
+        <el-dialog :title="title" v-model="opencomment" width="500px" append-to-body>
+          <el-form ref="zitiRecordRef" :model="form" :rules="rules" label-width="80px">
+            <el-form-item label="评论" prop="comment">
+              <el-input v-model="form.comment" type="textarea" placeholder="请输入评论内容"></el-input>
+            </el-form-item>
+          </el-form>
+          <template #footer>
+            <div class="dialog-footer">
+              <el-button type="primary" @click="Comment">确 定</el-button>
+              <el-button @click="ccancel">取 消</el-button>
+            </div>
+          </template>
+        </el-dialog>
+      </div>
+    </template>
+
 
 
   </div>
@@ -298,6 +303,9 @@ const data = reactive({
     comment: null
   },
   rules: {
+    comment: [
+      { required: true, message: '请输入评论内容', trigger: 'blur' }
+    ]
   }
 });
 
@@ -351,6 +359,12 @@ function Comment()
       )
 
     }
+    else
+    {
+      proxy.$modal.msgSuccess("请填写评价内容");
+      return false;
+    }
+
   });
 }
 
@@ -359,6 +373,11 @@ function cancel() {
   open.value = false;
   reset();
 }
+function ccancel() {
+  opencomment.value = false;
+  reset();
+}
+
 
 // 表单重置
 function reset() {
