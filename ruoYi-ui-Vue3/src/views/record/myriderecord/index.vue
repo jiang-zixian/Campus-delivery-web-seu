@@ -9,7 +9,7 @@
           @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="客户号" prop="uId">
+      <el-form-item label="客户号" prop="uId" >
         <el-input
           v-model="queryParams.uId"
           placeholder="请输入客户号"
@@ -88,35 +88,6 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="primary"-->
-<!--          plain-->
-<!--          icon="Plus"-->
-<!--          @click="handleAdd"-->
-<!--          v-hasPermi="['record:myriderecord:add']"-->
-<!--        >新增</el-button>-->
-<!--      </el-col>-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="success"-->
-<!--          plain-->
-<!--          icon="Edit"-->
-<!--          :disabled="single"-->
-<!--          @click="handleUpdate"-->
-<!--          v-hasPermi="['record:myriderecord:edit']"-->
-<!--        >修改</el-button>-->
-<!--      </el-col>-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="danger"-->
-<!--          plain-->
-<!--          icon="Delete"-->
-<!--          :disabled="multiple"-->
-<!--          @click="handleDelete"-->
-<!--          v-hasPermi="['record:myriderecord:remove']"-->
-<!--        >删除</el-button>-->
-<!--      </el-col>-->
       <el-col :span="1.5">
         <el-button
           type="warning"
@@ -130,11 +101,8 @@
     </el-row>
 
     <el-table v-loading="loading" :data="myriderecordList" @selection-change="handleSelectionChange">
-<!--      <el-table-column type="selection" width="55" align="center" />-->
       <el-table-column label="订单号" align="center" prop="recordId" />
       <el-table-column label="客户号" align="center" prop="uId" />
-<!--      <el-table-column label="商店号" align="center" prop="sId" />-->
-<!--      <el-table-column label="总价" align="center" prop="allItemPrice" />-->
       <el-table-column label="骑手号" align="center" prop="riderId" />
       <el-table-column label="派送费" align="center" prop="deliveryPrice" />
       <el-table-column label="订单状态" align="center" prop="status" >
@@ -158,6 +126,28 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
           <el-button
+              v-if="scope.row.status === 0 || scope.row.status === 1"
+              link
+              type="primary"
+              icon="Edit"
+              @click="handleUpdate(scope.row)"
+              v-hasPermi="['record:record:edit']"
+          >
+            修改
+          </el-button>
+
+          <el-button
+              v-if="scope.row.status === 0 || scope.row.status === 1"
+              link
+              type="primary"
+              icon="Delete"
+              @click="handleDelete(scope.row)"
+              v-hasPermi="['record:record:remove']"
+          >取消
+          </el-button>
+
+          <el-button
+              v-else
               link
               type="primary"
               icon="Edit"
@@ -166,9 +156,9 @@
           >
             评价
           </el-button>
-<!--          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['record:myriderecord:remove']">删除</el-button>-->
         </template>
       </el-table-column>
+
     </el-table>
     
     <pagination
@@ -182,6 +172,35 @@
 
     <!-- 添加或修改我的跑腿订单对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
+      <el-form ref="myriderecordRef" :model="form" :rules="rules" label-width="80px">
+        <el-form-item label="派送费" prop="deliveryPrice">
+          <el-input v-model="form.deliveryPrice" placeholder="请输入派送费" />
+        </el-form-item>
+        <el-form-item label="取货地址" prop="srcPosition">
+          <el-input v-model="form.srcPosition" placeholder="请输入取货地址" />
+        </el-form-item>
+        <el-form-item label="送达地址" prop="destPosition">
+          <el-input v-model="form.destPosition" placeholder="请输入送达地址" />
+        </el-form-item>
+        <el-form-item label="送达时间" prop="destTime">
+          <el-date-picker
+              v-model="form.destTime"
+              type="datetime"
+              value-format="YYYY-MM-DD HH:mm:ss"
+              placeholder="请选择送达时间">
+          </el-date-picker>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button type="primary" @click="submitForm">确 定</el-button>
+          <el-button @click="cancel">取 消</el-button>
+        </div>
+      </template>
+    </el-dialog>
+
+    <!--评价跑腿订单对话框 -->
+    <el-dialog :title="title" v-model="opencomment" width="500px" append-to-body>
       <el-form ref="myriderecordRef" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="评论">
           <el-input v-model="form.comment" type="textarea" placeholder="请输入评论内容"></el-input>
@@ -206,11 +225,14 @@ import {
   updateMyriderecord,
   commentMyriderecord
 } from "@/api/record/myriderecord";
+import user from "@/store/modules/user.js";
+
 
 const { proxy } = getCurrentInstance();
 
 const myriderecordList = ref([]);
-const open = ref(false);
+const open = ref(false);//添加、修改对应的bool
+const opencomment = ref(false);
 const loading = ref(true);
 const showSearch = ref(true);
 const ids = ref([]);
@@ -219,8 +241,18 @@ const multiple = ref(true);
 const total = ref(0);
 const title = ref("");
 
+const validateDestTime = (rule, value, callback) => {
+  if (!value) {
+    return callback(new Error('请选择送达时间'))
+  }
+  if (value < form.value.srcTime) {
+    return callback(new Error('送达时间必须晚于下单时间'))
+  }
+  callback()
+}
+
 const data = reactive({
-  form: {},
+  form: { deliveryPrice: '', srcPosition: '', destPosition: '', destTime: '' },
   queryParams: {
     pageNum: 1,
     pageSize: 10,
@@ -239,8 +271,14 @@ const data = reactive({
     comment: null
   },
   rules: {
+    destTime: [
+      { required: true, message: '请选择送达时间', trigger: 'change' },
+      { validator: validateDestTime, trigger: 'change' }
+    ]
   }
 });
+
+
 
 const getStatusText = computed(() => {
   return (status) => {
@@ -291,7 +329,8 @@ function reset() {
     destPosition: null,
     srcTime: null,
     destTime: null,
-    type: null
+    type: null,
+    comment: null
   };
   proxy.resetForm("myriderecordRef");
 }
@@ -327,7 +366,7 @@ function openCommentDialog(row)
   const _recordId = row.recordId || ids.value
   getMyriderecord(_recordId).then(response => {
     form.value = response.data;
-    open.value = true;
+    opencomment.value = true;
     title.value = "评价我的跑腿订单";
   });
 }
@@ -351,7 +390,7 @@ function Comment()
       commentMyriderecord(form.value).then(response =>
           {
             proxy.$modal.msgSuccess("评价成功");
-            open.value = false;
+            opencomment.value = false;
           }
       )
 
@@ -382,11 +421,11 @@ function submitForm() {
 /** 删除按钮操作 */
 function handleDelete(row) {
   const _recordIds = row.recordId || ids.value;
-  proxy.$modal.confirm('是否确认删除我的跑腿订单编号为"' + _recordIds + '"的数据项？').then(function() {
+  proxy.$modal.confirm('是否确认取消该订单').then(function() {
     return delMyriderecord(_recordIds);
   }).then(() => {
     getList();
-    proxy.$modal.msgSuccess("删除成功");
+    proxy.$modal.msgSuccess("取消成功");
   }).catch(() => {});
 }
 
@@ -399,3 +438,4 @@ function handleExport() {
 
 getList();
 </script>
+

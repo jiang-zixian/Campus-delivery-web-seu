@@ -42,3 +42,11 @@ export function delRecord(recordId) {
     method: 'delete'
   })
 }
+
+export function commentrecord(data) {
+  return request({
+    url: '/record/record/comment',
+    method: 'post',
+    data: data
+  })
+}
