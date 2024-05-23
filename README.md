@@ -21,6 +21,13 @@ Mysql >= 5.7.0 (jzx忘了使用了什么版本，不过应该不重要)
 Maven >= 3.0
 ```
 
+高德api安装
+```shell
+npm install @vuemap/vue-amap --save
+npm install @vuemap/vue-amap-loca --save
+npm install @vuemap/vue-amap-extra --save
+```
+
 3. 将当前文件夹直接导入IDEA（vscode也可导入），将整个文件夹拖到IDEA的软件图标上即可导入
 
 4. 数据库连接
@@ -67,11 +74,14 @@ Maven >= 3.0
 
 idea可以用可视化工具，方便查看数据库变化
 
-ip: 1.94.167.138
+ip: 47.99.193.146
 
 username: root
 
-pwd: 123456
+pwd: 123
+
+备注：jzx用
+F:\Program Files\MySQL\MySQL Server 8.0\bin\mysqldump.exe
 
 
 ### 前端
@@ -100,10 +110,6 @@ npm run dev
 * 支持加载动态权限菜单，多方式轻松权限控制。
 * 高效率开发，使用代码生成器可以一键生成前后端代码。
 * 提供了技术栈（[Vue3](https://v3.cn.vuejs.org) [Element Plus](https://element-plus.org/zh-CN) [Vite](https://cn.vitejs.dev)）版本[RuoYi-Vue3](https://github.com/yangzongzhuan/RuoYi-Vue3)，保持同步更新。
-* 提供了单应用版本[RuoYi-Vue-fast](https://github.com/yangzongzhuan/RuoYi-Vue-fast)，Oracle版本[RuoYi-Vue-Oracle](https://github.com/yangzongzhuan/RuoYi-Vue-Oracle)，保持同步更新。
-* 不分离版本，请移步[RuoYi](https://gitee.com/y_project/RuoYi)，微服务版本，请移步[RuoYi-Cloud](https://gitee.com/y_project/RuoYi-Cloud)
-* 阿里云折扣场：[点我进入](http://aly.ruoyi.vip)，腾讯云秒杀场：[点我进入](http://txy.ruoyi.vip)&nbsp;&nbsp;
-* 阿里云优惠券：[点我领取](https://www.aliyun.com/minisite/goods?userCode=brki8iof&share_source=copy_link)，腾讯云优惠券：[点我领取](https://cloud.tencent.com/redirect.php?redirect=1025&cps_key=198c8df2ed259157187173bc7f4f32fd&from=console)&nbsp;&nbsp;
 
 ## 内置功能
 

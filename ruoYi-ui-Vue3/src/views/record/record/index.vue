@@ -88,35 +88,35 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="Plus"
-          @click="handleAdd"
-          v-hasPermi="['record:record:add']"
-        >新增</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="success"
-          plain
-          icon="Edit"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['record:record:edit']"
-        >修改</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="danger"
-          plain
-          icon="Delete"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['record:record:remove']"
-        >删除</el-button>
-      </el-col>
+<!--      <el-col :span="1.5">-->
+<!--        <el-button-->
+<!--          type="primary"-->
+<!--          plain-->
+<!--          icon="Plus"-->
+<!--          @click="handleAdd"-->
+<!--          v-hasPermi="['record:record:add']"-->
+<!--        >新增</el-button>-->
+<!--      </el-col>-->
+<!--      <el-col :span="1.5">-->
+<!--        <el-button-->
+<!--          type="success"-->
+<!--          plain-->
+<!--          icon="Edit"-->
+<!--          :disabled="single"-->
+<!--          @click="handleUpdate"-->
+<!--          v-hasPermi="['record:record:edit']"-->
+<!--        >修改</el-button>-->
+<!--      </el-col>-->
+<!--      <el-col :span="1.5">-->
+<!--        <el-button-->
+<!--          type="danger"-->
+<!--          plain-->
+<!--          icon="Delete"-->
+<!--          :disabled="multiple"-->
+<!--          @click="handleDelete"-->
+<!--          v-hasPermi="['record:record:remove']"-->
+<!--        >删除</el-button>-->
+<!--      </el-col>-->
       <el-col :span="1.5">
         <el-button
           type="warning"
@@ -130,35 +130,40 @@
     </el-row>
 
     <el-table v-loading="loading" :data="recordList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
+<!--      <el-table-column type="selection" width="55" align="center" />-->
       <el-table-column label="订单号" align="center" prop="recordId" />
       <el-table-column label="客户号" align="center" prop="uId" />
       <el-table-column label="商店号" align="center" prop="sId" />
       <el-table-column label="总价" align="center" prop="allItemPrice" />
       <el-table-column label="骑手号" align="center" prop="riderId" />
       <el-table-column label="派送费" align="center" prop="deliveryPrice" />
-      <el-table-column label="订单状态" align="center" prop="status" />
+      <el-table-column label="订单状态" align="center" prop="status" >
+        <template #default="scope">
+          <span>{{ getStatusText(scope.row.status) }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="取货地址" align="center" prop="srcPosition" />
       <el-table-column label="送达地址" align="center" prop="destPosition" />
       <el-table-column label="下单时间" align="center" prop="srcTime" width="180">
         <template #default="scope">
-          <span>{{ parseTime(scope.row.srcTime, '{y}-{m}-{d}') }}</span>
+          <span>{{ parseTime(scope.row.srcTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="送达时间" align="center" prop="destTime" width="180">
         <template #default="scope">
-          <span>{{ parseTime(scope.row.destTime, '{y}-{m}-{d}') }}</span>
+          <span>{{ parseTime(scope.row.destTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="订单类型" align="center" prop="type" />
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
-        <template #default="scope">
-          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['record:record:edit']">修改</el-button>
-          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['record:record:remove']">删除</el-button>
-        </template>
-      </el-table-column>
+
+      <!--      <el-table-column label="订单类型" align="center" prop="type" /> -->
+<!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
+<!--        <template #default="scope">-->
+<!--          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['record:record:edit']">修改</el-button>-->
+<!--          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['record:record:remove']">删除</el-button>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -254,6 +259,23 @@ const data = reactive({
   rules: {
   }
 });
+
+const getStatusText = computed(() => {
+  return (status) => {
+    switch (status) {
+      case 0:
+        return '已下单';
+      case 1:
+        return  '骑手已接单'
+      case 2:
+        return '订单已送达'
+        // 添加其他状态对应的文字
+      default:
+        return '其他状态';
+    }
+  };
+});
+
 
 const { queryParams, form, rules } = toRefs(data);
 

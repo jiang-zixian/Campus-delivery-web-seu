@@ -31,64 +31,28 @@
       </el-form-item>
     </el-form>
 
-    <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="Plus"
-          @click="handleAdd"
-          v-hasPermi="['storeList:storeList:add']"
-        >新增</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="success"
-          plain
-          icon="Edit"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['storeList:storeList:edit']"
-        >修改</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="danger"
-          plain
-          icon="Delete"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['storeList:storeList:remove']"
-        >删除</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="Download"
-          @click="handleExport"
-          v-hasPermi="['storeList:storeList:export']"
-        >导出</el-button>
-      </el-col>
-      <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
-    </el-row>
+    <el-table v-loading="loading" :data="storeListList" stripe @selection-change="handleSelectionChange">
+      <el-table-column label="商店描述" type="expand"  width="100">
+          <template #default="props">
+            <p><b>商店地点: </b></p>
+            <p>{{ splitDescription1(props.row.description) }}</p>
+            <p><b>商店描述: </b></p>
+            <p>{{ splitDescription2(props.row.description) }}</p>
+          </template>
+        </el-table-column>
 
-    <el-table v-loading="loading" :data="storeListList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="商店号" align="center" prop="sId" />
-      <el-table-column label="店家号" align="center" prop="uId" />
+
+      <el-table-column label="商店编码" align="center" prop="sId" width="100" />
+      <el-table-column label="店长编码" align="center" prop="uId" width="100" />
       <el-table-column label="商店名称" align="center" prop="sname" />
-      <el-table-column label="图标" align="center" prop="logo" width="100">
+      <el-table-column label="图标" align="center" prop="logo">
         <template #default="scope">
           <image-preview :src="scope.row.logo" :width="50" :height="50"/>
         </template>
       </el-table-column>
-      <el-table-column label="商店描述" align="center" prop="description" />
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="110">
         <template #default="scope">
-          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['storeList:storeList:edit']">修改</el-button>
-          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['storeList:storeList:remove']">删除</el-button>
-          <el-button link type="primary" icon="ShoppingCart" @click="handlegoshopping(scope.row)">去购物</el-button>
+          <el-button link type="primary" icon="ShoppingCart" @click="handlegoshopping(scope.row)">购物</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -104,12 +68,6 @@
     <!-- 添加或修改商家列表对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="storeListRef" :model="form" :rules="rules" label-width="80px">
-<!--        <el-form-item label="商店号" prop="sId">-->
-<!--          <el-input v-model="form.sId" placeholder="请输入商店号" />-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="店家号" prop="uId">-->
-<!--          <el-input v-model="form.uId" placeholder="请输入店家号" />-->
-<!--        </el-form-item>-->
         <el-form-item label="商店名称" prop="sname">
           <el-input v-model="form.sname" placeholder="请输入商店名称" />
         </el-form-item>
@@ -274,6 +232,17 @@ function handleExport() {
     ...queryParams.value
   }, `storeList_${new Date().getTime()}.xlsx`)
 }
+
+function splitDescription1(str) {
+  const parts = str.split(' ');
+  return parts[0];
+}
+
+function splitDescription2(str) {
+  const parts = str.split(' ');
+  return parts.slice(1).join(' ');
+}
+
 
 getList();
 </script>

@@ -4,70 +4,23 @@
       <el-form-item label="商品编号" prop="iId">
         <el-input v-model="queryParams.iId" placeholder="请输入商品编号" clearable @keyup.enter="handleQuery" />
       </el-form-item>
-      <!--      <el-form-item label="店家编号" prop="sId">-->
-      <!--        <el-input-->
-      <!--          v-model="queryParams.sId"-->
-      <!--          placeholder="请输入店家编号"-->
-      <!--          clearable-->
-      <!--          @keyup.enter="handleQuery"-->
-      <!--        />-->
-      <!--      </el-form-item>-->
       <el-form-item label="商品名" prop="itemName">
         <el-input v-model="queryParams.itemName" placeholder="请输入商品名" clearable @keyup.enter="handleQuery" />
       </el-form-item>
-      <!--      <el-form-item label="价格" prop="price">-->
-      <!--        <el-input-->
-      <!--          v-model="queryParams.price"-->
-      <!--          placeholder="请输入价格"-->
-      <!--          clearable-->
-      <!--          @keyup.enter="handleQuery"-->
-      <!--        />-->
-      <!--      </el-form-item>-->
-      <!--      <el-form-item label="库存数量" prop="amount">-->
-      <!--        <el-input-->
-      <!--          v-model="queryParams.amount"-->
-      <!--          placeholder="请输入库存数量"-->
-      <!--          clearable-->
-      <!--          @keyup.enter="handleQuery"-->
-      <!--        />-->
-      <!--      </el-form-item>-->
       <el-form-item>
         <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
         <el-button icon="Refresh" @click="resetQuery">重置</el-button>
       </el-form-item>
+
+      <el-form-item>
+        <el-button type="primary" plain icon="ShoppingCart" :disabled="multiple" @click="addmultipleCart">加入</el-button>
+        <el-button type="success" plain icon="shopping-cart" @click="openCart">购物车</el-button>
+      </el-form-item>
     </el-form>
 
-    <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
-        <el-button type="primary" plain icon="ShoppingCart" :disabled="multiple" @click="addmultipleCart">加入</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="primary" plain icon="Plus" @click="handleAdd">新增</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="success" plain icon="Edit" :disabled="single" @click="handleUpdate"
-        >修改</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="danger" plain icon="Delete" :disabled="multiple" @click="handleDelete"
-        >删除</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="warning" plain icon="Download" @click="handleExport"
-        >导出</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="success" plain icon="shopping-cart" @click="openCart">购物车</el-button>
-      </el-col>
-      <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
-    </el-row>
-
-
-
+    <!-- 商品列表 -->
     <el-table v-loading="loading" :data="itemListList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="商品编号" align="center" prop="iId" />
-      <el-table-column label="店家编号" align="center" prop="sId" />
       <el-table-column label="商品图像" align="center" prop="photo" width="100">
         <template #default="scope">
           <image-preview :src="scope.row.photo" :width="50" :height="50" />
@@ -76,14 +29,6 @@
       <el-table-column label="商品名" align="center" prop="itemName" />
       <el-table-column label="价格" align="center" prop="price" />
       <el-table-column label="库存数量" align="center" prop="amount" />
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
-        <template #default="scope">
-          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)"
-                     v-hasPermi="['itemList:itemList:edit']">修改</el-button>
-          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)"
-                     v-hasPermi="['itemList:itemList:remove']">删除</el-button>
-        </template>
-      </el-table-column>
       <el-table-column align="center" class-name="fixed-width">
         <template #default="scope">
           <el-button type="primary" icon="ShoppingCart" plain circle @click="open1(scope.row)"
@@ -95,7 +40,7 @@
     <pagination v-show="total > 0" :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize"
                 @pagination="getList" />
 
-
+    <!-- 购物车列表 -->
     <el-drawer v-model="drawer" title="我的购物车" :with-header="true" :before-close="handleClose" :bottom="0" size="65%">
       <el-row :gutter="8">
         <el-col :span="8">
@@ -111,7 +56,7 @@
       </el-row>
       <el-row>
         <el-table :data="cartList" border :height="tableHeight" >
-          <el-table-column type="index" :index="fun1"/>
+<!--          <el-table-column label="编号" type="index" :index="fun1"/>-->
           <el-table-column label="商品编号" align="center" prop="iId" />
           <el-table-column label="商品图像" align="center" width="100">
             <template #default="scope">
@@ -535,7 +480,15 @@ const computepriceplusde = computed(() => {
 });
 
 const fun1 = (index) => {
-  return index;
+  return index+1;
 };
 getList();
 </script>
+
+<style scoped>
+.register_btn {
+  position: absolute;
+  right: 0%;
+
+}
+</style>
