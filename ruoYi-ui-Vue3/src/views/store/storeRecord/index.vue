@@ -131,7 +131,11 @@
           <span>{{ parseTime(scope.row.destTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="订单类型" align="center" prop="type" />
+      <el-table-column label="订单类型" align="center" prop="type" width="180">
+        <template #default="scope">
+          <span>{{ getTypeText(scope.row.type) }}</span>
+        </template>
+      </el-table-column>
       <!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
       <!--        <template #default="scope">-->
       <!--          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['store:storeRecord:edit']">修改</el-button>-->
@@ -200,10 +204,16 @@
 </template>
 
 <script setup name="StoreRecord">
-import { listStoreRecord, getStoreRecord, delStoreRecord, addStoreRecord, updateStoreRecord } from "@/api/store/storeRecord";
+import {
+  listStoreRecord,
+  getStoreRecord,
+  delStoreRecord,
+  addStoreRecord,
+  updateStoreRecord
+} from "@/api/store/storeRecord";
 import {getMyStore} from "@/api/store/myStore.js";
 
-const { proxy } = getCurrentInstance();
+const {proxy} = getCurrentInstance();
 
 const storeRecordList = ref([]);
 const open = ref(false);
@@ -235,12 +245,11 @@ const data = reactive({
     destTime: null,
     type: null
   },
-  rules: {
-  }
+  rules: {}
 });
 
 
-const { queryParams, form, rules } = toRefs(data);
+const {queryParams, form, rules} = toRefs(data);
 
 const getStatusText = computed(() => {
   return (status) => {
@@ -248,12 +257,28 @@ const getStatusText = computed(() => {
       case 0:
         return '已下单';
       case 1:
-        return  '骑手已接单'
+        return '骑手已接单'
       case 2:
         return '订单已送达'
         // 添加其他状态对应的文字
       default:
         return '其他状态';
+    }
+  };
+});
+
+const getTypeText = computed(() => {
+  return (type) => {
+    switch (type) {
+      case 0:
+        return '校外外卖跑腿单';
+      case 1:
+        return '校内商家自提'
+      case 2:
+        return '校内商家跑腿单'
+        // 添加其他状态对应的文字
+      default:
+        return '其他类型';
     }
   };
 });
@@ -373,12 +398,13 @@ function submitForm() {
 /** 删除按钮操作 */
 function handleDelete(row) {
   const _recordIds = row.recordId || ids.value;
-  proxy.$modal.confirm('是否确认删除商店订单记录编号为"' + _recordIds + '"的数据项？').then(function() {
+  proxy.$modal.confirm('是否确认删除商店订单记录编号为"' + _recordIds + '"的数据项？').then(function () {
     return delStoreRecord(_recordIds);
   }).then(() => {
     getList();
     proxy.$modal.msgSuccess("删除成功");
-  }).catch(() => {});
+  }).catch(() => {
+  });
 }
 
 /** 导出按钮操作 */
@@ -387,7 +413,8 @@ function handleExport() {
     ...queryParams.value
   }, `storeRecord_${new Date().getTime()}.xlsx`)
 }
-function getStoreName(){
+
+function getStoreName() {
   const _sId = route.params.sId;
   getMyStore(_sId).then(response => {
     storeName.value = response.data.sname;

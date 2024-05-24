@@ -39,11 +39,12 @@ public class zitiRecordController extends BaseController
     /**
      * 查询自提订单列表
      */
-    @PreAuthorize("@ss.hasPermi('record:zitiRecord:list')")
+
     @GetMapping("/list")
     public TableDataInfo list(zitiRecord zitiRecord)
     {
         startPage();
+        zitiRecord.setuId(getLoginUser().getUserId());
         zitiRecord.setType(1L);;
         List<zitiRecord> list = zitiRecordService.selectzitiRecordList(zitiRecord);
         return getDataTable(list);
@@ -52,7 +53,7 @@ public class zitiRecordController extends BaseController
     /**
      * 导出自提订单列表
      */
-    @PreAuthorize("@ss.hasPermi('record:zitiRecord:export')")
+
     @Log(title = "自提订单", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, zitiRecord zitiRecord)
@@ -65,7 +66,6 @@ public class zitiRecordController extends BaseController
     /**
      * 获取自提订单详细信息
      */
-    @PreAuthorize("@ss.hasPermi('record:zitiRecord:query')")
     @GetMapping(value = "/{recordId}")
     public AjaxResult getInfo(@PathVariable("recordId") Long recordId)
     {
@@ -75,7 +75,6 @@ public class zitiRecordController extends BaseController
     /**
      * 新增自提订单
      */
-    @PreAuthorize("@ss.hasPermi('record:zitiRecord:add')")
     @Log(title = "自提订单", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody zitiRecord zitiRecord)
@@ -86,7 +85,6 @@ public class zitiRecordController extends BaseController
     /**
      * 修改自提订单
      */
-    @PreAuthorize("@ss.hasPermi('record:zitiRecord:edit')")
     @Log(title = "自提订单", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody zitiRecord zitiRecord)
@@ -97,7 +95,6 @@ public class zitiRecordController extends BaseController
     /**
      * 删除自提订单
      */
-    @PreAuthorize("@ss.hasPermi('record:zitiRecord:remove')")
     @Log(title = "自提订单", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{recordIds}")
     public AjaxResult remove(@PathVariable Long[] recordIds)
