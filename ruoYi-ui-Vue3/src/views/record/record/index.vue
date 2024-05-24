@@ -9,14 +9,14 @@
           @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="客户号" prop="uId">
-        <el-input
-          v-model="queryParams.uId"
-          placeholder="请输入客户号"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
+<!--      <el-form-item label="客户号" prop="uId">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.uId"-->
+<!--          placeholder="请输入客户号"-->
+<!--          clearable-->
+<!--          @keyup.enter="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
       <el-form-item label="商店号" prop="sId">
         <el-input
           v-model="queryParams.sId"
@@ -25,14 +25,14 @@
           @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="总价" prop="allItemPrice">
-        <el-input
-          v-model="queryParams.allItemPrice"
-          placeholder="请输入总价"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
+<!--      <el-form-item label="总价" prop="allItemPrice">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.allItemPrice"-->
+<!--          placeholder="请输入总价"-->
+<!--          clearable-->
+<!--          @keyup.enter="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
       <el-form-item label="骑手号" prop="riderId">
         <el-input
           v-model="queryParams.riderId"
@@ -132,7 +132,7 @@
     <el-table v-loading="loading" :data="recordList" @selection-change="handleSelectionChange">
 <!--      <el-table-column type="selection" width="55" align="center" />-->
       <el-table-column label="订单号" align="center" prop="recordId" />
-      <el-table-column label="客户号" align="center" prop="uId" />
+<!--      <el-table-column label="客户号" align="center" prop="uId" />-->
       <el-table-column label="商店号" align="center" prop="sId" />
       <el-table-column label="总价" align="center" prop="allItemPrice" />
       <el-table-column label="骑手号" align="center" prop="riderId" />
@@ -185,7 +185,7 @@
               type="primary"
               icon="Edit"
               @click.once="openCommentDialog(scope.row)"
-              v-hasPermi="['record:record:edit']"
+              v-hasPermi="['record:record:comment']"
           >
             评价
           </el-button>

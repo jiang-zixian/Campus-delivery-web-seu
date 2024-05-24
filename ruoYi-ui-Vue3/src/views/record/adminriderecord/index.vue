@@ -3,82 +3,82 @@
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="订单号" prop="recordId">
         <el-input
-          v-model="queryParams.recordId"
-          placeholder="请输入订单号"
-          clearable
-          @keyup.enter="handleQuery"
+            v-model="queryParams.recordId"
+            placeholder="请输入订单号"
+            clearable
+            @keyup.enter="handleQuery"
         />
       </el-form-item>
       <el-form-item label="客户号" prop="uId" >
         <el-input
-          v-model="queryParams.uId"
-          placeholder="请输入客户号"
-          clearable
-          @keyup.enter="handleQuery"
+            v-model="queryParams.uId"
+            placeholder="请输入客户号"
+            clearable
+            @keyup.enter="handleQuery"
         />
       </el-form-item>
-<!--      <el-form-item label="商店号" prop="sId">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.sId"-->
-<!--          placeholder="请输入商店号"-->
-<!--          clearable-->
-<!--          @keyup.enter="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
-<!--      <el-form-item label="总价" prop="allItemPrice">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.allItemPrice"-->
-<!--          placeholder="请输入总价"-->
-<!--          clearable-->
-<!--          @keyup.enter="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
+      <!--      <el-form-item label="商店号" prop="sId">-->
+      <!--        <el-input-->
+      <!--          v-model="queryParams.sId"-->
+      <!--          placeholder="请输入商店号"-->
+      <!--          clearable-->
+      <!--          @keyup.enter="handleQuery"-->
+      <!--        />-->
+      <!--      </el-form-item>-->
+      <!--      <el-form-item label="总价" prop="allItemPrice">-->
+      <!--        <el-input-->
+      <!--          v-model="queryParams.allItemPrice"-->
+      <!--          placeholder="请输入总价"-->
+      <!--          clearable-->
+      <!--          @keyup.enter="handleQuery"-->
+      <!--        />-->
+      <!--      </el-form-item>-->
       <el-form-item label="骑手号" prop="riderId">
         <el-input
-          v-model="queryParams.riderId"
-          placeholder="请输入骑手号"
-          clearable
-          @keyup.enter="handleQuery"
+            v-model="queryParams.riderId"
+            placeholder="请输入骑手号"
+            clearable
+            @keyup.enter="handleQuery"
         />
       </el-form-item>
       <el-form-item label="派送费" prop="deliveryPrice">
         <el-input
-          v-model="queryParams.deliveryPrice"
-          placeholder="请输入派送费"
-          clearable
-          @keyup.enter="handleQuery"
+            v-model="queryParams.deliveryPrice"
+            placeholder="请输入派送费"
+            clearable
+            @keyup.enter="handleQuery"
         />
       </el-form-item>
       <el-form-item label="取货地址" prop="srcPosition">
         <el-input
-          v-model="queryParams.srcPosition"
-          placeholder="请输入取货地址"
-          clearable
-          @keyup.enter="handleQuery"
+            v-model="queryParams.srcPosition"
+            placeholder="请输入取货地址"
+            clearable
+            @keyup.enter="handleQuery"
         />
       </el-form-item>
       <el-form-item label="送达地址" prop="destPosition">
         <el-input
-          v-model="queryParams.destPosition"
-          placeholder="请输入送达地址"
-          clearable
-          @keyup.enter="handleQuery"
+            v-model="queryParams.destPosition"
+            placeholder="请输入送达地址"
+            clearable
+            @keyup.enter="handleQuery"
         />
       </el-form-item>
       <el-form-item label="下单时间" prop="srcTime">
         <el-date-picker clearable
-          v-model="queryParams.srcTime"
-          type="date"
-          value-format="YYYY-MM-DD"
-          placeholder="请选择下单时间">
+                        v-model="queryParams.srcTime"
+                        type="date"
+                        value-format="YYYY-MM-DD"
+                        placeholder="请选择下单时间">
         </el-date-picker>
       </el-form-item>
       <el-form-item label="送达时间" prop="destTime">
         <el-date-picker clearable
-          v-model="queryParams.destTime"
-          type="date"
-          value-format="YYYY-MM-DD"
-          placeholder="请选择送达时间">
+                        v-model="queryParams.destTime"
+                        type="date"
+                        value-format="YYYY-MM-DD"
+                        placeholder="请选择送达时间">
         </el-date-picker>
       </el-form-item>
       <el-form-item>
@@ -90,11 +90,11 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
-          type="warning"
-          plain
-          icon="Download"
-          @click="handleExport"
-          v-hasPermi="['record:myriderecord:export']"
+            type="warning"
+            plain
+            icon="Download"
+            @click="handleExport"
+            v-hasPermi="['record:myriderecord:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
@@ -122,51 +122,51 @@
           <span>{{ parseTime(scope.row.destTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>
         </template>
       </el-table-column>
-<!--      <el-table-column label="订单类型" align="center" prop="type" />-->
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
-        <template #default="scope">
-          <el-button
-              v-if="scope.row.status === 0 || scope.row.status === 1"
-              link
-              type="primary"
-              icon="Edit"
-              @click="handleUpdate(scope.row)"
+      <!--      <el-table-column label="订单类型" align="center" prop="type" />-->
+<!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
+<!--        <template #default="scope">-->
+<!--          <el-button-->
+<!--              v-if="scope.row.status === 0 || scope.row.status === 1"-->
+<!--              link-->
+<!--              type="primary"-->
+<!--              icon="Edit"-->
+<!--              @click="handleUpdate(scope.row)"-->
+<!--              v-hasPermi="['record:record:edit']"-->
+<!--          >-->
+<!--            修改-->
+<!--          </el-button>-->
 
-          >
-            修改
-          </el-button>
+<!--          <el-button-->
+<!--              v-if="scope.row.status === 0 || scope.row.status === 1"-->
+<!--              link-->
+<!--              type="primary"-->
+<!--              icon="Delete"-->
+<!--              @click="handleDelete(scope.row)"-->
+<!--              v-hasPermi="['record:record:remove']"-->
+<!--          >取消-->
+<!--          </el-button>-->
 
-          <el-button
-              v-if="scope.row.status === 0 || scope.row.status === 1"
-              link
-              type="primary"
-              icon="Delete"
-              @click="handleDelete(scope.row)"
-
-          >取消
-          </el-button>
-
-          <el-button
-              v-else
-              link
-              type="primary"
-              icon="Edit"
-              @click="openCommentDialog(scope.row)"
-
-          >
-            评价
-          </el-button>
-        </template>
-      </el-table-column>
+<!--          <el-button-->
+<!--              v-else-->
+<!--              link-->
+<!--              type="primary"-->
+<!--              icon="Edit"-->
+<!--              @click="openCommentDialog(scope.row)"-->
+<!--              v-hasPermi="['record:myriderecord:edit']"-->
+<!--          >-->
+<!--            评价-->
+<!--          </el-button>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
 
     </el-table>
-    
+
     <pagination
-      v-show="total>0"
-      :total="total"
-      v-model:page="queryParams.pageNum"
-      v-model:limit="queryParams.pageSize"
-      @pagination="getList"
+        v-show="total>0"
+        :total="total"
+        v-model:page="queryParams.pageNum"
+        v-model:limit="queryParams.pageSize"
+        @pagination="getList"
     />
 
 
@@ -202,17 +202,17 @@
     <!--评价跑腿订单对话框 -->
     <el-dialog :title="title" v-model="opencomment" width="500px" append-to-body>
       <el-form ref="myriderecordRef" :model="form" :rules="rules" label-width="80px">
-            <el-form-item label="评论" prop="comment">
-              <el-input v-model="form.comment" type="textarea" placeholder="请输入评论内容"></el-input>
-            </el-form-item>
-          </el-form>
-          <template #footer>
-            <div class="dialog-footer">
-              <el-button type="primary" @click="Comment">确 定</el-button>
-              <el-button @click="ccancel">取 消</el-button>
-            </div>
-          </template>
-        </el-dialog>
+        <el-form-item label="评论" prop="comment">
+          <el-input v-model="form.comment" type="textarea" placeholder="请输入评论内容"></el-input>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button type="primary" @click="Comment">确 定</el-button>
+          <el-button @click="ccancel">取 消</el-button>
+        </div>
+      </template>
+    </el-dialog>
   </div>
 </template>
 

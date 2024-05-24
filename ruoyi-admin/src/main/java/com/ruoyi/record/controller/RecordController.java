@@ -39,7 +39,6 @@ public class RecordController extends BaseController
     /**
      * 查询我的订单列表
      */
-    @PreAuthorize("@ss.hasPermi('record:record:list')")
     @GetMapping("/list")
     public TableDataInfo list(Record record)
     {
@@ -54,7 +53,6 @@ public class RecordController extends BaseController
     /**
      * 导出我的订单列表
      */
-    @PreAuthorize("@ss.hasPermi('record:record:export')")
     @Log(title = "我的订单", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Record record)
@@ -67,7 +65,6 @@ public class RecordController extends BaseController
     /**
      * 获取我的订单详细信息
      */
-    @PreAuthorize("@ss.hasPermi('record:record:query')")
     @GetMapping(value = "/{recordId}")
     public AjaxResult getInfo(@PathVariable("recordId") Long recordId)
     {
@@ -77,7 +74,6 @@ public class RecordController extends BaseController
     /**
      * 新增我的订单
      */
-    @PreAuthorize("@ss.hasPermi('record:record:add')")
     @Log(title = "我的订单", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Record record)
@@ -89,7 +85,6 @@ public class RecordController extends BaseController
     /**
      * 修改我的订单
      */
-    @PreAuthorize("@ss.hasPermi('record:record:edit')")
     @Log(title = "我的订单", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Record record)
@@ -100,7 +95,6 @@ public class RecordController extends BaseController
     /**
      * 删除我的订单
      */
-    @PreAuthorize("@ss.hasPermi('record:record:remove')")
     @Log(title = "我的订单", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{recordIds}")
     public AjaxResult remove(@PathVariable Long[] recordIds)
