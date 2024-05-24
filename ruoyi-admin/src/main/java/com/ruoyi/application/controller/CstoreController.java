@@ -42,7 +42,7 @@ public class CstoreController extends BaseController
     /**
      * 查询商家提交申请列表
      */
-    @PreAuthorize("@ss.hasPermi('application:cstore:list')")
+    
     @GetMapping("/list")
     public TableDataInfo list(Cstore cstore)
     {
@@ -54,7 +54,7 @@ public class CstoreController extends BaseController
     /**
      * 导出商家提交申请列表
      */
-    @PreAuthorize("@ss.hasPermi('application:cstore:export')")
+    
     @Log(title = "商家提交申请", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Cstore cstore)
@@ -67,7 +67,7 @@ public class CstoreController extends BaseController
     /**
      * 获取商家提交申请详细信息
      */
-    @PreAuthorize("@ss.hasPermi('application:cstore:query')")
+    
     @GetMapping(value = "/{cstoreId}")
     public AjaxResult getInfo(@PathVariable("cstoreId") Long cstoreId)
     {
@@ -77,7 +77,7 @@ public class CstoreController extends BaseController
     /**
      * 新增商家提交申请
      */
-    @PreAuthorize("@ss.hasPermi('application:cstore:add')")
+    
     @Log(title = "商家提交申请", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Cstore cstore)
@@ -90,7 +90,7 @@ public class CstoreController extends BaseController
     /**
      * 修改商家提交申请
      */
-    @PreAuthorize("@ss.hasPermi('application:cstore:edit')")
+    
     @Log(title = "商家提交申请", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Cstore cstore)
@@ -101,7 +101,7 @@ public class CstoreController extends BaseController
     /**
      * 删除商家提交申请
      */
-    @PreAuthorize("@ss.hasPermi('application:cstore:remove')")
+    
     @Log(title = "商家提交申请", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{cstoreIds}")
     public AjaxResult remove(@PathVariable Long[] cstoreIds)
