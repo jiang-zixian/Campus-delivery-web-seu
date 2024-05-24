@@ -3,66 +3,66 @@
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="订单号" prop="recordId">
         <el-input
-          v-model="queryParams.recordId"
-          placeholder="请输入订单号"
-          clearable
-          @keyup.enter="handleQuery"
+            v-model="queryParams.recordId"
+            placeholder="请输入订单号"
+            clearable
+            @keyup.enter="handleQuery"
         />
       </el-form-item>
       <el-form-item label="客户号" prop="uId">
         <el-input
-          v-model="queryParams.uId"
-          placeholder="请输入客户号"
-          clearable
-          @keyup.enter="handleQuery"
+            v-model="queryParams.uId"
+            placeholder="请输入客户号"
+            clearable
+            @keyup.enter="handleQuery"
         />
       </el-form-item>
       <el-form-item label="商店号" prop="sId">
         <el-input
-          v-model="queryParams.sId"
-          placeholder="请输入商店号"
-          clearable
-          @keyup.enter="handleQuery"
+            v-model="queryParams.sId"
+            placeholder="请输入商店号"
+            clearable
+            @keyup.enter="handleQuery"
         />
       </el-form-item>
       <el-form-item label="派送费" prop="deliveryPrice">
         <el-input
-          v-model="queryParams.deliveryPrice"
-          placeholder="请输入派送费"
-          clearable
-          @keyup.enter="handleQuery"
+            v-model="queryParams.deliveryPrice"
+            placeholder="请输入派送费"
+            clearable
+            @keyup.enter="handleQuery"
         />
       </el-form-item>
       <el-form-item label="取货地址" prop="srcPosition">
         <el-input
-          v-model="queryParams.srcPosition"
-          placeholder="请输入取货地址"
-          clearable
-          @keyup.enter="handleQuery"
+            v-model="queryParams.srcPosition"
+            placeholder="请输入取货地址"
+            clearable
+            @keyup.enter="handleQuery"
         />
       </el-form-item>
       <el-form-item label="送达地址" prop="destPosition">
         <el-input
-          v-model="queryParams.destPosition"
-          placeholder="请输入送达地址"
-          clearable
-          @keyup.enter="handleQuery"
+            v-model="queryParams.destPosition"
+            placeholder="请输入送达地址"
+            clearable
+            @keyup.enter="handleQuery"
         />
       </el-form-item>
       <el-form-item label="下单时间" prop="srcTime">
         <el-date-picker clearable
-          v-model="queryParams.srcTime"
-          type="date"
-          value-format="YYYY-MM-DD"
-          placeholder="请选择下单时间">
+                        v-model="queryParams.srcTime"
+                        type="date"
+                        value-format="YYYY-MM-DD"
+                        placeholder="请选择下单时间">
         </el-date-picker>
       </el-form-item>
       <el-form-item label="送达时间" prop="destTime">
         <el-date-picker clearable
-          v-model="queryParams.destTime"
-          type="date"
-          value-format="YYYY-MM-DD"
-          placeholder="请选择送达时间">
+                        v-model="queryParams.destTime"
+                        type="date"
+                        value-format="YYYY-MM-DD"
+                        placeholder="请选择送达时间">
         </el-date-picker>
       </el-form-item>
       <el-form-item label="订单类型" prop="type">
@@ -86,9 +86,9 @@
       <el-table-column label="总价" align="center" prop="allItemPrice" />
       <el-table-column label="派送费" align="center" prop="deliveryPrice" />
       <el-table-column label="订单状态" align="center" prop="status">
-      <template #default="scope">
-        <span>{{ getStatusText(scope.row.status) }}</span>
-      </template>
+        <template #default="scope">
+          <span>{{ getStatusText(scope.row.status) }}</span>
+        </template>
       </el-table-column>
       <el-table-column label="取货地址" align="center" prop="srcPosition" />
       <el-table-column label="送达地址" align="center" prop="destPosition" />
@@ -103,25 +103,25 @@
         </template>
       </el-table-column>
       <el-table-column label="订单类型" align="center" prop="type"  width="180">
-      <template #default="scope">
-        <span>{{ getTypeText(scope.row.type) }}</span>
-      </template>
+        <template #default="scope">
+          <span>{{ getTypeText(scope.row.type) }}</span>
+        </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
-<!--          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['rider:takeOrders:edit']">修改</el-button>-->
-<!--          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['rider:takeOrders:remove']">删除</el-button>-->
+          <!--          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['rider:takeOrders:edit']">修改</el-button>-->
+          <!--          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['rider:takeOrders:remove']">删除</el-button>-->
           <el-button link type="primary" icon="Select" @click="handleTakeOrder(scope.row)" v-hasPermi="['rider:takeOrders:currentOrder']">接单</el-button>
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
-      v-show="total>0"
-      :total="total"
-      v-model:page="queryParams.pageNum"
-      v-model:limit="queryParams.pageSize"
-      @pagination="getList"
+        v-show="total>0"
+        :total="total"
+        v-model:page="queryParams.pageNum"
+        v-model:limit="queryParams.pageSize"
+        @pagination="getList"
     />
 
     <!-- 添加或修改我要接单对话框 -->
@@ -147,18 +147,18 @@
         </el-form-item>
         <el-form-item label="下单时间" prop="srcTime">
           <el-date-picker clearable
-            v-model="form.srcTime"
-            type="date"
-            value-format="YYYY-MM-DD"
-            placeholder="请选择下单时间">
+                          v-model="form.srcTime"
+                          type="date"
+                          value-format="YYYY-MM-DD"
+                          placeholder="请选择下单时间">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="送达时间" prop="destTime">
           <el-date-picker clearable
-            v-model="form.destTime"
-            type="date"
-            value-format="YYYY-MM-DD"
-            placeholder="请选择送达时间">
+                          v-model="form.destTime"
+                          type="date"
+                          value-format="YYYY-MM-DD"
+                          placeholder="请选择送达时间">
           </el-date-picker>
         </el-form-item>
       </el-form>
@@ -358,24 +358,25 @@ function handleExport() {
   }, `takeOrders_${new Date().getTime()}.xlsx`)
 }
 
-function handleTakeOrder(row){
-  proxy.$modal.confirm('是否确认要接单编号为"' + row.recordId + '"的订单？').then(function() {
+function handleTakeOrder(row) {
+  proxy.$modal.confirm('是否确认要接单编号为"' + row.recordId + '"的订单？').then(function () {
     reset();
     getTakeOrders(row.recordId).then(response => {
       form.value = response.data;
-      if(form.value.status === 1){
+      if (form.value.status === 1) {
         alert("手慢了，订单已被其他骑手接走啦");
         window.location.reload();
-      }else{
+      } else {
         form.value.status = 1;
         updateTakeOrders(form.value).then(response => {
           getList();
         }).then(() => {
-          router.push("/rider/currentOrder/" + row.recordId );
+          router.push("/rider/currentOrder/" + row.recordId);
         })
       }
     });
-  }).catch(() => {});
+  }).catch(() => {
+  });
 
 }
 
