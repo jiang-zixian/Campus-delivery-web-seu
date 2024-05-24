@@ -97,14 +97,6 @@ const getStatusText = computed(() => {
 const { queryParams, form, rules } = toRefs(data);
 
 /** 查询跑腿列表 */
-function getList() {
-  loading.value = true;
-  listRiderecord(queryParams.value).then(response => {
-    riderecordList.value = response.rows;
-    total.value = response.total;
-    loading.value = false;
-  });
-}
 
 // 取消按钮
 function cancel() {
@@ -131,86 +123,24 @@ function reset() {
   proxy.resetForm("riderecordRef");
 }
 
-/** 搜索按钮操作 */
-function handleQuery() {
-  queryParams.value.pageNum = 1;
-  getList();
-}
-
-/** 重置按钮操作 */
-function resetQuery() {
-  proxy.resetForm("queryRef");
-  handleQuery();
-}
-
 // 多选框选中数据
-function handleSelectionChange(selection) {
-  ids.value = selection.map(item => item.recordId);
-  single.value = selection.length != 1;
-  multiple.value = !selection.length;
-}
-
-/** 新增按钮操作 */
-function handleAdd() {
-  reset();
-  open.value = true;
-  title.value = "添加跑腿";
-}
-
-/** 修改按钮操作 */
-function handleUpdate(row) {
-  reset();
-  const _recordId = row.recordId || ids.value
-  getRiderecord(_recordId).then(response => {
-    form.value = response.data;
-    open.value = true;
-    title.value = "修改跑腿";
-  });
-}
 
 /** 提交按钮 */
 function submitForm() {
   proxy.$refs["riderecordRef"].validate(valid => {
     if (valid) {
-      if (form.value.recordId != null) {
-        form.value.type = 0 ;
-        form.value.status = 0 ;
-        updateRiderecord(form.value).then(response => {
-          proxy.$modal.msgSuccess("修改成功");
-          open.value = false;
-          getList();
-        });
-      } else {
         form.value.type = 0 ;
         form.value.status = 0 ;
         addRiderecord(form.value).then(response => {
 
           proxy.$modal.msgSuccess("新增成功");
           open.value = false;
-          getList();
         });
       }
-    }
   });
 }
 
-/** 删除按钮操作 */
-function handleDelete(row) {
-  const _recordIds = row.recordId || ids.value;
-  proxy.$modal.confirm('是否确认删除跑腿编号为"' + _recordIds + '"的数据项？').then(function() {
-    return delRiderecord(_recordIds);
-  }).then(() => {
-    getList();
-    proxy.$modal.msgSuccess("删除成功");
-  }).catch(() => {});
-}
 
-/** 导出按钮操作 */
-function handleExport() {
-  proxy.download('riderecord/riderecord/export', {
-    ...queryParams.value
-  }, `riderecord_${new Date().getTime()}.xlsx`)
-}
 
-getList();
+
 </script>
