@@ -1,6 +1,8 @@
 package com.ruoyi.record.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.store.domain.mystoreComment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.record.mapper.zitiRecordMapper;
@@ -89,5 +91,10 @@ public class zitiRecordServiceImpl implements IzitiRecordService
     public int deletezitiRecordByRecordId(Long recordId)
     {
         return zitiRecordMapper.deletezitiRecordByRecordId(recordId);
+    }
+
+    public int insertzitirecordcomment(mystoreComment mystoreComment)
+    {
+        return zitiRecordMapper.insertzitirecordcomment(mystoreComment);
     }
 }

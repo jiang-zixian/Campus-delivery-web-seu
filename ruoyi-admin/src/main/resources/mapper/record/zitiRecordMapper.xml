@@ -104,4 +104,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{recordId}
         </foreach>
     </delete>
+
+    <insert id="insertzitirecordcomment" parameterType="mystoreComment" useGeneratedKeys="true" keyProperty="commentId">
+        insert into comment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uId != null">uId,</if>
+            <if test="sId != null">sId,</if>
+            <if test="comment != null">comment,</if>
+            <if test="recomment != null">recomment,</if>
+            <if test="recordId != null">recordId,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uId != null">#{uId},</if>
+            <if test="sId != null">#{sId},</if>
+            <if test="comment != null">#{comment},</if>
+            <if test="recomment != null">#{recomment},</if>
+            <if test="recordId != null">#{recordId},</if>
+        </trim>
+    </insert>
 </mapper>

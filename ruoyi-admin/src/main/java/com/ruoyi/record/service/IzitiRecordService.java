@@ -2,6 +2,7 @@ package com.ruoyi.record.service;
 
 import java.util.List;
 import com.ruoyi.record.domain.zitiRecord;
+import com.ruoyi.store.domain.mystoreComment;
 
 /**
  * 自提订单Service接口
@@ -58,4 +59,6 @@ public interface IzitiRecordService
      * @return 结果
      */
     public int deletezitiRecordByRecordId(Long recordId);
+
+    public int insertzitirecordcomment(mystoreComment mystoreComment);
 }

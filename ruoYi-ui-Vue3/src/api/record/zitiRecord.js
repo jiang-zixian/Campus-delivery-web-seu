@@ -42,3 +42,12 @@ export function delZitiRecord(recordId) {
     method: 'delete'
   })
 }
+
+
+export function comment(data) {
+  return request({
+    url: '/record/zitiRecord/comment',
+    method: 'post',
+    data: data
+  })
+}

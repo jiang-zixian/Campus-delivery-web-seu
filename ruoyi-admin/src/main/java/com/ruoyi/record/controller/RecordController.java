@@ -2,6 +2,8 @@ package com.ruoyi.record.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.store.domain.mystoreComment;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -104,5 +106,12 @@ public class RecordController extends BaseController
     public AjaxResult remove(@PathVariable Long[] recordIds)
     {
         return toAjax(recordService.deleteRecordByRecordIds(recordIds));
+    }
+
+    @Log(title = "我的跑腿订单", businessType = BusinessType.INSERT)
+    @PostMapping("/comment")
+    public AjaxResult commentRecord(@RequestBody mystoreComment mystoreComment)
+    {
+        return toAjax(recordService.insertrecordcomment(mystoreComment));
     }
 }
