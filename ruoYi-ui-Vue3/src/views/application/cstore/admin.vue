@@ -78,7 +78,7 @@
     </el-row>
 
     <el-table v-loading="loading" :data="cstoreList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
+<!--      <el-table-column type="selection" width="55" align="center" />-->
       <el-table-column label="申请ID" align="center" prop="cstoreId" />
       <el-table-column label="用户ID" align="center" prop="uId" />
       <el-table-column label="电话" align="center" prop="tel" />
