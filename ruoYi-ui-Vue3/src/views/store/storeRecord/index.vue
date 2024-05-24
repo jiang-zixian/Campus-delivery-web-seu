@@ -131,7 +131,11 @@
           <span>{{ parseTime(scope.row.destTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="订单类型" align="center" prop="type" />
+      <el-table-column label="订单类型" align="center" prop="type" width="180">
+        <template #default="scope">
+          <span>{{ getTypeText(scope.row.type) }}</span>
+        </template>
+      </el-table-column>
 <!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
 <!--        <template #default="scope">-->
 <!--          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['store:storeRecord:edit']">修改</el-button>-->
@@ -254,6 +258,22 @@ const getStatusText = computed(() => {
         // 添加其他状态对应的文字
       default:
         return '其他状态';
+    }
+  };
+});
+
+const getTypeText = computed(() => {
+  return (type) => {
+    switch (type) {
+      case 0:
+        return '校外外卖跑腿单';
+      case 1:
+        return  '校内商家自提'
+      case 2:
+        return '校内商家跑腿单'
+        // 添加其他状态对应的文字
+      default:
+        return '其他类型';
     }
   };
 });
