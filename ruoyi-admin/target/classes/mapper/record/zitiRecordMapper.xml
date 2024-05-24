@@ -35,8 +35,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="status != null "> and status = #{status}</if>
             <if test="srcPosition != null  and srcPosition != ''"> and src_position = #{srcPosition}</if>
             <if test="destPosition != null  and destPosition != ''"> and dest_position = #{destPosition}</if>
-            <if test="srcTime != null "> and src_time = #{srcTime}</if>
-            <if test="destTime != null "> and dest_time = #{destTime}</if>
+            <if test="srcTime != null "> and Date(src_time) = #{srcTime}</if>
+            <if test="destTime != null "> and Date(dest_time) = #{destTime}</if>
             <if test="type != null "> and type = #{type}</if>
         </where>
     </select>
@@ -104,4 +104,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{recordId}
         </foreach>
     </delete>
+
+    <insert id="insertzitirecordcomment" parameterType="mystoreComment" useGeneratedKeys="true" keyProperty="commentId">
+        insert into comment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uId != null">uId,</if>
+            <if test="sId != null">sId,</if>
+            <if test="comment != null">comment,</if>
+            <if test="recomment != null">recomment,</if>
+            <if test="recordId != null">recordId,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uId != null">#{uId},</if>
+            <if test="sId != null">#{sId},</if>
+            <if test="comment != null">#{comment},</if>
+            <if test="recomment != null">#{recomment},</if>
+            <if test="recordId != null">#{recordId},</if>
+        </trim>
+    </insert>
 </mapper>

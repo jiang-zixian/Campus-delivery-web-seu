@@ -69,7 +69,7 @@
         <el-date-picker clearable
           v-model="queryParams.srcTime"
           type="date"
-          value-format="YYYY-MM-DD"
+          value-format="YYYY-MM-DD "
           placeholder="请选择下单时间">
         </el-date-picker>
       </el-form-item>
@@ -130,14 +130,19 @@
     </el-row>
 
     <el-table v-loading="loading" :data="zitiRecordList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
+<!--      <el-table-column type="selection" width="55" align="center" />-->
       <el-table-column label="订单号" align="center" prop="recordId" />
       <el-table-column label="客户号" align="center" prop="uId" />
       <el-table-column label="商店号" align="center" prop="sId" />
       <el-table-column label="总价" align="center" prop="allItemPrice" />
 <!--      <el-table-column label="骑手号" align="center" prop="riderId" />-->
 <!--      <el-table-column label="派送费" align="center" prop="deliveryPrice" />-->
-      <el-table-column label="订单状态" align="center" prop="status" />
+      <el-table-column label="订单状态" align="center" prop="status">
+      <template #default="scope">
+        <span>{{ getStatusText(scope.row.status) }}</span>
+      </template>
+      </el-table-column>
+
       <el-table-column label="取货地址" align="center" prop="srcPosition" />
 <!--      <el-table-column label="送达地址" align="center" prop="destPosition" />-->
       <el-table-column label="下单时间" align="center" prop="srcTime" width="180">
@@ -153,8 +158,22 @@
 <!--      <el-table-column label="订单类型" align="center" prop="type" />-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
-          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['record:zitiRecord:edit']">修改</el-button>
-          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['record:zitiRecord:remove']">删除</el-button>
+<!--          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['record:zitiRecord:edit']">修改</el-button>-->
+          <el-button
+              v-if="scope.row.status === 0 || scope.row.status === 1"
+              link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['record:zitiRecord:remove']">取消</el-button>
+
+          <el-button
+              v-else
+              link
+              type="primary"
+              icon="Edit"
+              @click.once="openCommentDialog(scope.row)"
+              v-hasPermi="['record:zitiRecord:edit']"
+          >
+            评价
+          </el-button>
+
         </template>
       </el-table-column>
     </el-table>
@@ -170,43 +189,43 @@
     <!-- 添加或修改自提订单对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="zitiRecordRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="客户号" prop="uId">
-          <el-input v-model="form.uId" placeholder="请输入客户号" />
-        </el-form-item>
-        <el-form-item label="商店号" prop="sId">
-          <el-input v-model="form.sId" placeholder="请输入商店号" />
-        </el-form-item>
-        <el-form-item label="总价" prop="allItemPrice">
-          <el-input v-model="form.allItemPrice" placeholder="请输入总价" />
-        </el-form-item>
-        <el-form-item label="骑手号" prop="riderId">
-          <el-input v-model="form.riderId" placeholder="请输入骑手号" />
-        </el-form-item>
-        <el-form-item label="派送费" prop="deliveryPrice">
-          <el-input v-model="form.deliveryPrice" placeholder="请输入派送费" />
-        </el-form-item>
-        <el-form-item label="取货地址" prop="srcPosition">
-          <el-input v-model="form.srcPosition" placeholder="请输入取货地址" />
-        </el-form-item>
-        <el-form-item label="送达地址" prop="destPosition">
-          <el-input v-model="form.destPosition" placeholder="请输入送达地址" />
-        </el-form-item>
-        <el-form-item label="下单时间" prop="srcTime">
-          <el-date-picker clearable
-            v-model="form.srcTime"
-            type="date"
-            value-format="YYYY-MM-DD"
-            placeholder="请选择下单时间">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="送达时间" prop="destTime">
-          <el-date-picker clearable
-            v-model="form.destTime"
-            type="date"
-            value-format="YYYY-MM-DD"
-            placeholder="请选择送达时间">
-          </el-date-picker>
-        </el-form-item>
+<!--        <el-form-item label="客户号" prop="uId">-->
+<!--          <el-input v-model="form.uId" placeholder="请输入客户号" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="商店号" prop="sId">-->
+<!--          <el-input v-model="form.sId" placeholder="请输入商店号" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="总价" prop="allItemPrice">-->
+<!--          <el-input v-model="form.allItemPrice" placeholder="请输入总价" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="骑手号" prop="riderId">-->
+<!--          <el-input v-model="form.riderId" placeholder="请输入骑手号" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="派送费" prop="deliveryPrice">-->
+<!--          <el-input v-model="form.deliveryPrice" placeholder="请输入派送费" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="取货地址" prop="srcPosition">-->
+<!--          <el-input v-model="form.srcPosition" placeholder="请输入取货地址" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="送达地址" prop="destPosition">-->
+<!--          <el-input v-model="form.destPosition" placeholder="请输入送达地址" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="下单时间" prop="srcTime">-->
+<!--          <el-date-picker clearable-->
+<!--            v-model="form.srcTime"-->
+<!--            type="date"-->
+<!--            value-format="YYYY-MM-DD"-->
+<!--            placeholder="请选择下单时间">-->
+<!--          </el-date-picker>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="送达时间" prop="destTime">-->
+<!--          <el-date-picker clearable-->
+<!--            v-model="form.destTime"-->
+<!--            type="date"-->
+<!--            value-format="YYYY-MM-DD"-->
+<!--            placeholder="请选择送达时间">-->
+<!--          </el-date-picker>-->
+<!--        </el-form-item>-->
       </el-form>
       <template #footer>
         <div class="dialog-footer">
@@ -215,11 +234,41 @@
         </div>
       </template>
     </el-dialog>
+
+    <template>
+      <div>
+        <el-dialog :title="title" v-model="opencomment" width="500px" append-to-body>
+          <el-form ref="zitiRecordRef" :model="form" :rules="rules" label-width="80px">
+            <el-form-item label="评论" prop="comment">
+              <el-input v-model="form.comment" type="textarea" placeholder="请输入评论内容"></el-input>
+            </el-form-item>
+          </el-form>
+          <template #footer>
+            <div class="dialog-footer">
+              <el-button type="primary" @click="Comment">确 定</el-button>
+              <el-button @click="ccancel">取 消</el-button>
+            </div>
+          </template>
+        </el-dialog>
+      </div>
+    </template>
+
+
+
   </div>
 </template>
 
 <script setup name="ZitiRecord">
-import { listZitiRecord, getZitiRecord, delZitiRecord, addZitiRecord, updateZitiRecord } from "@/api/record/zitiRecord";
+import {
+  listZitiRecord,
+  getZitiRecord,
+  delZitiRecord,
+  addZitiRecord,
+  updateZitiRecord,
+  comment
+} from "@/api/record/zitiRecord";
+
+
 
 const { proxy } = getCurrentInstance();
 
@@ -232,6 +281,7 @@ const single = ref(true);
 const multiple = ref(true);
 const total = ref(0);
 const title = ref("");
+const opencomment = ref(false);
 
 const data = reactive({
   form: {},
@@ -249,13 +299,42 @@ const data = reactive({
     destPosition: null,
     srcTime: null,
     destTime: null,
-    type: null
+    type: null,
+    comment: null
   },
   rules: {
+    comment: [
+      { required: true, message: '请输入评论内容', trigger: 'blur' }
+    ]
   }
 });
 
 const { queryParams, form, rules } = toRefs(data);
+const getStatusText = computed(() => {
+  return (status) => {
+    switch (status) {
+      case 0:
+        return '已下单';
+      case 1:
+        return  '骑手已接单'
+      case 2:
+        return '订单已送达'
+        // 添加其他状态对应的文字
+      default:
+        return '其他状态';
+    }
+  };
+});
+
+function openCommentDialog(row)
+{
+  const _recordId = row.recordId || ids.value
+  getZitiRecord(_recordId).then(response => {
+    form.value = response.data;
+    opencomment.value = true;
+    title.value = "评价我的自提订单";
+  });
+}
 
 /** 查询自提订单列表 */
 function getList() {
@@ -267,11 +346,38 @@ function getList() {
   });
 }
 
+function Comment()
+{
+  proxy.$refs["zitiRecordRef"].validate(valid => {
+    if (valid) {
+
+      comment(form.value).then(response =>
+          {
+            proxy.$modal.msgSuccess("评价成功");
+            opencomment.value = false;
+          }
+      )
+
+    }
+    else
+    {
+      proxy.$modal.msgSuccess("请填写评价内容");
+      return false;
+    }
+
+  });
+}
+
 // 取消按钮
 function cancel() {
   open.value = false;
   reset();
 }
+function ccancel() {
+  opencomment.value = false;
+  reset();
+}
+
 
 // 表单重置
 function reset() {
@@ -353,11 +459,11 @@ function submitForm() {
 /** 删除按钮操作 */
 function handleDelete(row) {
   const _recordIds = row.recordId || ids.value;
-  proxy.$modal.confirm('是否确认删除自提订单编号为"' + _recordIds + '"的数据项？').then(function() {
+  proxy.$modal.confirm('是否取消该自提订单?').then(function() {
     return delZitiRecord(_recordIds);
   }).then(() => {
     getList();
-    proxy.$modal.msgSuccess("删除成功");
+    proxy.$modal.msgSuccess("取消成功");
   }).catch(() => {});
 }
 
