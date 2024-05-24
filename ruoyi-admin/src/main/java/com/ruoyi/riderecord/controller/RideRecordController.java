@@ -37,7 +37,7 @@ public class RideRecordController extends BaseController
     /**
      * 查询跑腿列表
      */
-    @PreAuthorize("@ss.hasPermi('riderecord:riderecord:list')")
+    
     @GetMapping("/list")
     public TableDataInfo list(RideRecord rideRecord)
     {
@@ -51,7 +51,7 @@ public class RideRecordController extends BaseController
     /**
      * 导出跑腿列表
      */
-    @PreAuthorize("@ss.hasPermi('riderecord:riderecord:export')")
+    
     @Log(title = "跑腿", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, RideRecord rideRecord)
@@ -64,7 +64,7 @@ public class RideRecordController extends BaseController
     /**
      * 获取跑腿详细信息
      */
-    @PreAuthorize("@ss.hasPermi('riderecord:riderecord:query')")
+    
     @GetMapping(value = "/{recordId}")
     public AjaxResult getInfo(@PathVariable("recordId") Long recordId)
     {
@@ -74,7 +74,7 @@ public class RideRecordController extends BaseController
     /**
      * 新增跑腿
      */
-    @PreAuthorize("@ss.hasPermi('riderecord:riderecord:add')")
+    
     @Log(title = "跑腿", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody RideRecord rideRecord)
@@ -86,7 +86,7 @@ public class RideRecordController extends BaseController
     /**
      * 修改跑腿
      */
-    @PreAuthorize("@ss.hasPermi('riderecord:riderecord:edit')")
+    
     @Log(title = "跑腿", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody RideRecord rideRecord)
@@ -97,7 +97,7 @@ public class RideRecordController extends BaseController
     /**
      * 删除跑腿
      */
-    @PreAuthorize("@ss.hasPermi('riderecord:riderecord:remove')")
+    
     @Log(title = "跑腿", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{recordIds}")
     public AjaxResult remove(@PathVariable Long[] recordIds)

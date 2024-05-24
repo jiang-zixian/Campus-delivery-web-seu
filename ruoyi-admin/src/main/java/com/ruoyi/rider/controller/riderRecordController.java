@@ -37,7 +37,7 @@ public class riderRecordController extends BaseController
     /**
      * 查询历史接单记录列表
      */
-    @PreAuthorize("@ss.hasPermi('rider:riderRecord:list')")
+    
     @GetMapping("/list")
     public TableDataInfo list(riderRecord riderRecord)
     {
@@ -50,7 +50,7 @@ public class riderRecordController extends BaseController
     /**
      * 导出历史接单记录列表
      */
-    @PreAuthorize("@ss.hasPermi('rider:riderRecord:export')")
+    
     @Log(title = "历史接单记录", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, riderRecord riderRecord)
@@ -63,7 +63,7 @@ public class riderRecordController extends BaseController
     /**
      * 获取历史接单记录详细信息
      */
-    @PreAuthorize("@ss.hasPermi('rider:riderRecord:query')")
+    
     @GetMapping(value = "/{recordId}")
     public AjaxResult getInfo(@PathVariable("recordId") Long recordId)
     {
@@ -73,7 +73,7 @@ public class riderRecordController extends BaseController
     /**
      * 新增历史接单记录
      */
-    @PreAuthorize("@ss.hasPermi('rider:riderRecord:add')")
+    
     @Log(title = "历史接单记录", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody riderRecord riderRecord)
@@ -84,7 +84,7 @@ public class riderRecordController extends BaseController
     /**
      * 修改历史接单记录
      */
-    @PreAuthorize("@ss.hasPermi('rider:riderRecord:edit')")
+    
     @Log(title = "历史接单记录", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody riderRecord riderRecord)
@@ -95,7 +95,7 @@ public class riderRecordController extends BaseController
     /**
      * 删除历史接单记录
      */
-    @PreAuthorize("@ss.hasPermi('rider:riderRecord:remove')")
+    
     @Log(title = "历史接单记录", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{recordIds}")
     public AjaxResult remove(@PathVariable Long[] recordIds)

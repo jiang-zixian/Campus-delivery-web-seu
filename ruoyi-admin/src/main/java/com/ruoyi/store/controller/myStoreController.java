@@ -37,7 +37,7 @@ public class myStoreController extends BaseController
     /**
      * 查询我的商店列表
      */
-    @PreAuthorize("@ss.hasPermi('store:myStore:list')")
+    
     @GetMapping("/list")
     public TableDataInfo list(myStore myStore)
     {
@@ -50,7 +50,7 @@ public class myStoreController extends BaseController
     /**
      * 导出我的商店列表
      */
-    @PreAuthorize("@ss.hasPermi('store:myStore:export')")
+    
     @Log(title = "我的商店", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, myStore myStore)
@@ -63,7 +63,7 @@ public class myStoreController extends BaseController
     /**
      * 获取我的商店详细信息
      */
-    @PreAuthorize("@ss.hasPermi('store:myStore:query')")
+    
     @GetMapping(value = "/{sId}")
     public AjaxResult getInfo(@PathVariable("sId") Long sId)
     {
@@ -73,7 +73,7 @@ public class myStoreController extends BaseController
     /**
      * 新增我的商店
      */
-    @PreAuthorize("@ss.hasPermi('store:myStore:add')")
+    
     @Log(title = "我的商店", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody myStore myStore)
@@ -85,7 +85,7 @@ public class myStoreController extends BaseController
     /**
      * 修改我的商店
      */
-    @PreAuthorize("@ss.hasPermi('store:myStore:edit')")
+    
     @Log(title = "我的商店", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody myStore myStore)
@@ -96,7 +96,7 @@ public class myStoreController extends BaseController
     /**
      * 删除我的商店
      */
-    @PreAuthorize("@ss.hasPermi('store:myStore:remove')")
+    
     @Log(title = "我的商店", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{sIds}")
     public AjaxResult remove(@PathVariable Long[] sIds)
