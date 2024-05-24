@@ -86,7 +86,7 @@
 
 
     <el-table v-loading="loading" :data="criderList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
+<!--      <el-table-column type="selection" width="55" align="center" />-->
       <el-table-column label="申请编号" align="center" prop="criderId" />
       <el-table-column label="用户id" align="center" prop="uId" />
       <el-table-column label="电话" align="center" prop="tel" />

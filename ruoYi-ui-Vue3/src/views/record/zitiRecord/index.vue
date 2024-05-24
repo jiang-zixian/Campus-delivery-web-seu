@@ -169,7 +169,7 @@
               type="primary"
               icon="Edit"
               @click.once="openCommentDialog(scope.row)"
-              v-hasPermi="['record:zitiRecord:edit']"
+              v-hasPermi="['record:zitiRecord:comment']"
           >
             评价
           </el-button>
