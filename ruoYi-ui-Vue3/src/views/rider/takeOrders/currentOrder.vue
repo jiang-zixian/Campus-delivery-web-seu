@@ -1,42 +1,42 @@
 <template>
   <div class="app-container">
 
-        <h1 ><span class="text" style="padding-left: 550px">当前订单：{{route.params.recordId}} </span><span class="text" style="padding-left: 50px">{{ marqueeText }}</span></h1>
-        <el-divider/>
-        <span class="label">客户ID：</span>
-        <span class="value">{{ currentOrder.uId }}</span>
-        <el-divider direction="vertical" style="margin-left: 25px ;margin-right: 25px"/>
-        <span class="label">商家ID：</span>
-        <span class="value">{{ currentOrder.sId || "校外商家"}}</span>
-        <el-divider direction="vertical" style="margin-left: 25px ;margin-right: 25px" />
-        <span class="label">取货地址：</span>
-        <span class="value">{{ currentOrder.srcPosition }}</span>
-        <el-divider direction="vertical" style="margin-left: 25px ;margin-right: 25px" />
-        <span class="label">送达地址：</span>
-        <span class="value">{{ currentOrder.destPosition }}</span>
-        <el-divider direction="vertical" style="margin-left: 25px ;margin-right: 25px" />
-        <span class="label">下单时间：</span>
-        <span class="value">{{ currentOrder.srcTime }}</span>
-        <el-divider direction="vertical" style="margin-left: 25px ;margin-right: 25px" />
-        <span class="label">预期送达时间：</span>
-        <span class="value">{{ currentOrder.destTime }}</span>
-        <br>
-        <br>
-        <br>
+    <h1 ><span class="text" style="padding-left: 550px">当前订单：{{route.params.recordId}} </span><span class="text" style="padding-left: 50px">{{ marqueeText }}</span></h1>
+    <el-divider/>
+    <span class="label">客户ID：</span>
+    <span class="value">{{ currentOrder.uId }}</span>
+    <el-divider direction="vertical" style="margin-left: 25px ;margin-right: 25px"/>
+    <span class="label">商家ID：</span>
+    <span class="value">{{ currentOrder.sId || "校外商家"}}</span>
+    <el-divider direction="vertical" style="margin-left: 25px ;margin-right: 25px" />
+    <span class="label">取货地址：</span>
+    <span class="value">{{ currentOrder.srcPosition }}</span>
+    <el-divider direction="vertical" style="margin-left: 25px ;margin-right: 25px" />
+    <span class="label">送达地址：</span>
+    <span class="value">{{ currentOrder.destPosition }}</span>
+    <el-divider direction="vertical" style="margin-left: 25px ;margin-right: 25px" />
+    <span class="label">下单时间：</span>
+    <span class="value">{{ currentOrder.srcTime }}</span>
+    <el-divider direction="vertical" style="margin-left: 25px ;margin-right: 25px" />
+    <span class="label">预期送达时间：</span>
+    <span class="value">{{ currentOrder.destTime }}</span>
+    <br>
+    <br>
+    <br>
 
-        <div style="height: 570px">
-            <el-amap
-                :min-zoom="10"
-                :max-zoom="22"
-                :center="center"
-                :zoom="zoom"
-            >
-              <el-amap-control-scale />
-              <el-amap-control-tool-bar />
-            </el-amap>
+    <div style="height: 570px">
+      <el-amap
+          :min-zoom="10"
+          :max-zoom="22"
+          :center="center"
+          :zoom="zoom"
+      >
+        <el-amap-control-scale />
+        <el-amap-control-tool-bar />
+      </el-amap>
 
-        </div>
-        <br>
+    </div>
+    <br>
     <el-button type="success" round @click="confirmOrder" v-hasPermi="['rider:takeOrders:list']">订单已送达</el-button>
 
   </div>
