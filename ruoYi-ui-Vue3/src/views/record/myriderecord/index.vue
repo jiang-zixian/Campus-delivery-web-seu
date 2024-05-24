@@ -131,7 +131,7 @@
               type="primary"
               icon="Edit"
               @click="handleUpdate(scope.row)"
-              v-hasPermi="['record:record:edit']"
+
           >
             修改
           </el-button>
@@ -142,7 +142,7 @@
               type="primary"
               icon="Delete"
               @click="handleDelete(scope.row)"
-              v-hasPermi="['record:record:remove']"
+
           >取消
           </el-button>
 
@@ -152,7 +152,7 @@
               type="primary"
               icon="Edit"
               @click="openCommentDialog(scope.row)"
-              v-hasPermi="['record:myriderecord:edit']"
+
           >
             评价
           </el-button>
