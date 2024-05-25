@@ -37,7 +37,7 @@ public class mystoreCommentController extends BaseController
     /**
      * 查询我的评论列表
      */
-    @PreAuthorize("@ss.hasPermi('store:myComment:list')")
+    
     @GetMapping("/list")
     public TableDataInfo list(mystoreComment mystoreComment)
     {
@@ -49,7 +49,7 @@ public class mystoreCommentController extends BaseController
     /**
      * 导出我的评论列表
      */
-    @PreAuthorize("@ss.hasPermi('store:myComment:export')")
+    
     @Log(title = "我的评论", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, mystoreComment mystoreComment)
@@ -62,7 +62,7 @@ public class mystoreCommentController extends BaseController
     /**
      * 获取我的评论详细信息
      */
-    @PreAuthorize("@ss.hasPermi('store:myComment:query')")
+    
     @GetMapping(value = "/{commentId}")
     public AjaxResult getInfo(@PathVariable("commentId") Long commentId)
     {
@@ -72,7 +72,7 @@ public class mystoreCommentController extends BaseController
     /**
      * 新增我的评论
      */
-    @PreAuthorize("@ss.hasPermi('store:myComment:add')")
+    
     @Log(title = "我的评论", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody mystoreComment mystoreComment)
@@ -83,7 +83,7 @@ public class mystoreCommentController extends BaseController
     /**
      * 修改我的评论
      */
-    @PreAuthorize("@ss.hasPermi('store:myComment:edit')")
+    
     @Log(title = "我的评论", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody mystoreComment mystoreComment)
@@ -94,7 +94,7 @@ public class mystoreCommentController extends BaseController
     /**
      * 删除我的评论
      */
-    @PreAuthorize("@ss.hasPermi('store:myComment:remove')")
+    
     @Log(title = "我的评论", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{commentIds}")
     public AjaxResult remove(@PathVariable Long[] commentIds)

@@ -42,7 +42,7 @@ public class CriderController extends BaseController
     /**
      * 查询所有骑手申请列表
      */
-    @PreAuthorize("@ss.hasPermi('application:crider:list')")
+    
     @GetMapping("/Allist")
     public TableDataInfo list(Crider crider)
     {
@@ -67,7 +67,7 @@ public class CriderController extends BaseController
     /**
      * 导出骑手申请列表
      */
-    @PreAuthorize("@ss.hasPermi('application:crider:export')")
+    
     @Log(title = "骑手申请", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Crider crider)
@@ -80,7 +80,7 @@ public class CriderController extends BaseController
     /**
      * 获取骑手申请详细信息
      */
-    @PreAuthorize("@ss.hasPermi('application:crider:query')")
+    
     @GetMapping(value = "/{criderId}")
     public AjaxResult getInfo(@PathVariable("criderId") Long criderId)
     {
@@ -90,7 +90,7 @@ public class CriderController extends BaseController
     /**
      * 新增骑手申请
      */
-    @PreAuthorize("@ss.hasPermi('application:crider:add')")
+    
     @Log(title = "骑手申请", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Crider crider)
@@ -105,7 +105,7 @@ public class CriderController extends BaseController
     /**
      * 修改骑手申请
      */
-    @PreAuthorize("@ss.hasPermi('application:crider:edit')")
+    
     @Log(title = "骑手申请", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Crider crider)
@@ -116,7 +116,7 @@ public class CriderController extends BaseController
     /**
      * 删除骑手申请
      */
-    @PreAuthorize("@ss.hasPermi('application:crider:remove')")
+    
     @Log(title = "骑手申请", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{criderIds}")
     public AjaxResult remove(@PathVariable Long[] criderIds)

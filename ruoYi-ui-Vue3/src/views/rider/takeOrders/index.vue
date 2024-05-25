@@ -111,7 +111,7 @@
         <template #default="scope">
           <!--          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['rider:takeOrders:edit']">修改</el-button>-->
           <!--          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['rider:takeOrders:remove']">删除</el-button>-->
-          <el-button link type="primary" icon="Select" @click="handleTakeOrder(scope.row)" v-hasPermi="['rider:takeOrders:currentOrder']">接单</el-button>
+          <el-button link type="primary" icon="Select" @click="handleTakeOrder(scope.row)" >接单</el-button>
         </template>
       </el-table-column>
     </el-table>

@@ -37,7 +37,7 @@ public class orderRecordController extends BaseController
     /**
      * 查询我要接单列表
      */
-    @PreAuthorize("@ss.hasPermi('rider:takeOrders:list')")
+    
     @GetMapping("/list")
     public TableDataInfo list(orderRecord orderRecord)
     {
@@ -49,7 +49,7 @@ public class orderRecordController extends BaseController
     /**
      * 导出我要接单列表
      */
-    @PreAuthorize("@ss.hasPermi('rider:takeOrders:export')")
+    
     @Log(title = "我要接单", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, orderRecord orderRecord)
@@ -62,7 +62,7 @@ public class orderRecordController extends BaseController
     /**
      * 获取我要接单详细信息
      */
-    @PreAuthorize("@ss.hasPermi('rider:takeOrders:query')")
+    
     @GetMapping(value = "/{recordId}")
     public AjaxResult getInfo(@PathVariable("recordId") Long recordId)
     {
@@ -72,7 +72,7 @@ public class orderRecordController extends BaseController
     /**
      * 新增我要接单
      */
-    @PreAuthorize("@ss.hasPermi('rider:takeOrders:add')")
+    
     @Log(title = "我要接单", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody orderRecord orderRecord)
@@ -83,7 +83,7 @@ public class orderRecordController extends BaseController
     /**
      * 修改我要接单
      */
-    @PreAuthorize("@ss.hasPermi('rider:takeOrders:edit')")
+    
     @Log(title = "我要接单", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody orderRecord orderRecord)
@@ -95,7 +95,7 @@ public class orderRecordController extends BaseController
     /**
      * 删除我要接单
      */
-    @PreAuthorize("@ss.hasPermi('rider:takeOrders:remove')")
+    
     @Log(title = "我要接单", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{recordIds}")
     public AjaxResult remove(@PathVariable Long[] recordIds)
