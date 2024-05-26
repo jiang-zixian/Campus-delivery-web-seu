@@ -2,6 +2,8 @@ package com.ruoyi.record.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.store.domain.mystoreComment;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,11 +39,13 @@ public class RecordController extends BaseController
     /**
      * 查询我的订单列表
      */
-    @PreAuthorize("@ss.hasPermi('record:record:list')")
     @GetMapping("/list")
     public TableDataInfo list(Record record)
     {
         startPage();
+        if(!getLoginUser().getUser().isAdmin())
+            record.setuId(getLoginUser().getUserId());
+        record.setType(2L);;
         List<Record> list = recordService.selectRecordList(record);
         return getDataTable(list);
     }
@@ -49,7 +53,6 @@ public class RecordController extends BaseController
     /**
      * 导出我的订单列表
      */
-    @PreAuthorize("@ss.hasPermi('record:record:export')")
     @Log(title = "我的订单", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Record record)
@@ -62,7 +65,6 @@ public class RecordController extends BaseController
     /**
      * 获取我的订单详细信息
      */
-    @PreAuthorize("@ss.hasPermi('record:record:query')")
     @GetMapping(value = "/{recordId}")
     public AjaxResult getInfo(@PathVariable("recordId") Long recordId)
     {
@@ -72,7 +74,6 @@ public class RecordController extends BaseController
     /**
      * 新增我的订单
      */
-    @PreAuthorize("@ss.hasPermi('record:record:add')")
     @Log(title = "我的订单", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Record record)
@@ -84,7 +85,6 @@ public class RecordController extends BaseController
     /**
      * 修改我的订单
      */
-    @PreAuthorize("@ss.hasPermi('record:record:edit')")
     @Log(title = "我的订单", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Record record)
@@ -95,11 +95,17 @@ public class RecordController extends BaseController
     /**
      * 删除我的订单
      */
-    @PreAuthorize("@ss.hasPermi('record:record:remove')")
     @Log(title = "我的订单", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{recordIds}")
     public AjaxResult remove(@PathVariable Long[] recordIds)
     {
         return toAjax(recordService.deleteRecordByRecordIds(recordIds));
+    }
+
+    @Log(title = "我的跑腿订单", businessType = BusinessType.INSERT)
+    @PostMapping("/comment")
+    public AjaxResult commentRecord(@RequestBody mystoreComment mystoreComment)
+    {
+        return toAjax(recordService.insertrecordcomment(mystoreComment));
     }
 }

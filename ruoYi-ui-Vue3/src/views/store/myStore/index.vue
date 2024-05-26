@@ -3,18 +3,18 @@
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="商店编号" prop="sId">
         <el-input
-          v-model="queryParams.sId"
-          placeholder="请输入商店号"
-          clearable
-          @keyup.enter="handleQuery"
+            v-model="queryParams.sId"
+            placeholder="请输入商店号"
+            clearable
+            @keyup.enter="handleQuery"
         />
       </el-form-item>
       <el-form-item label="商店名称" prop="sname">
         <el-input
-          v-model="queryParams.sname"
-          placeholder="请输入商店名称"
-          clearable
-          @keyup.enter="handleQuery"
+            v-model="queryParams.sname"
+            placeholder="请输入商店名称"
+            clearable
+            @keyup.enter="handleQuery"
         />
       </el-form-item>
       <el-form-item>
@@ -26,40 +26,40 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
-          type="primary"
-          plain
-          icon="Plus"
-          @click="handleAdd"
-          v-hasPermi="['store:myStore:add']"
+            type="primary"
+            plain
+            icon="Plus"
+            @click="handleAdd"
+            v-hasPermi="['store:myStore:add']"
         >创建商店</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="success"
-          plain
-          icon="Edit"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['store:myStore:edit']"
+            type="success"
+            plain
+            icon="Edit"
+            :disabled="single"
+            @click="handleUpdate"
+            v-hasPermi="['store:myStore:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="danger"
-          plain
-          icon="Delete"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['store:myStore:remove']"
+            type="danger"
+            plain
+            icon="Delete"
+            :disabled="multiple"
+            @click="handleDelete"
+            v-hasPermi="['store:myStore:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="warning"
-          plain
-          icon="Download"
-          @click="handleExport"
-          v-hasPermi="['store:myStore:export']"
+            type="warning"
+            plain
+            icon="Download"
+            @click="handleExport"
+            v-hasPermi="['store:myStore:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
@@ -68,8 +68,10 @@
     <el-table v-loading="loading" :data="myStoreList" @selection-change="handleSelectionChange">
       <el-table-column type="expand">
         <template #default="props">
-            <p>商店描述: </p>
-            <p>{{ props.row.description }}</p>
+          <p><b>商店地点: </b></p>
+          <p>{{ splitDescription1(props.row.description) }}</p>
+          <p><b>商店描述: </b></p>
+          <p>{{ splitDescription2(props.row.description) }}</p>
         </template>
       </el-table-column>
       <el-table-column type="selection" width="55" align="center" />
@@ -85,19 +87,19 @@
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['store:myStore:edit']">修改</el-button>
           <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['store:myStore:remove']">删除</el-button>
-          <el-button link type="primary" icon="Memo" @click="handleEditStore(scope.row)" v-hasPermi="['system:store:EditStore']">管理商品</el-button>
-          <el-button link type="primary" icon="Document" @click="handleCheckRecord(scope.row)" v-hasPermi="['system:store:storeRecord']">查看订单记录</el-button>
-          <el-button link type="primary" icon="ChatDotRound" @click="handleCheckComment(scope.row)" v-hasPermi="['system:store:myComment']">查看评论</el-button>
+          <el-button link type="primary" icon="Memo" @click="handleEditStore(scope.row)" v-hasPermi="['store:myStore:EditStore']">管理商品</el-button>
+          <el-button link type="primary" icon="Document" @click="handleCheckRecord(scope.row)" v-hasPermi="['store:myStore:storeRecord']">查看订单记录</el-button>
+          <el-button link type="primary" icon="ChatDotRound" @click="handleCheckComment(scope.row)" v-hasPermi="['store:myStore:myComment']">查看评论</el-button>
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
-      v-show="total>0"
-      :total="total"
-      v-model:page="queryParams.pageNum"
-      v-model:limit="queryParams.pageSize"
-      @pagination="getList"
+        v-show="total>0"
+        :total="total"
+        v-model:page="queryParams.pageNum"
+        v-model:limit="queryParams.pageSize"
+        @pagination="getList"
     />
 
 
@@ -134,13 +136,13 @@
 </template>
 
 <script setup name="MyStore">
-import { listMyStore, getMyStore, delMyStore, addMyStore, updateMyStore } from "@/api/store/myStore";
+import {listMyStore, getMyStore, delMyStore, addMyStore, updateMyStore} from "@/api/store/myStore";
 import {StarFilled} from "@element-plus/icons-vue";
 
 
 const router = useRouter();
 
-const { proxy } = getCurrentInstance();
+const {proxy} = getCurrentInstance();
 
 const myStoreList = ref([]);
 const open = ref(false);
@@ -163,11 +165,10 @@ const data = reactive({
     logo: null,
     description: null
   },
-  rules: {
-  }
+  rules: {}
 });
 
-const { queryParams, form, rules } = toRefs(data);
+const {queryParams, form, rules} = toRefs(data);
 
 /** 查询我的商店列表 */
 function getList() {
@@ -258,12 +259,13 @@ function submitForm() {
 /** 删除按钮操作 */
 function handleDelete(row) {
   const _sIds = row.sId || ids.value;
-  proxy.$modal.confirm('是否确认删除我的商店编号为"' + _sIds + '"的数据项？').then(function() {
+  proxy.$modal.confirm('是否确认删除我的商店编号为"' + _sIds + '"的数据项？').then(function () {
     return delMyStore(_sIds);
   }).then(() => {
     getList();
     proxy.$modal.msgSuccess("删除成功");
-  }).catch(() => {});
+  }).catch(() => {
+  });
 }
 
 /** 导出按钮操作 */
@@ -278,14 +280,24 @@ function handleEditStore(row) {
   router.push("/store/EditStore/Edit/" + sid);
 }
 
-function handleCheckRecord(row){
+function handleCheckRecord(row) {
   const sid = row.sId;
   router.push("/store/storeRecord/" + sid);
 }
 
-function handleCheckComment(row){
+function handleCheckComment(row) {
   const sid = row.sId;
   router.push("/store/myComment/" + sid);
+}
+
+function splitDescription1(str) {
+  const parts = str.split(' ');
+  return parts[0];
+}
+
+function splitDescription2(str) {
+  const parts = str.split(' ');
+  return parts.slice(1).join(' ');
 }
 
 getList();

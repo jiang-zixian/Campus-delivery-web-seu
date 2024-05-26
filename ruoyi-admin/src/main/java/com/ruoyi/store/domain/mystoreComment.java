@@ -31,8 +31,8 @@ public class mystoreComment extends BaseEntity
     @Excel(name = "评论")
     private String comment;
 
-    /** 追加评论 */
-    @Excel(name = "追加评论")
+    /** 商家回复 */
+    @Excel(name = "商家回复")
     private String recomment;
 
     /** 订单号 */

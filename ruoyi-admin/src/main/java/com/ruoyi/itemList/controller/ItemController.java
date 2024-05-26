@@ -46,7 +46,7 @@ public class ItemController extends BaseController
     /**
      * 查询商品列表列表
      */
-    @PreAuthorize("@ss.hasPermi('itemList:itemList:list')")
+    
     @GetMapping("/list")
     public TableDataInfo list(Item item)
     {
@@ -58,7 +58,7 @@ public class ItemController extends BaseController
     /**
      * 导出商品列表列表
      */
-    @PreAuthorize("@ss.hasPermi('itemList:itemList:export')")
+    
     @Log(title = "商品列表", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Item item)
@@ -71,7 +71,7 @@ public class ItemController extends BaseController
     /**
      * 获取商品列表详细信息
      */
-    @PreAuthorize("@ss.hasPermi('itemList:itemList:query')")
+    
     @GetMapping(value = "/{iId}")
     public AjaxResult getInfo(@PathVariable("iId") Long iId)
     {
@@ -81,7 +81,7 @@ public class ItemController extends BaseController
     /**
      * 新增商品列表
      */
-    @PreAuthorize("@ss.hasPermi('itemList:itemList:add')")
+    
     @Log(title = "商品列表", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Item item)
@@ -92,7 +92,7 @@ public class ItemController extends BaseController
     /**
      * 修改商品列表
      */
-    @PreAuthorize("@ss.hasPermi('itemList:itemList:edit')")
+    
     @Log(title = "商品列表", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Item item)
@@ -103,7 +103,7 @@ public class ItemController extends BaseController
     /**
      * 删除商品列表
      */
-    @PreAuthorize("@ss.hasPermi('itemList:itemList:remove')")
+    
     @Log(title = "商品列表", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{iIds}")
     public AjaxResult remove(@PathVariable Long[] iIds)
@@ -120,8 +120,6 @@ public class ItemController extends BaseController
     @PostMapping("/payallitem")
     public AjaxResult addRecord(@RequestBody Record record)
     {
-//        record.setuId(getLoginUser().getUserId());
-//        return toAjax(iRecordService.insertRecord(record));
         record.setuId(getLoginUser().getUserId());
         return toAjax(itemService.buy(record));
     }

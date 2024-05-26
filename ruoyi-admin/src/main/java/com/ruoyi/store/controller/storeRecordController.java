@@ -37,7 +37,7 @@ public class storeRecordController extends BaseController
     /**
      * 查询商店订单记录列表
      */
-    @PreAuthorize("@ss.hasPermi('store:storeRecord:list')")
+    
     @GetMapping("/list")
     public TableDataInfo list(storeRecord storeRecord)
     {
@@ -49,7 +49,7 @@ public class storeRecordController extends BaseController
     /**
      * 导出商店订单记录列表
      */
-    @PreAuthorize("@ss.hasPermi('store:storeRecord:export')")
+    
     @Log(title = "商店订单记录", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, storeRecord storeRecord)
@@ -62,7 +62,7 @@ public class storeRecordController extends BaseController
     /**
      * 获取商店订单记录详细信息
      */
-    @PreAuthorize("@ss.hasPermi('store:storeRecord:query')")
+    
     @GetMapping(value = "/{recordId}")
     public AjaxResult getInfo(@PathVariable("recordId") Long recordId)
     {
@@ -72,7 +72,7 @@ public class storeRecordController extends BaseController
     /**
      * 新增商店订单记录
      */
-    @PreAuthorize("@ss.hasPermi('store:storeRecord:add')")
+    
     @Log(title = "商店订单记录", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody storeRecord storeRecord)
@@ -83,7 +83,7 @@ public class storeRecordController extends BaseController
     /**
      * 修改商店订单记录
      */
-    @PreAuthorize("@ss.hasPermi('store:storeRecord:edit')")
+    
     @Log(title = "商店订单记录", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody storeRecord storeRecord)
@@ -94,7 +94,7 @@ public class storeRecordController extends BaseController
     /**
      * 删除商店订单记录
      */
-    @PreAuthorize("@ss.hasPermi('store:storeRecord:remove')")
+    
     @Log(title = "商店订单记录", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{recordIds}")
     public AjaxResult remove(@PathVariable Long[] recordIds)

@@ -5,34 +5,34 @@
       <el-divider/>
       <el-form-item label="评论号" prop="commentId">
         <el-input
-          v-model="queryParams.commentId"
-          placeholder="请输入评论号"
-          clearable
-          @keyup.enter="handleQuery"
+            v-model="queryParams.commentId"
+            placeholder="请输入评论号"
+            clearable
+            @keyup.enter="handleQuery"
         />
       </el-form-item>
-<!--      <el-form-item label="客户号" prop="uId">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.uId"-->
-<!--          placeholder="请输入客户号"-->
-<!--          clearable-->
-<!--          @keyup.enter="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
-<!--      <el-form-item label="商店号" prop="sId">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.sId"-->
-<!--          placeholder="请输入商店号"-->
-<!--          clearable-->
-<!--          @keyup.enter="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
+      <!--      <el-form-item label="客户号" prop="uId">-->
+      <!--        <el-input-->
+      <!--          v-model="queryParams.uId"-->
+      <!--          placeholder="请输入客户号"-->
+      <!--          clearable-->
+      <!--          @keyup.enter="handleQuery"-->
+      <!--        />-->
+      <!--      </el-form-item>-->
+      <!--      <el-form-item label="商店号" prop="sId">-->
+      <!--        <el-input-->
+      <!--          v-model="queryParams.sId"-->
+      <!--          placeholder="请输入商店号"-->
+      <!--          clearable-->
+      <!--          @keyup.enter="handleQuery"-->
+      <!--        />-->
+      <!--      </el-form-item>-->
       <el-form-item label="订单号" prop="recordId">
         <el-input
-          v-model="queryParams.recordId"
-          placeholder="请输入订单号"
-          clearable
-          @keyup.enter="handleQuery"
+            v-model="queryParams.recordId"
+            placeholder="请输入订单号"
+            clearable
+            @keyup.enter="handleQuery"
         />
       </el-form-item>
       <el-form-item>
@@ -42,42 +42,42 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="primary"-->
-<!--          plain-->
-<!--          icon="Plus"-->
-<!--          @click="handleAdd"-->
-<!--          v-hasPermi="['store:myComment:add']"-->
-<!--        >新增</el-button>-->
-<!--      </el-col>-->
+      <!--      <el-col :span="1.5">-->
+      <!--        <el-button-->
+      <!--          type="primary"-->
+      <!--          plain-->
+      <!--          icon="Plus"-->
+      <!--          @click="handleAdd"-->
+      <!--          v-hasPermi="['store:myComment:add']"-->
+      <!--        >新增</el-button>-->
+      <!--      </el-col>-->
       <el-col :span="1.5">
         <el-button
-          type="success"
-          plain
-          icon="Eleme"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['store:myComment:edit']"
+            type="success"
+            plain
+            icon="Eleme"
+            :disabled="single"
+            @click="handleUpdate"
+            v-hasPermi="['store:myComment:edit']"
         >回复</el-button>
       </el-col>
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="danger"-->
-<!--          plain-->
-<!--          icon="Delete"-->
-<!--          :disabled="multiple"-->
-<!--          @click="handleDelete"-->
-<!--          v-hasPermi="['store:myComment:remove']"-->
-<!--        >删除</el-button>-->
-<!--      </el-col>-->
+      <!--      <el-col :span="1.5">-->
+      <!--        <el-button-->
+      <!--          type="danger"-->
+      <!--          plain-->
+      <!--          icon="Delete"-->
+      <!--          :disabled="multiple"-->
+      <!--          @click="handleDelete"-->
+      <!--          v-hasPermi="['store:myComment:remove']"-->
+      <!--        >删除</el-button>-->
+      <!--      </el-col>-->
       <el-col :span="1.5">
         <el-button
-          type="warning"
-          plain
-          icon="Download"
-          @click="handleExport"
-          v-hasPermi="['store:myComment:export']"
+            type="warning"
+            plain
+            icon="Download"
+            @click="handleExport"
+            v-hasPermi="['store:myComment:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
@@ -88,24 +88,24 @@
       <el-table-column label="评论号" align="center" prop="commentId" />
       <el-table-column label="客户号" align="center" prop="uId" />
       <el-table-column label="订单号" align="center" prop="recordId" />
-<!--      <el-table-column label="商店号" align="center" prop="sId" />-->
+      <!--      <el-table-column label="商店号" align="center" prop="sId" />-->
       <el-table-column label="评论" align="center"  width="500" prop="comment" />
       <el-table-column label="回复" align="center"  width="500" prop="recomment" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
-<!--          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['store:myComment:edit']">修改</el-button>-->
-<!--          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['store:myComment:remove']">删除</el-button>-->
+          <!--          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['store:myComment:edit']">修改</el-button>-->
+          <!--          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['store:myComment:remove']">删除</el-button>-->
           <el-button link type="primary" icon="Eleme" @click="handleUpdate(scope.row)" v-hasPermi="['store:myComment:edit']">回复</el-button>
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
-      v-show="total>0"
-      :total="total"
-      v-model:page="queryParams.pageNum"
-      v-model:limit="queryParams.pageSize"
-      @pagination="getList"
+        v-show="total>0"
+        :total="total"
+        v-model:page="queryParams.pageNum"
+        v-model:limit="queryParams.pageSize"
+        @pagination="getList"
     />
 
     <!-- 添加或修改我的评论对话框 -->
@@ -264,12 +264,13 @@ function submitForm() {
 /** 删除按钮操作 */
 function handleDelete(row) {
   const _commentIds = row.commentId || ids.value;
-  proxy.$modal.confirm('是否确认删除我的评论编号为"' + _commentIds + '"的数据项？').then(function() {
+  proxy.$modal.confirm('是否确认删除我的评论编号为"' + _commentIds + '"的数据项？').then(function () {
     return delMyComment(_commentIds);
   }).then(() => {
     getList();
     proxy.$modal.msgSuccess("删除成功");
-  }).catch(() => {});
+  }).catch(() => {
+  });
 }
 
 /** 导出按钮操作 */
@@ -279,7 +280,7 @@ function handleExport() {
   }, `myComment_${new Date().getTime()}.xlsx`)
 }
 
-function getStoreName(){
+function getStoreName() {
   const _sId = route.params.sId;
   getMyStore(_sId).then(response => {
     storeName.value = response.data.sname;

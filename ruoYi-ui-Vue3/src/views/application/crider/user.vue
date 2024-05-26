@@ -36,7 +36,7 @@
 
 
     <el-table v-loading="loading" :data="criderList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
+<!--      <el-table-column type="selection" width="55" align="center" />-->
       <el-table-column label="申请编号" align="center" prop="criderId" />
       <el-table-column label="用户id" align="center" prop="uId" />
       <el-table-column label="电话" align="center" prop="tel" />
@@ -54,8 +54,20 @@
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
-          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['application:crider:edit']">修改</el-button>
-          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['application:crider:remove']">删除</el-button>
+          <el-button
+
+              v-if="scope.row.status === 0 "
+              link type="primary"
+              icon="Edit"
+              @click="handleUpdate(scope.row)"
+              v-hasPermi="['application:crider:edit']"
+          >
+            修改
+          </el-button>
+
+          <el-button
+              v-if="scope.row.status === 0"
+              link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['application:crider:remove']">删除</el-button>
         </template>
       </el-table-column>
     </el-table>

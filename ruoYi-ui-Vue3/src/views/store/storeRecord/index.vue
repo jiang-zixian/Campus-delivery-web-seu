@@ -5,42 +5,42 @@
       <el-divider/>
       <el-form-item label="订单号" prop="recordId">
         <el-input
-          v-model="queryParams.recordId"
-          placeholder="请输入订单号"
-          clearable
-          @keyup.enter="handleQuery"
+            v-model="queryParams.recordId"
+            placeholder="请输入订单号"
+            clearable
+            @keyup.enter="handleQuery"
         />
       </el-form-item>
       <el-form-item label="客户号" prop="uId">
         <el-input
-          v-model="queryParams.uId"
-          placeholder="请输入客户号"
-          clearable
-          @keyup.enter="handleQuery"
+            v-model="queryParams.uId"
+            placeholder="请输入客户号"
+            clearable
+            @keyup.enter="handleQuery"
         />
       </el-form-item>
       <el-form-item label="骑手号" prop="riderId">
         <el-input
-          v-model="queryParams.riderId"
-          placeholder="请输入骑手号"
-          clearable
-          @keyup.enter="handleQuery"
+            v-model="queryParams.riderId"
+            placeholder="请输入骑手号"
+            clearable
+            @keyup.enter="handleQuery"
         />
       </el-form-item>
       <el-form-item label="下单时间" prop="srcTime">
         <el-date-picker clearable
-          v-model="queryParams.srcTime"
-          type="date"
-          value-format="YYYY-MM-DD"
-          placeholder="请选择下单时间">
+                        v-model="queryParams.srcTime"
+                        type="date"
+                        value-format="YYYY-MM-DD"
+                        placeholder="请选择下单时间">
         </el-date-picker>
       </el-form-item>
       <el-form-item label="送达时间" prop="destTime">
         <el-date-picker clearable
-          v-model="queryParams.destTime"
-          type="date"
-          value-format="YYYY-MM-DD"
-          placeholder="请选择送达时间">
+                        v-model="queryParams.destTime"
+                        type="date"
+                        value-format="YYYY-MM-DD"
+                        placeholder="请选择送达时间">
         </el-date-picker>
       </el-form-item>
       <el-form-item label="订单状态" prop="status">
@@ -65,42 +65,42 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="primary"-->
-<!--          plain-->
-<!--          icon="Plus"-->
-<!--          @click="handleAdd"-->
-<!--          v-hasPermi="['store:storeRecord:add']"-->
-<!--        >新增</el-button>-->
-<!--      </el-col>-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="success"-->
-<!--          plain-->
-<!--          icon="Edit"-->
-<!--          :disabled="single"-->
-<!--          @click="handleUpdate"-->
-<!--          v-hasPermi="['store:storeRecord:edit']"-->
-<!--        >修改</el-button>-->
-<!--      </el-col>-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="danger"-->
-<!--          plain-->
-<!--          icon="Delete"-->
-<!--          :disabled="multiple"-->
-<!--          @click="handleDelete"-->
-<!--          v-hasPermi="['store:storeRecord:remove']"-->
-<!--        >删除</el-button>-->
-<!--      </el-col>-->
+      <!--      <el-col :span="1.5">-->
+      <!--        <el-button-->
+      <!--          type="primary"-->
+      <!--          plain-->
+      <!--          icon="Plus"-->
+      <!--          @click="handleAdd"-->
+      <!--          v-hasPermi="['store:storeRecord:add']"-->
+      <!--        >新增</el-button>-->
+      <!--      </el-col>-->
+      <!--      <el-col :span="1.5">-->
+      <!--        <el-button-->
+      <!--          type="success"-->
+      <!--          plain-->
+      <!--          icon="Edit"-->
+      <!--          :disabled="single"-->
+      <!--          @click="handleUpdate"-->
+      <!--          v-hasPermi="['store:storeRecord:edit']"-->
+      <!--        >修改</el-button>-->
+      <!--      </el-col>-->
+      <!--      <el-col :span="1.5">-->
+      <!--        <el-button-->
+      <!--          type="danger"-->
+      <!--          plain-->
+      <!--          icon="Delete"-->
+      <!--          :disabled="multiple"-->
+      <!--          @click="handleDelete"-->
+      <!--          v-hasPermi="['store:storeRecord:remove']"-->
+      <!--        >删除</el-button>-->
+      <!--      </el-col>-->
       <el-col :span="1.5">
         <el-button
-          type="warning"
-          plain
-          icon="Download"
-          @click="handleExport"
-          v-hasPermi="['store:storeRecord:export']"
+            type="warning"
+            plain
+            icon="Download"
+            @click="handleExport"
+            v-hasPermi="['store:storeRecord:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
@@ -110,14 +110,14 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="订单号" align="center" prop="recordId" />
       <el-table-column label="客户号" align="center" prop="uId" />
-<!--      <el-table-column label="商店号" align="center" prop="sId" />-->
+      <!--      <el-table-column label="商店号" align="center" prop="sId" />-->
       <el-table-column label="总价" align="center" prop="allItemPrice" />
       <el-table-column label="骑手号" align="center" prop="riderId" />
       <el-table-column label="派送费" align="center" prop="deliveryPrice" />
       <el-table-column label="订单状态" align="center" prop="status" >
-      <template #default="scope">
-        <span>{{ getStatusText(scope.row.status) }}</span>
-      </template>
+        <template #default="scope">
+          <span>{{ getStatusText(scope.row.status) }}</span>
+        </template>
       </el-table-column>
       <el-table-column label="取货地址" align="center" prop="srcPosition" />
       <el-table-column label="送达地址" align="center" prop="destPosition" />
@@ -131,21 +131,25 @@
           <span>{{ parseTime(scope.row.destTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="订单类型" align="center" prop="type" />
-<!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
-<!--        <template #default="scope">-->
-<!--          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['store:storeRecord:edit']">修改</el-button>-->
-<!--          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['store:storeRecord:remove']">删除</el-button>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
+      <el-table-column label="订单类型" align="center" prop="type" width="180">
+        <template #default="scope">
+          <span>{{ getTypeText(scope.row.type) }}</span>
+        </template>
+      </el-table-column>
+      <!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
+      <!--        <template #default="scope">-->
+      <!--          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['store:storeRecord:edit']">修改</el-button>-->
+      <!--          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['store:storeRecord:remove']">删除</el-button>-->
+      <!--        </template>-->
+      <!--      </el-table-column>-->
     </el-table>
-    
+
     <pagination
-      v-show="total>0"
-      :total="total"
-      v-model:page="queryParams.pageNum"
-      v-model:limit="queryParams.pageSize"
-      @pagination="getList"
+        v-show="total>0"
+        :total="total"
+        v-model:page="queryParams.pageNum"
+        v-model:limit="queryParams.pageSize"
+        @pagination="getList"
     />
 
     <!-- 添加或修改商店订单记录对话框 -->
@@ -174,18 +178,18 @@
         </el-form-item>
         <el-form-item label="下单时间" prop="srcTime">
           <el-date-picker clearable
-            v-model="form.srcTime"
-            type="date"
-            value-format="YYYY-MM-DD"
-            placeholder="请选择下单时间">
+                          v-model="form.srcTime"
+                          type="date"
+                          value-format="YYYY-MM-DD"
+                          placeholder="请选择下单时间">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="送达时间" prop="destTime">
           <el-date-picker clearable
-            v-model="form.destTime"
-            type="date"
-            value-format="YYYY-MM-DD"
-            placeholder="请选择送达时间">
+                          v-model="form.destTime"
+                          type="date"
+                          value-format="YYYY-MM-DD"
+                          placeholder="请选择送达时间">
           </el-date-picker>
         </el-form-item>
       </el-form>
@@ -200,10 +204,16 @@
 </template>
 
 <script setup name="StoreRecord">
-import { listStoreRecord, getStoreRecord, delStoreRecord, addStoreRecord, updateStoreRecord } from "@/api/store/storeRecord";
+import {
+  listStoreRecord,
+  getStoreRecord,
+  delStoreRecord,
+  addStoreRecord,
+  updateStoreRecord
+} from "@/api/store/storeRecord";
 import {getMyStore} from "@/api/store/myStore.js";
 
-const { proxy } = getCurrentInstance();
+const {proxy} = getCurrentInstance();
 
 const storeRecordList = ref([]);
 const open = ref(false);
@@ -235,12 +245,11 @@ const data = reactive({
     destTime: null,
     type: null
   },
-  rules: {
-  }
+  rules: {}
 });
 
 
-const { queryParams, form, rules } = toRefs(data);
+const {queryParams, form, rules} = toRefs(data);
 
 const getStatusText = computed(() => {
   return (status) => {
@@ -248,12 +257,28 @@ const getStatusText = computed(() => {
       case 0:
         return '已下单';
       case 1:
-        return  '骑手已接单'
+        return '骑手已接单'
       case 2:
         return '订单已送达'
         // 添加其他状态对应的文字
       default:
         return '其他状态';
+    }
+  };
+});
+
+const getTypeText = computed(() => {
+  return (type) => {
+    switch (type) {
+      case 0:
+        return '校外外卖跑腿单';
+      case 1:
+        return '校内商家自提'
+      case 2:
+        return '校内商家跑腿单'
+        // 添加其他状态对应的文字
+      default:
+        return '其他类型';
     }
   };
 });
@@ -373,12 +398,13 @@ function submitForm() {
 /** 删除按钮操作 */
 function handleDelete(row) {
   const _recordIds = row.recordId || ids.value;
-  proxy.$modal.confirm('是否确认删除商店订单记录编号为"' + _recordIds + '"的数据项？').then(function() {
+  proxy.$modal.confirm('是否确认删除商店订单记录编号为"' + _recordIds + '"的数据项？').then(function () {
     return delStoreRecord(_recordIds);
   }).then(() => {
     getList();
     proxy.$modal.msgSuccess("删除成功");
-  }).catch(() => {});
+  }).catch(() => {
+  });
 }
 
 /** 导出按钮操作 */
@@ -387,7 +413,8 @@ function handleExport() {
     ...queryParams.value
   }, `storeRecord_${new Date().getTime()}.xlsx`)
 }
-function getStoreName(){
+
+function getStoreName() {
   const _sId = route.params.sId;
   getMyStore(_sId).then(response => {
     storeName.value = response.data.sname;
