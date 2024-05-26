@@ -19,9 +19,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="type"    column="type"    />
     </resultMap>
 
+    <resultMap type="Long" id="ifHaveOrderResult">
+        <result property="recordId"    column="recordId"    />
+    </resultMap>
+
     <sql id="selectorderRecordVo">
         select recordId, uId, sId, all_item_price, riderId, delivery_price, status, src_position, dest_position, src_time, dest_time, type from record
     </sql>
+
+
+    <sql id="ifhaveOrderVo">
+        select recordId  from record
+    </sql>
+
+    <select id="ifHaveOrder" parameterType="Long" resultMap="ifHaveOrderResult">
+        <include refid="ifhaveOrderVo"/>
+        <where>
+        riderId = #{uId} and status = 1
+        </where>
+    </select>
 
     <select id="selectorderRecordList" parameterType="orderRecord" resultMap="orderRecordResult">
         <include refid="selectorderRecordVo"/>

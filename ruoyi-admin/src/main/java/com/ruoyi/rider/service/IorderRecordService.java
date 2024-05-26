@@ -27,6 +27,8 @@ public interface IorderRecordService
      */
     public List<orderRecord> selectorderRecordList(orderRecord orderRecord);
 
+    public Long ifHaveOrder(Long uId);
+
     /**
      * 新增我要接单
      * 

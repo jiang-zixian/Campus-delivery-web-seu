@@ -124,6 +124,19 @@
         @pagination="getList"
     />
 
+    <!-- 当骑手有未完成的接单时，提示的对话框 -->
+    <el-dialog :title="title" v-model="ifshow" width="500px" append-to-body>
+      <h1>当前有未完成的接单</h1>
+      <h1>请先完成订单号为{{currentOrder}}的接单</h1>
+      <h1>再接下一单哦！</h1>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button type="primary" @click="gotoCurrentOrder">点击去完成当前接单</el-button>
+        </div>
+      </template>
+    </el-dialog>
+
+
     <!-- 添加或修改我要接单对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="takeOrdersRef" :model="form" :rules="rules" label-width="80px">
@@ -173,7 +186,14 @@
 </template>
 
 <script setup name="TakeOrders">
-import { listTakeOrders, getTakeOrders, delTakeOrders, addTakeOrders, updateTakeOrders } from "@/api/rider/takeOrders";
+import {
+  listTakeOrders,
+  getTakeOrders,
+  delTakeOrders,
+  addTakeOrders,
+  updateTakeOrders,
+  ifHaveOrder
+} from "@/api/rider/takeOrders";
 
 const { proxy } = getCurrentInstance();
 
@@ -186,7 +206,8 @@ const single = ref(true);
 const multiple = ref(true);
 const total = ref(0);
 const title = ref("");
-const currentOrder = ref(false);
+const currentOrder = ref(null);
+const ifshow = ref(false)
 
 const router = useRouter();
 
@@ -380,6 +401,26 @@ function handleTakeOrder(row) {
 
 }
 
+function getCurrentOrder(){
+  ifHaveOrder().then(response => {
+    console.log(response);
+    currentOrder.value= response || null;
+    console.log(currentOrder.value);
+    if(currentOrder.value!=null){
+      ifshow.value=true;
+    }else{
+      ifshow.value=false;
+    }
+    console.log(ifshow.value);
+  })
+}
+
+function gotoCurrentOrder(){
+  router.push("/rider/currentOrder/" + currentOrder.value);
+  ifshow.value=false;
+}
+
 
 getList();
+getCurrentOrder();
 </script>
