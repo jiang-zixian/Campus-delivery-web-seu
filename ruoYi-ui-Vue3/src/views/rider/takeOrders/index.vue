@@ -382,8 +382,9 @@ function handleExport() {
 function handleTakeOrder(row) {
   proxy.$modal.confirm('是否确认要接单编号为"' + row.recordId + '"的订单？').then(function () {
     ifHaveOrder().then(response => {
-      if(response!=null){
-        alert("当前有接单未完成");
+      const curOrder = response || null;
+      if(curOrder!=null){
+        alert("当前有接单未完成,当前接单： "+curOrder);
         window.location.reload();
       }else{
         reset();
