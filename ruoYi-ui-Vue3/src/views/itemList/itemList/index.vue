@@ -32,13 +32,13 @@
       <el-table-column align="center" class-name="fixed-width">
         <template #default="scope">
           <el-button type="primary" icon="ShoppingCart" plain circle @click="open1(scope.row)"
-                     title="加入购物车"></el-button>
+            title="加入购物车"></el-button>
         </template>
       </el-table-column>
     </el-table>
 
-    <pagination v-show="total > 0" :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize"
-                @pagination="getList" />
+    <pagination v-show="total > 0" :total="total" v-model:page="queryParams.pageNum"
+      v-model:limit="queryParams.pageSize" @pagination="getList" />
 
     <!-- 购物车列表 -->
     <el-drawer v-model="drawer" title="我的购物车" :with-header="true" :before-close="handleClose" :bottom="0" size="65%">
@@ -55,8 +55,8 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-table :data="cartList" border :height="tableHeight" >
-<!--          <el-table-column label="编号" type="index" :index="fun1"/>-->
+        <el-table :data="cartList" border :height="tableHeight">
+          <!--          <el-table-column label="编号" type="index" :index="fun1"/>-->
           <el-table-column label="商品编号" align="center" prop="iId" />
           <el-table-column label="商品图像" align="center" width="100">
             <template #default="scope">
@@ -69,13 +69,14 @@
             <template #default="scope">
               <el-row>
                 <el-input-number v-model="scope.row.num" @change="changeNum(scope.row.iId, scope.row.num)"
-                                 :min="1"></el-input-number>
+                  :min="1"></el-input-number>
               </el-row>
             </template>
           </el-table-column>
           <el-table-column label="操作" align="center">
             <template #default="scope">
-              <el-button type="danger" plain @click="changeNum(scope.row.iId, 0),deleoneitem(scope.row.iId)" title="删除">删除</el-button>
+              <el-button type="danger" plain @click="changeNum(scope.row.iId, 0),deleoneitem(scope.row.iId)"
+                title="删除">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -122,20 +123,21 @@
         </el-form-item>
 
         <template v-if="orderform.type === '1'">
-<!--          <el-form-item label="商家地址" prop="srcPosition">-->
-<!--            <el-input v-model="orderform.srcPosition" placeholder="请输入商家地址" />-->
-<!--          </el-form-item>-->
+          <!--          <el-form-item label="商家地址" prop="srcPosition">-->
+          <!--            <el-input v-model="orderform.srcPosition" placeholder="请输入商家地址" />-->
+          <!--          </el-form-item>-->
         </template>
 
         <template v-else-if="orderform.type === '2'">
-<!--          <el-form-item label="商家地址" prop="srcPosition">-->
-<!--            <el-input v-model="orderform.srcPosition" placeholder="请输入商家地址" />-->
-<!--          </el-form-item>-->
+          <!--          <el-form-item label="商家地址" prop="srcPosition">-->
+          <!--            <el-input v-model="orderform.srcPosition" placeholder="请输入商家地址" />-->
+          <!--          </el-form-item>-->
           <el-form-item label="目的地址" prop="destPosition">
             <el-input v-model="orderform.destPosition" placeholder="请输入目的地址" />
           </el-form-item>
           <el-form-item label="预计送达时间" prop="destTime">
-            <el-date-picker v-model="orderform.destTime" type="datetime" placeholder="请选择预计送达时间" />
+            <el-date-picker v-model="orderform.destTime" type="datetime" placeholder="请选择预计送达时间"
+              value-format="YYYY-MM-DD HH:mm:ss" />
           </el-form-item>
           <el-form-item label="配送费" prop="deliveryPrice">
             <el-input v-model="orderform.deliveryPrice" placeholder="请输入配送费" />
@@ -149,7 +151,7 @@
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary"  @click="payallitem" >确 定</el-button>
+          <el-button type="primary" @click="payallitem">确 定</el-button>
           <el-button @click="cancel">取 消</el-button>
         </div>
       </template>
@@ -162,6 +164,7 @@
 <script setup name="ItemList">
 import { listItemList, getItemList, delItemList, addItemList, updateItemList,postallitem,checkitemnum } from "@/api/itemList/itemList";
 import { useRoute } from "vue-router";
+import dayjs from "dayjs";
 import { ElNotification } from 'element-plus'
 
 const { proxy } = getCurrentInstance();
@@ -248,6 +251,8 @@ function reset() {
     amount: null
   };
   proxy.resetForm("itemListRef");
+
+
 
   orderform.value = {
     recordId: null,
@@ -432,9 +437,12 @@ const cartform = ref({});
 const payallitem = () => {
   proxy.$refs["orderformRef"].validate(valid => {
         if (valid) {
+       
           //reset();
           orderform.value.allItemPrice = computepriceplusde.value;
-          orderform.value.srcTime = Date.now();
+          orderform.value.srcTime = dayjs().format("YYYY-MM-DD HH:mm:ss");  // 确保下单时间已经设置为当前时间并格式化
+
+          //console.log(orderform.value);
 
           cartform.value = {};
 
