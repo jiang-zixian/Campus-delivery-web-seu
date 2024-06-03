@@ -149,7 +149,7 @@ export const dynamicRoutes = [
     path: '/goshopping/itemList',
     component: Layout,
     hidden: true,
-    permissions: ['goshopping:item:list'],
+    permissions: ['storeList:storeList:list'],
     children: [
       {
         path: 'store/:sId(\\d+)',

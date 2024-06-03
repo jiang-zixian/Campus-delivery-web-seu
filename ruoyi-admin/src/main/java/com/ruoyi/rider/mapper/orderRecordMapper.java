@@ -27,6 +27,15 @@ public interface orderRecordMapper
      */
     public List<orderRecord> selectorderRecordList(orderRecord orderRecord);
 
+
+    /**
+     * 查询当前骑手是否有未完成的接单
+     *
+     * @param uId 当前骑手的用户Id
+     * @return 当前接单的recordId，如无当前接单，则返回null
+     */
+    public Long ifHaveOrder(Long uId);
+
     /**
      * 新增我要接单
      * 

@@ -1,6 +1,8 @@
 package com.ruoyi.rider.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.framework.web.domain.server.Sys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.rider.mapper.orderRecordMapper;
@@ -41,6 +43,12 @@ public class orderRecordServiceImpl implements IorderRecordService
     public List<orderRecord> selectorderRecordList(orderRecord orderRecord)
     {
         return orderRecordMapper.selectorderRecordList(orderRecord);
+    }
+
+    @Override
+    public Long ifHaveOrder(Long uId)
+    {
+        return orderRecordMapper.ifHaveOrder(uId);
     }
 
     /**

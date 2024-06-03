@@ -2,6 +2,8 @@ package com.ruoyi.rider.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.framework.web.domain.server.Sys;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +47,16 @@ public class orderRecordController extends BaseController
         List<orderRecord> list = orderRecordService.selectorderRecordList(orderRecord);
         return getDataTable(list);
     }
+
+    @GetMapping("/test")
+    public Long haveOrder()
+    {
+        Long uId = getLoginUser().getUserId();
+        Long recordId = orderRecordService.ifHaveOrder(uId);
+        return recordId;
+    }
+
+
 
     /**
      * 导出我要接单列表

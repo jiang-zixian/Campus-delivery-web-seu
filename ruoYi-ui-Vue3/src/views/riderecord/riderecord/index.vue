@@ -1,217 +1,40 @@
 <template>
   <div class="app-container">
-<!--    <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">-->
-<!--      <el-form-item label="订单号" prop="recordId">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.recordId"-->
-<!--          placeholder="请输入订单号"-->
-<!--          clearable-->
-<!--          @keyup.enter="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
-<!--&lt;!&ndash;      <el-form-item label="客户号" prop="uId">&ndash;&gt;-->
-<!--&lt;!&ndash;        <el-input&ndash;&gt;-->
-<!--&lt;!&ndash;          v-model="queryParams.uId"&ndash;&gt;-->
-<!--&lt;!&ndash;          placeholder="请输入客户号"&ndash;&gt;-->
-<!--&lt;!&ndash;          clearable&ndash;&gt;-->
-<!--&lt;!&ndash;          @keyup.enter="handleQuery"&ndash;&gt;-->
-<!--&lt;!&ndash;        />&ndash;&gt;-->
-<!--&lt;!&ndash;      </el-form-item>&ndash;&gt;-->
-<!--&lt;!&ndash;      <el-form-item label="商店号" prop="sId">&ndash;&gt;-->
-<!--&lt;!&ndash;        <el-input&ndash;&gt;-->
-<!--&lt;!&ndash;          v-model="queryParams.sId"&ndash;&gt;-->
-<!--&lt;!&ndash;          placeholder="请输入商店号"&ndash;&gt;-->
-<!--&lt;!&ndash;          clearable&ndash;&gt;-->
-<!--&lt;!&ndash;          @keyup.enter="handleQuery"&ndash;&gt;-->
-<!--&lt;!&ndash;        />&ndash;&gt;-->
-<!--&lt;!&ndash;      </el-form-item>&ndash;&gt;-->
-<!--&lt;!&ndash;      <el-form-item label="总价" prop="allItemPrice">&ndash;&gt;-->
-<!--&lt;!&ndash;        <el-input&ndash;&gt;-->
-<!--&lt;!&ndash;          v-model="queryParams.allItemPrice"&ndash;&gt;-->
-<!--&lt;!&ndash;          placeholder="请输入总价"&ndash;&gt;-->
-<!--&lt;!&ndash;          clearable&ndash;&gt;-->
-<!--&lt;!&ndash;          @keyup.enter="handleQuery"&ndash;&gt;-->
-<!--&lt;!&ndash;        />&ndash;&gt;-->
-<!--&lt;!&ndash;      </el-form-item>&ndash;&gt;-->
-<!--      <el-form-item label="骑手号" prop="riderId">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.riderId"-->
-<!--          placeholder="请输入骑手号"-->
-<!--          clearable-->
-<!--          @keyup.enter="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
-<!--&lt;!&ndash;      <el-form-item label="派送费" prop="deliveryPrice">&ndash;&gt;-->
-<!--&lt;!&ndash;        <el-input&ndash;&gt;-->
-<!--&lt;!&ndash;          v-model="queryParams.deliveryPrice"&ndash;&gt;-->
-<!--&lt;!&ndash;          placeholder="请输入派送费"&ndash;&gt;-->
-<!--&lt;!&ndash;          clearable&ndash;&gt;-->
-<!--&lt;!&ndash;          @keyup.enter="handleQuery"&ndash;&gt;-->
-<!--&lt;!&ndash;        />&ndash;&gt;-->
-<!--&lt;!&ndash;      </el-form-item>&ndash;&gt;-->
-<!--      <el-form-item label="取货地址" prop="srcPosition">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.srcPosition"-->
-<!--          placeholder="请输入取货地址"-->
-<!--          clearable-->
-<!--          @keyup.enter="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
-<!--      <el-form-item label="送达地址" prop="destPosition">-->
-<!--        <el-input-->
-<!--          v-model="queryParams.destPosition"-->
-<!--          placeholder="请输入送达地址"-->
-<!--          clearable-->
-<!--          @keyup.enter="handleQuery"-->
-<!--        />-->
-<!--      </el-form-item>-->
-<!--      <el-form-item label="下单时间" prop="srcTime">-->
-<!--        <el-date-picker clearable-->
-<!--          v-model="queryParams.srcTime"-->
-<!--          type="date"-->
-<!--          value-format="YYYY-MM-DD"-->
-<!--          placeholder="请选择下单时间">-->
-<!--        </el-date-picker>-->
-<!--      </el-form-item>-->
-<!--      <el-form-item label="送达时间" prop="destTime">-->
-<!--        <el-date-picker clearable-->
-<!--          v-model="queryParams.destTime"-->
-<!--          type="date"-->
-<!--          value-format="YYYY-MM-DD"-->
-<!--          placeholder="请选择送达时间">-->
-<!--        </el-date-picker>-->
-<!--      </el-form-item>-->
-<!--      <el-form-item>-->
-<!--        <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>-->
-<!--        <el-button icon="Refresh" @click="resetQuery">重置</el-button>-->
-<!--      </el-form-item>-->
-<!--    </el-form>-->
-
-<!--    <el-row :gutter="10" class="mb8">-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="primary"-->
-<!--          plain-->
-<!--          icon="Plus"-->
-<!--          @click="handleAdd"-->
-<!--          v-hasPermi="['riderecord:riderecord:add']"-->
-<!--        >我要下单</el-button>-->
-<!--      </el-col>-->
-<!--&lt;!&ndash;      <el-col :span="1.5">&ndash;&gt;-->
-<!--&lt;!&ndash;        <el-button&ndash;&gt;-->
-<!--&lt;!&ndash;          type="success"&ndash;&gt;-->
-<!--&lt;!&ndash;          plain&ndash;&gt;-->
-<!--&lt;!&ndash;          icon="Edit"&ndash;&gt;-->
-<!--&lt;!&ndash;          :disabled="single"&ndash;&gt;-->
-<!--&lt;!&ndash;          @click="handleUpdate"&ndash;&gt;-->
-<!--&lt;!&ndash;          v-hasPermi="['riderecord:riderecord:edit']"&ndash;&gt;-->
-<!--&lt;!&ndash;        >修改</el-button>&ndash;&gt;-->
-<!--&lt;!&ndash;      </el-col>&ndash;&gt;-->
-<!--&lt;!&ndash;      <el-col :span="1.5">&ndash;&gt;-->
-<!--&lt;!&ndash;        <el-button&ndash;&gt;-->
-<!--&lt;!&ndash;          type="danger"&ndash;&gt;-->
-<!--&lt;!&ndash;          plain&ndash;&gt;-->
-<!--&lt;!&ndash;          icon="Delete"&ndash;&gt;-->
-<!--&lt;!&ndash;          :disabled="multiple"&ndash;&gt;-->
-<!--&lt;!&ndash;          @click="handleDelete"&ndash;&gt;-->
-<!--&lt;!&ndash;          v-hasPermi="['riderecord:riderecord:remove']"&ndash;&gt;-->
-<!--&lt;!&ndash;        >删除</el-button>&ndash;&gt;-->
-<!--&lt;!&ndash;      </el-col>&ndash;&gt;-->
-<!--&lt;!&ndash;      <el-col :span="1.5">&ndash;&gt;-->
-<!--&lt;!&ndash;        <el-button&ndash;&gt;-->
-<!--&lt;!&ndash;          type="warning"&ndash;&gt;-->
-<!--&lt;!&ndash;          plain&ndash;&gt;-->
-<!--&lt;!&ndash;          icon="Download"&ndash;&gt;-->
-<!--&lt;!&ndash;          @click="handleExport"&ndash;&gt;-->
-<!--&lt;!&ndash;          v-hasPermi="['riderecord:riderecord:export']"&ndash;&gt;-->
-<!--&lt;!&ndash;        >导出</el-button>&ndash;&gt;-->
-<!--&lt;!&ndash;      </el-col>&ndash;&gt;-->
-<!--&lt;!&ndash;      <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>&ndash;&gt;-->
-<!--    </el-row>-->
-
-<!--    <el-table v-loading="loading" :data="riderecordList" @selection-change="handleSelectionChange">-->
-<!--      <el-table-column type="selection" width="55" align="center" />-->
-<!--      <el-table-column label="订单号" align="center" prop="recordId" />-->
-<!--&lt;!&ndash;      <el-table-column label="客户号" align="center" prop="uId" />&ndash;&gt;-->
-<!--&lt;!&ndash;      <el-table-column label="商店号" align="center" prop="sId" />&ndash;&gt;-->
-<!--&lt;!&ndash;      <el-table-column label="总价" align="center" prop="allItemPrice" />&ndash;&gt;-->
-<!--      <el-table-column label="骑手号" align="center" prop="riderId" />-->
-<!--      <el-table-column label="派送费" align="center" prop="deliveryPrice" />-->
-<!--      <el-table-column label="订单状态" align="center" prop="status" >-->
-<!--        <template #default="scope">-->
-<!--          <span>{{ getStatusText(scope.row.status) }}</span>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
-<!--      <el-table-column label="取货地址" align="center" prop="srcPosition" />-->
-<!--      <el-table-column label="送达地址" align="center" prop="destPosition" />-->
-<!--      <el-table-column label="下单时间" align="center" prop="srcTime" width="180">-->
-<!--        <template #default="scope">-->
-<!--          <span>{{ parseTime(scope.row.srcTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
-<!--      <el-table-column label="送达时间" align="center" prop="destTime" width="180">-->
-<!--        <template #default="scope">-->
-<!--          <span>{{ parseTime(scope.row.destTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
-
-<!--&lt;!&ndash;-->
-<!--      <el-table-column label="订单类型" align="center" prop="type" />-->
-<!--&ndash;&gt;-->
-<!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
-<!--        <template #default="scope">-->
-<!--          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['riderecord:riderecord:edit']">修改</el-button>-->
-<!--          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['riderecord:riderecord:remove']">取消</el-button>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
-<!--    </el-table>-->
-    
-<!--    <pagination-->
-<!--      v-show="total>0"-->
-<!--      :total="total"-->
-<!--      v-model:page="queryParams.pageNum"-->
-<!--      v-model:limit="queryParams.pageSize"-->
-<!--      @pagination="getList"-->
-<!--    />-->
-
     <!-- 添加或修改跑腿对话框 -->
-        <el-form ref="riderecordRef" :model="form" :rules="rules" label-width="80px">
-          <el-form-item label="跑腿费" prop="deliveryPrice">
-            <el-input v-model="form.deliveryPrice" placeholder="请输入派送费" />
-          </el-form-item>
-          <el-form-item label="取货地址" prop="srcPosition">
-            <el-input v-model="form.srcPosition" placeholder="请输入取货地址" />
-          </el-form-item>
-          <el-form-item label="送达地址" prop="destPosition">
-            <el-input v-model="form.destPosition" placeholder="请输入送达地址" />
-          </el-form-item>
-          <el-form-item label="下单时间" prop="srcTime">
-            <el-date-picker clearable
-                            v-model="form.srcTime"
-                            type="datetime"
-                            value-format="YYYY-MM-DD HH:mm:ss"
-                            placeholder="请选择下单时间">
-            </el-date-picker>
-          </el-form-item>
-          <el-form-item label="送达时间" prop="destTime">
-            <el-date-picker clearable
-                            v-model="form.destTime"
-                            type="datetime"
-                            value-format="YYYY-MM-DD HH:mm:ss"
-                            placeholder="请选择送达时间">
-            </el-date-picker>
-          </el-form-item>
-          <div class="dialog-footer">
-            <el-button type="primary" @click="submitForm">确 定</el-button>
-            <el-button @click="cancel">取 消</el-button>
-          </div>
-        </el-form>
-
+    <el-form ref="riderecordRef" :model="form" :rules="rules" label-width="80px">
+      <el-form-item label="跑腿费" prop="deliveryPrice">
+        <el-input v-model="form.deliveryPrice" placeholder="请输入派送费" />
+      </el-form-item>
+      <el-form-item label="取货地址" prop="srcPosition">
+        <el-input v-model="form.srcPosition" placeholder="请输入取货地址" />
+      </el-form-item>
+      <el-form-item label="送达地址" prop="destPosition">
+        <el-input v-model="form.destPosition" placeholder="请输入送达地址" />
+      </el-form-item>
+      <el-form-item label="送达时间" prop="destTime">
+        <el-date-picker clearable
+                        v-model="form.destTime"
+                        type="datetime"
+                        value-format="YYYY-MM-DD HH:mm:ss"
+                        placeholder="请选择送达时间">
+        </el-date-picker>
+      </el-form-item>
+      <div class="dialog-footer">
+        <el-button
+            type="primary"
+            @click="submitForm"
+            v-hasPermi="['riderecord:riderecord:add']"
+        >确 定</el-button>
+        <el-button @click="cancel">取 消</el-button>
+      </div>
+    </el-form>
   </div>
 </template>
 
 <script setup name="Riderecord">
 import { listRiderecord, getRiderecord, delRiderecord, addRiderecord, updateRiderecord } from "@/api/riderecord/riderecord";
+import { ref, reactive, toRefs, computed, getCurrentInstance } from "vue";
+import dayjs from "dayjs";
 
 const { proxy } = getCurrentInstance();
 
@@ -224,6 +47,16 @@ const single = ref(true);
 const multiple = ref(true);
 const total = ref(0);
 const title = ref("");
+
+const validateDestTime = (rule, value, callback) => {
+  if (!value) {
+    return callback(new Error('请选择送达时间'))
+  }
+  if (value < form.value.srcTime) {
+    return callback(new Error('送达时间必须晚于下单时间'))
+  }
+  callback()
+}
 
 const data = reactive({
   form: {},
@@ -244,6 +77,19 @@ const data = reactive({
     type: null
   },
   rules: {
+    deliveryPrice: [
+      { required: true, message: '请输入派送费', trigger: 'blur' }
+    ],
+    srcPosition: [
+      { required: true, message: '请输入取货地址', trigger: 'blur' }
+    ],
+    destPosition: [
+      { required: true, message: '请输入送达地址', trigger: 'blur' }
+    ],
+    destTime: [
+      { required: true, message: '请选择送达时间', trigger: 'change' },
+      { validator: validateDestTime, trigger: 'change' }
+    ]
   }
 });
 
@@ -265,16 +111,6 @@ const getStatusText = computed(() => {
 
 const { queryParams, form, rules } = toRefs(data);
 
-/** 查询跑腿列表 */
-function getList() {
-  loading.value = true;
-  listRiderecord(queryParams.value).then(response => {
-    riderecordList.value = response.rows;
-    total.value = response.total;
-    loading.value = false;
-  });
-}
-
 // 取消按钮
 function cancel() {
   open.value = false;
@@ -293,93 +129,30 @@ function reset() {
     status: null,
     srcPosition: null,
     destPosition: null,
-    srcTime: null,
+    srcTime: dayjs().format("YYYY-MM-DD HH:mm:ss"),  // 设置为当前时间并格式化
     destTime: null,
     type: null
   };
   proxy.resetForm("riderecordRef");
 }
 
-/** 搜索按钮操作 */
-function handleQuery() {
-  queryParams.value.pageNum = 1;
-  getList();
-}
-
-/** 重置按钮操作 */
-function resetQuery() {
-  proxy.resetForm("queryRef");
-  handleQuery();
-}
-
-// 多选框选中数据
-function handleSelectionChange(selection) {
-  ids.value = selection.map(item => item.recordId);
-  single.value = selection.length != 1;
-  multiple.value = !selection.length;
-}
-
-/** 新增按钮操作 */
-function handleAdd() {
-  reset();
-  open.value = true;
-  title.value = "添加跑腿";
-}
-
-/** 修改按钮操作 */
-function handleUpdate(row) {
-  reset();
-  const _recordId = row.recordId || ids.value
-  getRiderecord(_recordId).then(response => {
-    form.value = response.data;
-    open.value = true;
-    title.value = "修改跑腿";
-  });
-}
-
-/** 提交按钮 */
+// 提交按钮
 function submitForm() {
+  if (!form.value.srcTime) {
+    form.value.srcTime = dayjs().format("YYYY-MM-DD HH:mm:ss");  // 确保下单时间已经设置为当前时间并格式化
+  }
   proxy.$refs["riderecordRef"].validate(valid => {
     if (valid) {
-      if (form.value.recordId != null) {
-        form.value.type = 0 ;
-        form.value.status = 0 ;
-        updateRiderecord(form.value).then(response => {
-          proxy.$modal.msgSuccess("修改成功");
-          open.value = false;
-          getList();
-        });
-      } else {
-        form.value.type = 0 ;
-        form.value.status = 0 ;
-        addRiderecord(form.value).then(response => {
-
-          proxy.$modal.msgSuccess("新增成功");
-          open.value = false;
-          getList();
-        });
-      }
+      form.value.type = 0;
+      form.value.status = 0;
+      addRiderecord(form.value).then(response => {
+        proxy.$modal.msgSuccess("新增成功");
+        open.value = false;
+        reset();
+      });
+    } else {
+      proxy.$modal.msgError("表单填写有误，请检查后再提交");
     }
   });
 }
-
-/** 删除按钮操作 */
-function handleDelete(row) {
-  const _recordIds = row.recordId || ids.value;
-  proxy.$modal.confirm('是否确认删除跑腿编号为"' + _recordIds + '"的数据项？').then(function() {
-    return delRiderecord(_recordIds);
-  }).then(() => {
-    getList();
-    proxy.$modal.msgSuccess("删除成功");
-  }).catch(() => {});
-}
-
-/** 导出按钮操作 */
-function handleExport() {
-  proxy.download('riderecord/riderecord/export', {
-    ...queryParams.value
-  }, `riderecord_${new Date().getTime()}.xlsx`)
-}
-
-getList();
 </script>

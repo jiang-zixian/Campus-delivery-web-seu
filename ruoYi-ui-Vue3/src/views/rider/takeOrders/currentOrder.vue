@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
 
-    <h1 ><span class="text" style="padding-left: 550px">当前订单：{{route.params.recordId}} </span><span class="text" style="padding-left: 50px">{{ marqueeText }}</span></h1>
+    <h1 ><span class="text" style="padding-left: 550px">当前订单：{{route.params.recordId}} </span><span class="text" style="padding-left: 50px">{{ open ? "配送完成" : marqueeText}}</span></h1>
     <el-divider/>
     <span class="label">客户ID：</span>
     <span class="value">{{ currentOrder.uId }}</span>
@@ -24,7 +24,14 @@
     <br>
     <br>
 
-    <div style="height: 570px">
+
+    <div :style="{ display: open ? 'block' : 'none' }">
+      <el-alert  style="height: 50px" title="当前接单已完成,请返回接单界面" type="error" effect="dark" />
+      <br>
+      <br>
+    </div>
+
+    <div style="height: 570px ">
       <el-amap
           :min-zoom="10"
           :max-zoom="22"
@@ -40,14 +47,13 @@
     <el-button type="success" round @click="confirmOrder" v-hasPermi="['rider:takeOrders:list']">订单已送达</el-button>
 
   </div>
-
-
 </template>
 
 <script setup name="currentOrder">
 import {ElAmap} from "@vuemap/vue-amap";
 
 import {getTakeOrders, updateTakeOrders} from "@/api/rider/takeOrders.js";
+import {Back, Edit, Picture, Upload} from "@element-plus/icons-vue";
 const { proxy } = getCurrentInstance();
 
 const route = useRoute();
@@ -64,11 +70,14 @@ const center = ref([118.8254, 31.8890204]);
 
 const router = useRouter();
 
+const open = ref(false);
+
 
 function getCurrentOrder(){
   getTakeOrders(route.params.recordId).then(response => {
     currentOrder.value = response.data;
     console.log(currentOrder.value);
+    open.value = currentOrder.value.status == 2;
   });
 }
 const startMarquee = () => {
@@ -99,11 +108,13 @@ function confirmOrder(){
   proxy.$modal.confirm('是否确认订单已经送达？').then(function(){
     currentOrder.value.status=2;
     updateTakeOrders(currentOrder.value);
+    open.value=true;
   }).then(() => {
     router.push("/rider/takeOrders");
   }).catch(() => {});
 
 }
+
 
 getCurrentOrder();
 </script>

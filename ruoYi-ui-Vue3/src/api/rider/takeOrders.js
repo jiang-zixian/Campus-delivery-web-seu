@@ -9,6 +9,13 @@ export function listTakeOrders(query) {
   })
 }
 
+export function ifHaveOrder() {
+  return request({
+    url: '/rider/takeOrders/test',
+    method: 'get',
+  })
+}
+
 // 查询我要接单详细
 export function getTakeOrders(recordId) {
   return request({
