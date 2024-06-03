@@ -381,21 +381,28 @@ function handleExport() {
 
 function handleTakeOrder(row) {
   proxy.$modal.confirm('是否确认要接单编号为"' + row.recordId + '"的订单？').then(function () {
-    reset();
-    getTakeOrders(row.recordId).then(response => {
-      form.value = response.data;
-      if (form.value.status === 1) {
-        alert("手慢了，订单已被其他骑手接走啦");
+    ifHaveOrder().then(response => {
+      if(response!=null){
+        alert("当前有接单未完成");
         window.location.reload();
-      } else {
-        form.value.status = 1;
-        updateTakeOrders(form.value).then(response => {
-          getList();
-        }).then(() => {
-          router.push("/rider/currentOrder/" + row.recordId);
-        })
+      }else{
+        reset();
+        getTakeOrders(row.recordId).then(response => {
+          form.value = response.data;
+          if (form.value.status === 1) {
+            alert("手慢了，订单已被其他骑手接走啦");
+            window.location.reload();
+          } else {
+            form.value.status = 1;
+            updateTakeOrders(form.value).then(response => {
+              getList();
+            }).then(() => {
+              router.push("/rider/currentOrder/" + row.recordId);
+            })
+          }
+        });
       }
-    });
+    })
   }).catch(() => {
   });
 
