@@ -1,41 +1,115 @@
-<p align="center">
-	<img alt="logo" src="https://oscimg.oschina.net/oscnet/up-d3d0a9303e11d522a06cd263f3079027715.png">
-</p>
-<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">RuoYi v3.8.7</h1>
-<h4 align="center">基于SpringBoot+Vue3前后端分离的Java快速开发框架</h4>
-<p align="center">
-	<a href="https://gitee.com/y_project/RuoYi-Vue/stargazers"><img src="https://gitee.com/y_project/RuoYi-Vue/badge/star.svg?theme=dark"></a>
-	<a href="https://gitee.com/y_project/RuoYi-Vue"><img src="https://img.shields.io/badge/RuoYi-v3.8.7-brightgreen.svg"></a>
-	<a href="https://gitee.com/y_project/RuoYi-Vue/blob/master/LICENSE"><img src="https://img.shields.io/github/license/mashape/apistatus.svg"></a>
-</p>
+## 前言
+- ruoyi-ui-Vue2和ruoyi-ui-Vue3文件夹为前端，这里我们选用vue3的。其余文件夹为后端，大家多看看代码。
 
-## 平台简介
+## you must Know!
+大家有什么想要记录的可以看留言板
+留言板：https://typst.app/project/wTsaFeDxII7ht47qCAF0Ep
 
-* 本仓库为前端技术栈 [Vue3](https://v3.cn.vuejs.org) + [Element Plus](https://element-plus.org/zh-CN) + [Vite](https://cn.vitejs.dev) 版本。
-* 配套后端代码仓库地址[RuoYi-Vue](https://gitee.com/y_project/RuoYi-Vue) 或 [RuoYi-Vue-fast](https://github.com/yangzongzhuan/RuoYi-Vue-fast) 版本。
-* 前端技术栈（[Vue2](https://cn.vuejs.org) + [Element](https://github.com/ElemeFE/element) + [Vue CLI](https://cli.vuejs.org/zh)），请移步[RuoYi-Vue](https://gitee.com/y_project/RuoYi-Vue/tree/master/ruoyi-ui)。
-* 阿里云折扣场：[点我进入](http://aly.ruoyi.vip)，腾讯云秒杀场：[点我进入](http://txy.ruoyi.vip)&nbsp;&nbsp;
-* 阿里云优惠券：[点我领取](https://www.aliyun.com/minisite/goods?userCode=brki8iof&share_source=copy_link)，腾讯云优惠券：[点我领取](https://cloud.tencent.com/redirect.php?redirect=1025&cps_key=198c8df2ed259157187173bc7f4f32fd&from=console)&nbsp;&nbsp;
+## how to run this project
+### 后端
+1. Redis下载
+   下载和启动Redis服务器的链接
+   https://www.runoob.com/redis/redis-install.html
 
-## 前端运行
+这样即为启动成功，挂在后台即可
+![alt text](readme_img/image.png)
 
-```bash
-# 克隆项目
-git clone https://github.com/yangzongzhuan/RuoYi-Vue3.git
-
-# 进入项目目录
-cd RuoYi-Vue3
-
-# 安装依赖
-yarn --registry=https://registry.npmmirror.com
-
-# 启动服务
-yarn dev
-
-# 构建测试环境 yarn build:stage
-# 构建生产环境 yarn build:prod
-# 前端访问地址 http://localhost:80
+2. 环境部署
+```powershell
+JDK >= 1.8 (jzx使用了22版本)
+Mysql >= 5.7.0 (jzx忘了使用了什么版本，不过应该不重要)
+Maven >= 3.0
 ```
+
+高德api安装
+```shell
+npm install @vuemap/vue-amap --save
+npm install @vuemap/vue-amap-loca --save
+npm install @vuemap/vue-amap-extra --save
+```
+
+3. 将当前文件夹直接导入IDEA（vscode也可导入），将整个文件夹拖到IDEA的软件图标上即可导入
+
+4. 数据库连接
+
+   大家不用做什么了 ,直接在idea用可视化工具，方便查看数据库变化
+
+   ```shell
+   ip: 1.94.167.138
+   
+   username: root
+   
+   pwd: 123456
+   ```
+   再导入./sql文件夹下的两个sql文件，分别运行一下
+
+5. 修改配置文件
+
+   `.\Campus-delivery-web-seu\ruoyi-admin\src\main\resources\application-druid.yml`中修改刚刚创建的数据库的密码
+   ![alt text](readme_img/image-2.png)
+
+   `.\Campus-delivery-web-seu\ruoyi-admin\src\main\resources\application.yml`中
+   ![alt text](readme_img/image-3.png)
+
+   ![alt text](readme_img/image-4.png)
+
+6. 运行`com.ruoyi.RuoYiApplication.java`即可
+
+   若成功出现以下：
+
+    ```txt
+    (♥◠‿◠)ﾉﾞ  若依启动成功   ლ(´ڡ`ლ)ﾞ  
+    .-------.       ____     __        
+    |  _ _   \      \   \   /  /    
+    | ( ' )  |       \  _. /  '       
+    |(_ o _) /        _( )_ .'         
+    | (_,_).' __  ___(_ o _)'          
+    |  |\ \  |  ||   |(_,_)'         
+    |  | \ `'   /|   `-'  /           
+    |  |  \    /  \      /           
+    ''-'   `'-'    `-..-'    
+    ```
+
+7. 数据库配置已经更改。项目jdbc可以连接数据库，记得更新推送
+
+idea可以用可视化工具，方便查看数据库变化
+
+ip: 47.99.193.146
+
+username: root
+
+pwd: 123
+
+备注：jzx用
+F:\Program Files\MySQL\MySQL Server 8.0\bin\mysqldump.exe
+
+
+### 前端
+```powershell
+cd ruoyi-ui-Vue3
+
+npm install
+
+npm run dev
+```
+
+即可运行
+
+
+**这时候可以看见连接了后端的网页，登录进去之后是这样**
+![alt text](readme_img/image-5.png)
+
+成功！大家要多看看代码怎么写的呀~
+
+
+
+## 使用若依
+* 前端采用Vue、Element UI。
+* 后端采用Spring Boot、Spring Security、Redis & Jwt。
+* 权限认证使用Jwt，支持多终端认证系统。
+* 支持加载动态权限菜单，多方式轻松权限控制。
+* 高效率开发，使用代码生成器可以一键生成前后端代码。
+* 提供了技术栈（[Vue3](https://v3.cn.vuejs.org) [Element Plus](https://element-plus.org/zh-CN) [Vite](https://cn.vitejs.dev)）版本[RuoYi-Vue3](https://github.com/yangzongzhuan/RuoYi-Vue3)，保持同步更新。
 
 ## 内置功能
 
@@ -60,50 +134,11 @@ yarn dev
 
 ## 在线体验
 
-- admin/admin123  
-- 陆陆续续收到一些打赏，为了更好的体验已用于演示服务器升级。谢谢各位小伙伴。
-
-演示地址：http://vue.ruoyi.vip  
-文档地址：http://doc.ruoyi.vip
-
-## 演示图
-
-<table>
-    <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/cd1f90be5f2684f4560c9519c0f2a232ee8.jpg"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/1cbcf0e6f257c7d3a063c0e3f2ff989e4b3.jpg"/></td>
-    </tr>
-    <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-8074972883b5ba0622e13246738ebba237a.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-9f88719cdfca9af2e58b352a20e23d43b12.png"/></td>
-    </tr>
-    <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-39bf2584ec3a529b0d5a3b70d15c9b37646.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-936ec82d1f4872e1bc980927654b6007307.png"/></td>
-    </tr>
-	<tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-b2d62ceb95d2dd9b3fbe157bb70d26001e9.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-d67451d308b7a79ad6819723396f7c3d77a.png"/></td>
-    </tr>	 
-    <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/5e8c387724954459291aafd5eb52b456f53.jpg"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/644e78da53c2e92a95dfda4f76e6d117c4b.jpg"/></td>
-    </tr>
-	<tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-8370a0d02977eebf6dbf854c8450293c937.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-49003ed83f60f633e7153609a53a2b644f7.png"/></td>
-    </tr>
-	<tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-d4fe726319ece268d4746602c39cffc0621.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-c195234bbcd30be6927f037a6755e6ab69c.png"/></td>
-    </tr>
-    <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/b6115bc8c31de52951982e509930b20684a.jpg"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-5e4daac0bb59612c5038448acbcef235e3a.png"/></td>
-    </tr>
-</table>
+- admin/admin123
+- 在线体验
+  演示地址：http://vue.ruoyi.vip  
+  文档地址：http://doc.ruoyi.vip
 
 
-## 若依前后端分离交流群
 
-QQ群： [![加入QQ群](https://img.shields.io/badge/已满-937441-blue.svg)](https://jq.qq.com/?_wv=1027&k=5bVB1og) [![加入QQ群](https://img.shields.io/badge/已满-887144332-blue.svg)](https://jq.qq.com/?_wv=1027&k=5eiA4DH) [![加入QQ群](https://img.shields.io/badge/已满-180251782-blue.svg)](https://jq.qq.com/?_wv=1027&k=5AxMKlC) [![加入QQ群](https://img.shields.io/badge/已满-104180207-blue.svg)](https://jq.qq.com/?_wv=1027&k=51G72yr) [![加入QQ群](https://img.shields.io/badge/已满-186866453-blue.svg)](https://jq.qq.com/?_wv=1027&k=VvjN2nvu) [![加入QQ群](https://img.shields.io/badge/已满-201396349-blue.svg)](https://jq.qq.com/?_wv=1027&k=5vYAqA05) [![加入QQ群](https://img.shields.io/badge/已满-101456076-blue.svg)](https://jq.qq.com/?_wv=1027&k=kOIINEb5) [![加入QQ群](https://img.shields.io/badge/已满-101539465-blue.svg)](https://jq.qq.com/?_wv=1027&k=UKtX5jhs) [![加入QQ群](https://img.shields.io/badge/已满-264312783-blue.svg)](https://jq.qq.com/?_wv=1027&k=EI9an8lJ) [![加入QQ群](https://img.shields.io/badge/已满-167385320-blue.svg)](https://jq.qq.com/?_wv=1027&k=SWCtLnMz) [![加入QQ群](https://img.shields.io/badge/已满-104748341-blue.svg)](https://jq.qq.com/?_wv=1027&k=96Dkdq0k) [![加入QQ群](https://img.shields.io/badge/已满-160110482-blue.svg)](https://jq.qq.com/?_wv=1027&k=0fsNiYZt) [![加入QQ群](https://img.shields.io/badge/已满-170801498-blue.svg)](https://jq.qq.com/?_wv=1027&k=7xw4xUG1) [![加入QQ群](https://img.shields.io/badge/已满-108482800-blue.svg)](https://jq.qq.com/?_wv=1027&k=eCx8eyoJ) [![加入QQ群](https://img.shields.io/badge/已满-101046199-blue.svg)](https://jq.qq.com/?_wv=1027&k=SpyH2875) [![加入QQ群](https://img.shields.io/badge/已满-136919097-blue.svg)](https://jq.qq.com/?_wv=1027&k=tKEt51dz) [![加入QQ群](https://img.shields.io/badge/已满-143961921-blue.svg)](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=0vBbSb0ztbBgVtn3kJS-Q4HUNYwip89G&authKey=8irq5PhutrZmWIvsUsklBxhj57l%2F1nOZqjzigkXZVoZE451GG4JHPOqW7AW6cf0T&noverify=0&group_code=143961921) [![加入QQ群](https://img.shields.io/badge/已满-174951577-blue.svg)](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=ZFAPAbp09S2ltvwrJzp7wGlbopsc0rwi&authKey=HB2cxpxP2yspk%2Bo3WKTBfktRCccVkU26cgi5B16u0KcAYrVu7sBaE7XSEqmMdFQp&noverify=0&group_code=174951577) [![加入QQ群](https://img.shields.io/badge/已满-161281055-blue.svg)](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=Fn2aF5IHpwsy8j6VlalNJK6qbwFLFHat&authKey=uyIT%2B97x2AXj3odyXpsSpVaPMC%2Bidw0LxG5MAtEqlrcBcWJUA%2FeS43rsF1Tg7IRJ&noverify=0&group_code=161281055) [![加入QQ群](https://img.shields.io/badge/138988063-blue.svg)](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=XIzkm_mV2xTsUtFxo63bmicYoDBA6Ifm&authKey=dDW%2F4qsmw3x9govoZY9w%2FoWAoC4wbHqGal%2BbqLzoS6VBarU8EBptIgPKN%2FviyC8j&noverify=0&group_code=138988063) 点击按钮入群。
+
