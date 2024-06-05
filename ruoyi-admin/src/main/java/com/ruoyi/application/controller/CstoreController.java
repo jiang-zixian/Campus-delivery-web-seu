@@ -2,8 +2,6 @@ package com.ruoyi.application.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
-
-import com.ruoyi.system.service.ISysRoleService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,10 +22,10 @@ import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
- * 商家提交申请Controller
+ * 商家申请Controller
  * 
- * @author xuguowei
- * @date 2024-05-11
+ * @author ruoyi
+ * @date 2024-05-05
  */
 @RestController
 @RequestMapping("/application/cstore")
@@ -36,13 +34,10 @@ public class CstoreController extends BaseController
     @Autowired
     private ICstoreService cstoreService;
 
-    @Autowired
-    private ISysRoleService roleService;
-
     /**
-     * 查询商家提交申请列表
+     * 查询商家申请列表
      */
-    
+    @PreAuthorize("@ss.hasPermi('application:cstore:list')")
     @GetMapping("/list")
     public TableDataInfo list(Cstore cstore)
     {
@@ -52,22 +47,22 @@ public class CstoreController extends BaseController
     }
 
     /**
-     * 导出商家提交申请列表
+     * 导出商家申请列表
      */
-    
-    @Log(title = "商家提交申请", businessType = BusinessType.EXPORT)
+    @PreAuthorize("@ss.hasPermi('application:cstore:export')")
+    @Log(title = "商家申请", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Cstore cstore)
     {
         List<Cstore> list = cstoreService.selectCstoreList(cstore);
         ExcelUtil<Cstore> util = new ExcelUtil<Cstore>(Cstore.class);
-        util.exportExcel(response, list, "商家提交申请数据");
+        util.exportExcel(response, list, "商家申请数据");
     }
 
     /**
-     * 获取商家提交申请详细信息
+     * 获取商家申请详细信息
      */
-    
+    @PreAuthorize("@ss.hasPermi('application:cstore:query')")
     @GetMapping(value = "/{cstoreId}")
     public AjaxResult getInfo(@PathVariable("cstoreId") Long cstoreId)
     {
@@ -75,23 +70,25 @@ public class CstoreController extends BaseController
     }
 
     /**
-     * 新增商家提交申请
+     * 新增商家申请
      */
-    
-    @Log(title = "商家提交申请", businessType = BusinessType.INSERT)
+    @PreAuthorize("@ss.hasPermi('application:cstore:add')")
+    @Log(title = "商家申请", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Cstore cstore)
     {
         cstore.setuId(getLoginUser().getUserId());
-        cstore.setStatus(0L);
+        cstore.setPass(0);
+        cstore.setStatus(0);
+        System.out.println(cstore);
         return toAjax(cstoreService.insertCstore(cstore));
     }
 
     /**
-     * 修改商家提交申请
+     * 修改商家申请
      */
-    
-    @Log(title = "商家提交申请", businessType = BusinessType.UPDATE)
+    @PreAuthorize("@ss.hasPermi('application:cstore:edit')")
+    @Log(title = "商家申请", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Cstore cstore)
     {
@@ -99,42 +96,13 @@ public class CstoreController extends BaseController
     }
 
     /**
-     * 删除商家提交申请
+     * 删除商家申请
      */
-    
-    @Log(title = "商家提交申请", businessType = BusinessType.DELETE)
+    @PreAuthorize("@ss.hasPermi('application:cstore:remove')")
+    @Log(title = "商家申请", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{cstoreIds}")
     public AjaxResult remove(@PathVariable Long[] cstoreIds)
     {
         return toAjax(cstoreService.deleteCstoreByCstoreIds(cstoreIds));
     }
-
-    /**
-     * 同意商家申请
-     */
-    @Log(title = "骑手申请", businessType = BusinessType.UPDATE)
-    @DeleteMapping("/agree/{criderIds}")
-    public AjaxResult agree(@PathVariable Long[] criderIds)
-    {
-        Long[] uids=cstoreService.selectUIdsByCstoreIds(criderIds);
-
-        for(Long uid:uids){
-            System.out.println(uid);
-        }
-
-        roleService.insertAuthUsers(101L,uids);
-
-        return toAjax(cstoreService.agreeCstoreByCstoreIds(criderIds));
-    }
-
-    /**
-     * 拒绝商家申请
-     */
-    @Log(title = "骑手申请", businessType = BusinessType.UPDATE)
-    @DeleteMapping("/refuse/{criderIds}")
-    public AjaxResult refuse(@PathVariable Long[] criderIds)
-    {
-        return toAjax(cstoreService.refuseCstoreByCstoreIds(criderIds));
-    }
-
 }
