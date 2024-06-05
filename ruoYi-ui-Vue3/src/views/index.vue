@@ -181,9 +181,9 @@
             <span>测试用例（5.12-5.15）</span>
             <el-progress :percentage="100" status="success" />
             <span>测试报告（5.15-5.25）</span>
-            <el-progress :percentage="60"  />
-            <span>用户手册（5.9-5.26）</span>
-            <el-progress :percentage="10"  />
+            <el-progress :percentage="100" status="success" />
+<!--            <span>用户手册（5.9-5.26）</span>-->
+<!--            <el-progress :percentage="10"  />-->
 
           </div>
         </el-card>
