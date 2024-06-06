@@ -87,9 +87,9 @@
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['store:myStore:edit']">修改</el-button>
           <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['store:myStore:remove']">删除</el-button>
-          <el-button link type="primary" icon="Memo" @click="handleEditStore(scope.row)" v-hasPermi="['store:myStore:EditStore']">管理商品</el-button>
-          <el-button link type="primary" icon="Document" @click="handleCheckRecord(scope.row)" v-hasPermi="['store:myStore:storeRecord']">查看订单记录</el-button>
-          <el-button link type="primary" icon="ChatDotRound" @click="handleCheckComment(scope.row)" v-hasPermi="['store:myStore:myComment']">查看评论</el-button>
+          <el-button link type="primary" icon="Memo" @click="handleEditStore(scope.row)" >管理商品</el-button>
+          <el-button link type="primary" icon="Document" @click="handleCheckRecord(scope.row)" >查看订单记录</el-button>
+          <el-button link type="primary" icon="ChatDotRound" @click="handleCheckComment(scope.row)" >查看评论</el-button>
         </template>
       </el-table-column>
     </el-table>
