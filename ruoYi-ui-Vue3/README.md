@@ -41,7 +41,7 @@ npm install @vuemap/vue-amap-extra --save
    备注：jzx用
    F:\Program Files\MySQL\MySQL Server 8.0\bin\mysqldump.exe
    ```
-   再导入./sql文件夹下的两个sql文件，分别运行一下
+   在服务器的mysql下创建名为takeaway的数据库，并运行./sql文件夹下的`_47_99_193_146-2024_06_07_15_51_13-dump.sql`即可
 
 5. 修改配置文件
 
@@ -58,7 +58,7 @@ npm install @vuemap/vue-amap-extra --save
    若成功出现以下：
 
     ```txt
-    (♥◠‿◠)ﾉﾞ  若依启动成功   ლ(´ڡ`ლ)ﾞ  
+    (♥◠‿◠)ﾉﾞ  快来吃饭呀~   ლ(´ڡ`ლ)ﾞ  
     .-------.       ____     __        
     |  _ _   \      \   \   /  /    
     | ( ' )  |       \  _. /  '       
