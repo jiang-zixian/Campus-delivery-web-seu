@@ -1,34 +1,62 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="商品编号" prop="iId">
-        <el-input v-model="queryParams.iId" placeholder="请输入商品编号" clearable @keyup.enter="handleQuery" />
-      </el-form-item>
-      <el-form-item label="商品名" prop="itemName">
-        <el-input v-model="queryParams.itemName" placeholder="请输入商品名" clearable @keyup.enter="handleQuery" />
+    <el-form @submit.native.prevent :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
+      <div>
+      <el-form-item>
+        <el-input
+          v-model="queryParams.itemName"
+          class="borderNone"
+          placeholder="请输入商品名称"
+          clearable
+          @keyup.enter="handleQuery"
+        >
+          <template #append>
+            <el-button type="primary"  @click="handleQuery">搜索</el-button>
+          </template>
+        </el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
-        <el-button icon="Refresh" @click="resetQuery">重置</el-button>
       </el-form-item>
-
+      </div>
+    </el-form>
       <el-form-item>
         <el-button type="primary" plain icon="ShoppingCart" :disabled="multiple" @click="addmultipleCart">加入</el-button>
         <el-button type="success" plain icon="shopping-cart" @click="openCart">购物车</el-button>
       </el-form-item>
-    </el-form>
+
 
     <!-- 商品列表 -->
     <el-table v-loading="loading" :data="itemListList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="商品图像" align="center" prop="photo" width="100">
+      <el-table-column type="selection" width="40" align="center" />
+      <!-- <el-table-column label="商品图像" align="center" prop="photo" width="100">
         <template #default="scope">
           <image-preview :src="scope.row.photo" :width="50" :height="50" />
         </template>
       </el-table-column>
       <el-table-column label="商品名" align="center" prop="itemName" />
       <el-table-column label="价格" align="center" prop="price" />
-      <el-table-column label="库存数量" align="center" prop="amount" />
+      <el-table-column label="库存数量" align="center" prop="amount" /> -->
+      <el-table-column label="" width="160">
+      <template #default="scope">
+        <div class="item-info">
+          <image-preview :src="scope.row.photo" alt="商店logo" class="item-logo"/>
+        </div>
+      </template>
+    </el-table-column>
+      <el-table-column label="外卖商品" width="160">
+    <template #default="scope">
+      <div class="delivery-info">
+        <p class="item-name">{{ scope.row.itemName }}</p>
+        <p>月售 {{ getRandomMinOrder() }}  |  赞 {{ getRandomDeliveryFee() }}</p>
+        <p class="item-price"> ￥{{ scope.row.price }}</p>
+        <!-- <p><span class="star">{{ generateRandomStars() }}</span> 月售 {{ getRandomAvgPrice() }}</p>
+        <p>{{ getRandomTime() }}分钟 | {{ getRandomDistance() }}km</p>
+        <p>起送 {{ getRandomMinOrder() }} | 配送 {{ getRandomDeliveryFee() }} | 人均 {{ getRandomAvgPrice() }}</p> -->
+      
+
+      </div>
+    </template>
+  </el-table-column>
       <el-table-column align="center" class-name="fixed-width">
         <template #default="scope">
           <el-button type="primary" icon="ShoppingCart" plain circle @click="open1(scope.row)"
@@ -482,6 +510,29 @@ const payallitem = () => {
   )
 };
 
+function getRandomTime() {
+      // 生成随机分钟数，例如10到40分钟
+      return Math.floor(Math.random() * (40 - 10 + 1)) + 10;
+    }
+
+function  getRandomDistance() {
+      // 生成随机配送距离，例如1到5公里
+      return Math.floor(Math.random() * (5 - 1 + 1)) + 1;
+    }
+
+function    getRandomMinOrder() {
+      // 生成随机起送价，例如10到50元
+      return Math.floor(Math.random() * (50 - 10 + 1)) + 10;
+    }
+function getRandomDeliveryFee() {
+      // 生成随机配送费，例如2到10元
+      return Math.floor(Math.random() * (10 - 2 + 1)) + 2;
+    }
+function   getRandomAvgPrice() {
+      // 生成随机人均消费，例如20到50元
+      return Math.floor(Math.random() * (50 - 20 + 1)) + 20;
+    }
+
 //一个计算属性，计算总价格,转成int类型
 const computepriceplusde = computed(() => {
   return parseInt(allPrice.value) + parseInt(orderform.value.deliveryPrice || 0);
@@ -494,9 +545,57 @@ getList();
 </script>
 
 <style scoped>
+::v-deep .el-input__wrapper {
+  border-bottom-left-radius: 50px;
+  border-top-left-radius: 50px;
+}
+::v-deep .el-input-group__append{
+  border-bottom-right-radius: 50px;
+  border-top-right-radius: 50px;
+  background-color: #409eff;
+  color: white;
+}
+
 .register_btn {
   position: absolute;
   right: 0%;
 
 }
+
+.item-info {
+  display: flex;
+  align-items: center;
+}
+.item-logo {
+  width: 70px; /* 根据需要调整大小 */
+  height: auto;
+  margin-right: 5px;
+}
+
+
+.star {
+  color: gold; /* 将星星设置为金色 */
+  font-size: 1.7em; /* 增大星星的字体大小 */
+  margin-right: 3px; /* 为星星和月销售信息之间添加一些间距 */
+}
+.item-name {
+  font-weight: bold; /* 加粗文本 */
+  color: black; /* 设置文本颜色为黑色 */
+  font-size: 16px; /* 设置字体大小 */
+}
+.item-info {
+  display: flex;
+  flex-direction: column;
+  font-size: 12px; /* 设置字体大小 */
+}
+.delivery-info p {
+  margin: 1px 0; /* 设置上边距和下边距，根据需要调整 */
+}
+
+.item-price {
+  font-size: 16px; /* 设置字体大小 */
+  color: red; /* 设置文本颜色为红色 */
+  font-weight: bold; /* 加粗文本 */
+}
 </style>
+
