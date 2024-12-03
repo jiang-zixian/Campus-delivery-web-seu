@@ -35,7 +35,7 @@
       <el-form-item>
         <el-input
           v-model="queryParams.sname"
-          class="borderNone"
+          class="special-input"
           placeholder="请输入商店名称"
           clearable
           @keyup.enter="handleQuery"
@@ -49,7 +49,6 @@
       </el-form-item>
       </div>
     </el-form>
-
 
     <el-table v-loading="loading" :data="storeListList" stripe @selection-change="handleSelectionChange" @row-click="handlegoshopping" :show-headline="false">
       <!-- <el-table-column label="" type="expand"  width="100">
@@ -323,11 +322,11 @@ getList();
 </script>
 
 <style scoped>
-::v-deep .el-input__wrapper {
+.special-input ::v-deep .el-input__wrapper {
   border-bottom-left-radius: 50px;
   border-top-left-radius: 50px;
 }
-::v-deep .el-input-group__append{
+.special-input ::v-deep .el-input-group__append{
   border-bottom-right-radius: 50px;
   border-top-right-radius: 50px;
   background-color: #409eff;

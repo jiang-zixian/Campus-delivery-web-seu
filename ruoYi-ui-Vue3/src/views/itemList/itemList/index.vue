@@ -1,33 +1,42 @@
 <template>
   <div class="app-container">
-    <el-form @submit.native.prevent :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <div>
-      <el-form-item>
-        <el-input
-          v-model="queryParams.itemName"
-          class="borderNone"
-          placeholder="请输入商品名称"
-          clearable
-          @keyup.enter="handleQuery"
-        >
-          <template #append>
-            <el-button type="primary"  @click="handleQuery">搜索</el-button>
-          </template>
-        </el-input>
-      </el-form-item>
-      <el-form-item>
-      </el-form-item>
-      </div>
-    </el-form>
-      <el-form-item>
+    <el-row>
+      <el-col :span="18">
+        <!-- 输入框代码 -->
+        <el-form @submit.native.prevent :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch"
+          label-width="68px">
+          <div>
+            <el-form-item>
+
+              <el-input v-model="queryParams.itemName" class="special-input" placeholder="请输入商品名称" clearable
+                @keyup.enter="handleQuery">
+                <template #append>
+                  <el-button type="primary" @click="handleQuery">搜索</el-button>
+                </template>
+              </el-input>
+            </el-form-item>
+            <el-form-item>
+            </el-form-item>
+
+          </div>
+        </el-form>
+      </el-col>
+      <el-col :span="6">
+        <el-button type="success" plain icon="shopping-cart" style="margin-left: -10px;"
+          @click="openCart">购物车</el-button>
+      </el-col>
+    </el-row>
+
+
+
+    <!-- <el-form-item>
         <el-button type="primary" plain icon="ShoppingCart" :disabled="multiple" @click="addmultipleCart">加入</el-button>
-        <el-button type="success" plain icon="shopping-cart" @click="openCart">购物车</el-button>
-      </el-form-item>
+      </el-form-item> -->
 
 
     <!-- 商品列表 -->
     <el-table v-loading="loading" :data="itemListList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="40" align="center" />
+      <!-- <el-table-column type="selection" width="40" align="center" /> -->
       <!-- <el-table-column label="商品图像" align="center" prop="photo" width="100">
         <template #default="scope">
           <image-preview :src="scope.row.photo" :width="50" :height="50" />
@@ -36,27 +45,25 @@
       <el-table-column label="商品名" align="center" prop="itemName" />
       <el-table-column label="价格" align="center" prop="price" />
       <el-table-column label="库存数量" align="center" prop="amount" /> -->
-      <el-table-column label="" width="160">
-      <template #default="scope">
-        <div class="item-info">
-          <image-preview :src="scope.row.photo" alt="商店logo" class="item-logo"/>
-        </div>
-      </template>
-    </el-table-column>
+      <el-table-column label="" width="100">
+        <template #default="scope">
+          <div class="item-info">
+            <image-preview :src="scope.row.photo" alt="商店logo" class="item-logo" />
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column label="外卖商品" width="160">
-    <template #default="scope">
-      <div class="delivery-info">
-        <p class="item-name">{{ scope.row.itemName }}</p>
-        <p>月售 {{ getRandomMinOrder() }}  |  赞 {{ getRandomDeliveryFee() }}</p>
-        <p class="item-price"> ￥{{ scope.row.price }}</p>
-        <!-- <p><span class="star">{{ generateRandomStars() }}</span> 月售 {{ getRandomAvgPrice() }}</p>
+        <template #default="scope">
+          <div class="delivery-info">
+            <p class="item-name">{{ scope.row.itemName }}</p>
+            <p>月售 {{ getRandomMinOrder() }} | 赞 {{ getRandomDeliveryFee() }}</p>
+            <p class="item-price"> ￥{{ scope.row.price }}</p>
+            <!-- <p><span class="star">{{ generateRandomStars() }}</span> 月售 {{ getRandomAvgPrice() }}</p>
         <p>{{ getRandomTime() }}分钟 | {{ getRandomDistance() }}km</p>
         <p>起送 {{ getRandomMinOrder() }} | 配送 {{ getRandomDeliveryFee() }} | 人均 {{ getRandomAvgPrice() }}</p> -->
-      
-
-      </div>
-    </template>
-  </el-table-column>
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column align="center" class-name="fixed-width">
         <template #default="scope">
           <el-button type="primary" icon="ShoppingCart" plain circle @click="open1(scope.row)"
@@ -65,33 +72,48 @@
       </el-table-column>
     </el-table>
 
-    <pagination v-show="total > 0" :total="total" v-model:page="queryParams.pageNum"
-      v-model:limit="queryParams.pageSize" @pagination="getList" />
+    <!-- <pagination v-show="total > 0" :total="total" v-model:page="queryParams.pageNum"
+      v-model:limit="queryParams.pageSize" @pagination="getList" /> -->
+
 
     <!-- 购物车列表 -->
-    <el-drawer v-model="drawer" title="我的购物车" :with-header="true" :before-close="handleClose" :bottom="0" size="65%">
-      <el-row :gutter="8">
-        <el-col :span="8">
+    <el-drawer v-model="drawer" title="我的购物车" :with-header="true" :before-close="handleClose"
+      :bottom="0" size="100%">
+      <el-row :gutter="10">
+        <el-col :span="15">
           <el-form :model="cart" ref="cartRef" :inline="true" label-width="68px">
-            <el-form-item label="总价格">
+            <el-form-item label="总价">
               <el-input v-model="allPrice" disabled></el-input>
             </el-form-item>
           </el-form>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="9">
           <el-button type="primary" @click="applyallCart">提交订单</el-button>
         </el-col>
       </el-row>
       <el-row>
+
         <el-table :data="cartList" border :height="tableHeight">
           <!--          <el-table-column label="编号" type="index" :index="fun1"/>-->
-          <el-table-column label="商品编号" align="center" prop="iId" />
-          <el-table-column label="商品图像" align="center" width="100">
+          <el-table-column label="" align="center" width="100">
             <template #default="scope">
-              <image-preview :src="scope.row.photo" :width="50" :height="50" />
+              <image-preview :src="scope.row.photo" :width="70" :height="70" />
             </template>
           </el-table-column>
-          <el-table-column label="商品名" align="center" prop="itemName" />
+
+
+          <el-table-column label="外卖商品" width="110">
+            <template #default="scope">
+              <div class="delivery-info">
+                <p class="item-name">{{ scope.row.itemName }}</p>
+                <p class="item-price"> ￥{{ scope.row.price }}</p>
+
+              </div>
+            </template>
+          </el-table-column>
+
+
+          <!-- <el-table-column label="商品名" align="center" prop="itemName" />
           <el-table-column label="价格" align="center" prop="price" />
           <el-table-column label="购买数量" align="center" prop="num">
             <template #default="scope">
@@ -100,9 +122,15 @@
                   :min="1"></el-input-number>
               </el-row>
             </template>
-          </el-table-column>
-          <el-table-column label="操作" align="center">
+          </el-table-column> -->
+
+          <el-table-column label="操作" align="center" width="125">
             <template #default="scope">
+              <el-row>
+                <el-input-number style= "width:120px;"
+                v-model="scope.row.num" @change="changeNum(scope.row.iId, scope.row.num)"
+                  :min="1"></el-input-number>
+              </el-row>
               <el-button type="danger" plain @click="changeNum(scope.row.iId, 0),deleoneitem(scope.row.iId)"
                 title="删除">删除</el-button>
             </template>
@@ -140,8 +168,8 @@
 
 
     <!-- 提交订单的dialog -->
-    <el-dialog :title="title" v-model="applyall" width="500px" append-to-body>
-      <el-form ref="orderformRef" :model="orderform" :rules="rules" label-width="100px">
+    <el-dialog :title="title" v-model="applyall" width="350px" append-to-body>
+      <el-form ref="orderformRef" :model="orderform" :rules="rules" label-width="80px">
         <!-- 这里选择自提或者外卖会出现不同的表单 -->
         <el-form-item label="配送方式" prop="delivery">
           <el-radio-group v-model="orderform.type">
@@ -163,7 +191,7 @@
           <el-form-item label="目的地址" prop="destPosition">
             <el-input v-model="orderform.destPosition" placeholder="请输入目的地址" />
           </el-form-item>
-          <el-form-item label="预计送达时间" prop="destTime">
+          <el-form-item label="期望送达" prop="destTime">
             <el-date-picker v-model="orderform.destTime" type="datetime" placeholder="请选择预计送达时间"
               value-format="YYYY-MM-DD HH:mm:ss" />
           </el-form-item>
@@ -190,7 +218,7 @@
 </template>
 
 <script setup name="ItemList">
-import { listItemList, getItemList, delItemList, addItemList, updateItemList,postallitem,checkitemnum } from "@/api/itemList/itemList";
+import { listItemList, getItemList, delItemList, addItemList, updateItemList,postallitem,checkitemnum} from "@/api/itemList/itemList";
 import { useRoute } from "vue-router";
 import dayjs from "dayjs";
 import { ElNotification } from 'element-plus'
@@ -545,11 +573,11 @@ getList();
 </script>
 
 <style scoped>
-::v-deep .el-input__wrapper {
+.special-input ::v-deep .el-input__wrapper {
   border-bottom-left-radius: 50px;
   border-top-left-radius: 50px;
 }
-::v-deep .el-input-group__append{
+.special-input ::v-deep .el-input-group__append{
   border-bottom-right-radius: 50px;
   border-top-right-radius: 50px;
   background-color: #409eff;
