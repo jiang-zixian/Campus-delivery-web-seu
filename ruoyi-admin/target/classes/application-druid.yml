@@ -6,7 +6,7 @@ spring:
         druid:
             # 主库数据源
             master:
-                url: jdbc:mysql://47.99.193.146/takeaway
+                url: jdbc:mysql://121.40.124.195/takeaway
                 username: root
                 password: xpl666xpl
             # 从库数据源

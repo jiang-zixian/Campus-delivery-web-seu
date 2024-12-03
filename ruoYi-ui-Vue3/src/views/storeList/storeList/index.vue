@@ -1,6 +1,6 @@
 <template>
-  <div class="app-container">
-    <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
+  <div class="app-container">             
+    <!-- <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="商店编码" prop="sId">
         <el-input
           v-model="queryParams.sId"
@@ -29,41 +29,59 @@
         <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
         <el-button icon="Refresh" @click="resetQuery">重置</el-button>
       </el-form-item>
-    </el-form>
+    </el-form> -->
 
-    <el-table v-loading="loading" :data="storeListList" stripe @selection-change="handleSelectionChange">
-      <el-table-column label="商店描述" type="expand"  width="100">
+
+    <el-table v-loading="loading" :data="storeListList" stripe @selection-change="handleSelectionChange" @row-click="handlegoshopping" :show-headline="false">
+      <!-- <el-table-column label="" type="expand"  width="100">
           <template #default="props">
             <p><b>商店地点: </b></p>
             <p>{{ splitDescription1(props.row.description) }}</p>
             <p><b>商店描述: </b></p>
             <p>{{ splitDescription2(props.row.description) }}</p>
           </template>
-        </el-table-column>
+        </el-table-column> -->
 
+      <el-table-column label="" width="160">
+      <template #default="scope">
+        <div class="store-info">
+          <image-preview :src="scope.row.logo" alt="商店logo" class="store-logo"/>
+        </div>
+      </template>
+    </el-table-column>
+    
+      <el-table-column label="外卖神店" width="160">
+    <template #default="scope">
+      <div class="delivery-info">
+        <p class="store-name">{{ scope.row.sname }}</p>
+        <p><span class="star">{{ generateRandomStars() }}</span> 月售 {{ getRandomAvgPrice() }}</p>
+        <p>{{ getRandomTime() }}分钟 | {{ getRandomDistance() }}km</p>
+        <p>起送 {{ getRandomMinOrder() }} | 配送 {{ getRandomDeliveryFee() }} | 人均 {{ getRandomAvgPrice() }}</p>
+        <p>
+        <img src="../png/fan.png" class="tiny-image">
+          <img src="../png/jian.png" class="tiny-image">
+          <img src="../png/piao.png" class="tiny-image">
+        </p>
 
-      <el-table-column label="商店编码" align="center" prop="sId" width="100" />
-      <el-table-column label="店长编码" align="center" prop="uId" width="100" />
-      <el-table-column label="商店名称" align="center" prop="sname" />
-      <el-table-column label="图标" align="center" prop="logo">
-        <template #default="scope">
-          <image-preview :src="scope.row.logo" :width="50" :height="50"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="110">
+      </div>
+    </template>
+  </el-table-column>
+      <!-- <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="110">
         <template #default="scope">
           <el-button link type="primary" icon="ShoppingCart" @click="handlegoshopping(scope.row)">购物</el-button>
         </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
+
+ 
     
-    <pagination
+    <!-- <pagination
       v-show="total>0"
       :total="total"
       v-model:page="queryParams.pageNum"
       v-model:limit="queryParams.pageSize"
       @pagination="getList"
-    />
+    /> -->
 
     <!-- 添加或修改商家列表对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
@@ -243,6 +261,85 @@ function splitDescription2(str) {
   return parts.slice(1).join(' ');
 }
 
+function getRandomTime() {
+      // 生成随机分钟数，例如10到40分钟
+      return Math.floor(Math.random() * (40 - 10 + 1)) + 10;
+    }
+
+function  getRandomDistance() {
+      // 生成随机配送距离，例如1到5公里
+      return Math.floor(Math.random() * (5 - 1 + 1)) + 1;
+    }
+
+function    getRandomMinOrder() {
+      // 生成随机起送价，例如10到50元
+      return Math.floor(Math.random() * (50 - 10 + 1)) + 10;
+    }
+function getRandomDeliveryFee() {
+      // 生成随机配送费，例如2到10元
+      return Math.floor(Math.random() * (10 - 2 + 1)) + 2;
+    }
+function   getRandomAvgPrice() {
+      // 生成随机人均消费，例如20到50元
+      return Math.floor(Math.random() * (50 - 20 + 1)) + 20;
+    }
+
+function generateRandomStars() {
+      const stars = [];
+      const maxStars = 5; // 最大星级为5
+      const rating = Math.floor(Math.random() * maxStars) + 1; // 随机生成1到5之间的整数作为评分
+      for (let i = 0; i < rating; i++) {
+        stars.push('★'); // 根据评分添加实心星
+      }
+      for (let i = rating; i < maxStars; i++) {
+        stars.push('☆'); // 剩余的添加空心星
+      }
+      return stars.join('');
+    }
+ function   getRandomSales() {
+      return Math.floor(Math.random() * (4000 - 1000 + 1)) + 1000; // 随机生成1000到4000之间的月销售数量
+    }
 
 getList();
 </script>
+
+<style scoped>
+.store-info {
+  display: flex;
+  align-items: center;
+}
+.store-logo {
+  width: 95px; /* 根据需要调整大小 */
+  height: auto;
+  margin-right: 5px;
+}
+
+
+.star {
+  color: gold; /* 将星星设置为金色 */
+  font-size: 1.7em; /* 增大星星的字体大小 */
+  margin-right: 3px; /* 为星星和月销售信息之间添加一些间距 */
+}
+.store-name {
+  font-weight: bold; /* 加粗文本 */
+  color: black; /* 设置文本颜色为黑色 */
+  font-size: 16px; /* 设置字体大小 */
+}
+.delivery-info {
+  display: flex;
+  flex-direction: column;
+  font-size: 12px; /* 设置字体大小 */
+}
+.delivery-info p {
+  margin: 1px 0; /* 设置上边距和下边距，根据需要调整 */
+}
+.tiny-image {
+  width: 15px; /* 设置图片宽度 */
+  height: 15px; /* 设置图片高度 */
+  margin-right: 4px; /* 图片之间的间距 */
+}
+
+.el-button {
+  color: #ff9800; /* 根据需要调整颜色 */
+}
+</style>
