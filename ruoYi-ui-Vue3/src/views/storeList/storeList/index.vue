@@ -30,7 +30,25 @@
         <el-button icon="Refresh" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form> -->
-
+    <el-form @submit.native.prevent :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
+      <div>
+      <el-form-item>
+        <el-input
+          v-model="queryParams.sname"
+          class="special-input"
+          placeholder="请输入商店名称"
+          clearable
+          @keyup.enter="handleQuery"
+        >
+          <template #append>
+            <el-button type="primary"  @click="handleQuery">搜索</el-button>
+          </template>
+        </el-input>
+      </el-form-item>
+      <el-form-item>
+      </el-form-item>
+      </div>
+    </el-form>
 
     <el-table v-loading="loading" :data="storeListList" stripe @selection-change="handleSelectionChange" @row-click="handlegoshopping" :show-headline="false">
       <!-- <el-table-column label="" type="expand"  width="100">
@@ -304,6 +322,17 @@ getList();
 </script>
 
 <style scoped>
+.special-input ::v-deep .el-input__wrapper {
+  border-bottom-left-radius: 50px;
+  border-top-left-radius: 50px;
+}
+.special-input ::v-deep .el-input-group__append{
+  border-bottom-right-radius: 50px;
+  border-top-right-radius: 50px;
+  background-color: #409eff;
+  color: white;
+}
+
 .store-info {
   display: flex;
   align-items: center;
@@ -342,4 +371,6 @@ getList();
 .el-button {
   color: #ff9800; /* 根据需要调整颜色 */
 }
+
+
 </style>
