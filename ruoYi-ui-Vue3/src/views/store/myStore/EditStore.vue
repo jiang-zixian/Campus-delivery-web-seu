@@ -159,6 +159,9 @@
       </template>
     </el-dialog>
   </div>
+
+
+  <div ref="info" style="width: 100%; height: 300%"></div>
 </template>
 
 <script setup name="EditStore">
@@ -166,6 +169,7 @@ import { listItemList, getItemList, delItemList, addItemList, updateItemList } f
 import {useRouter} from "vue-router";
 import {Briefcase, Edit, Picture, StarFilled, Upload} from "@element-plus/icons-vue";
 import {getMyStore} from "@/api/store/myStore.js";
+import {  onMounted, ref, inject } from "vue";
 
 const { proxy } = getCurrentInstance();
 
@@ -200,6 +204,8 @@ const data = reactive({
 });
 
 const { queryParams, form, rules } = toRefs(data);
+
+
 
 /** 查询商品列表列表 */
 function getList() {
@@ -320,8 +326,96 @@ function getStoreName(){
   });
 }
 
+//通过inject使用echarts
+const echarts = inject("echarts");
+
+//通过ref获取html元素
+const info = ref();
+
+onMounted(() => {
+  // 渲染echarts的父元素
+  var infoEl = info.value;
+
+  //  light dark
+  var userEc = echarts.init(infoEl, "light");
+
+  // 指定图表的配置项和数据
+  var option = {
+    title: {
+      text: '商品库存比例',
+      left: 'center'
+    },
+    legend: {
+      orient: 'vertical', // 垂直布局
+      left: '60%',      // 右对齐
+      top: 'center' ,      // 垂直居中
+      //x: "left",
+      data: ["a", "b", "c"],
+      icon: "rect",
+    },
+    series: [
+      {
+        type: "pie",
+        radius: ['30%', '70%'],
+        data: [
+          {
+            value: 335,
+            name: "a",
+          },
+          {
+            value: 234,
+            name: "b",
+          },
+          {
+            value: 1548,
+            name: "c",
+          },
+        ],
+        //阴影
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: "rgba(0, 0, 0, 0.5)",
+          },
+        },
+        label: {
+          show: true,           // 确保显示标签
+          fontSize: 17,         // 设置字体大小，例如 16px
+          color: '#000',        // 设置字体颜色（可选）
+          fontWeight: 'bold',   // 文字加粗（可选）
+          //formatter: '{b}: {c}',// 自定义标签的内容
+        },
+
+        // 颜色
+        color: [
+          "#516b91",
+          "#59c4e6",
+          "#edafda",
+          "#93b7e3",
+          "#a5e7f0",
+          "#cbb0e3",
+          "#c12e34",
+          "#e6b600",
+          "#0098d9",
+          "#2b821d",
+          "#005eaa",
+          "#339ca8",
+          "#cda819",
+          "#32a487",
+        ],
+      },
+    ],
+  };
+
+  // 使用刚指定的配置项和数据显示图表。
+  userEc.setOption(option);
+});
+
+
 getList();
 getStoreName();
+
 </script>
 
 <style>
