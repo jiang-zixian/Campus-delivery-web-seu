@@ -1,4 +1,12 @@
 <template>
+  <div style="display: flex; width: 100%; height: 300%;">
+    <!-- 左侧饼图 -->
+    <div ref="pieChart" style="width: 50%; height: 300%;"></div>
+
+    <!-- 右侧折线图 -->
+    <div ref="lineChart" style="width: 50%; height: 300%;"></div>
+  </div>
+
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="商店编号" prop="sId">
@@ -138,7 +146,132 @@
 <script setup name="MyStore">
 import {listMyStore, getMyStore, delMyStore, addMyStore, updateMyStore} from "@/api/store/myStore";
 import {StarFilled} from "@element-plus/icons-vue";
+import { onMounted, ref, inject } from "vue";
 
+// 通过inject使用echarts
+const echarts = inject("echarts");
+
+// 通过ref获取两个图表的HTML元素
+const pieChart = ref();
+const lineChart = ref();
+
+onMounted(() => {
+  // 获取父元素
+  const pieEl = pieChart.value;
+  const lineEl = lineChart.value;
+
+  // 初始化饼图
+  const pieEchart = echarts.init(pieEl, "light");
+
+  // 初始化折线图
+  const lineEchart = echarts.init(lineEl, "light");
+
+  // 饼图配置项
+  const pieOption = {
+    title: {
+      text: '各商店总营业额占比',
+      left: 'center'
+    },
+    legend: {
+      left: 'center',
+      top: 'bottom',
+      data: ["天猫超市", "711便利店", "茶百道"],
+      icon: "rect",
+    },
+    tooltip: {
+      trigger: "item",
+      formatter: function (params) {
+        return `${params.name}: ${params.value} 元 (${params.percent.toFixed(2)}%)`; // 显示总额和占比，保留两位小数
+      }
+    },
+    series: [
+      {
+        type: "pie",
+        radius: ['30%', '70%'],
+        data: [
+          { value: 10170, name: "天猫超市" },
+          { value: 17570, name: "711便利店" },
+          { value: 16670, name: "茶百道" },
+        ],
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: "rgba(0, 0, 0, 0.5)",
+          },
+        },
+        color: [
+          "#516b91",
+          "#59c4e6",
+          "#edafda",
+          "#93b7e3",
+          "#a5e7f0",
+          "#cbb0e3",
+          "#c12e34",
+          "#e6b600",
+          "#0098d9",
+          "#2b821d",
+          "#005eaa",
+          "#339ca8",
+          "#cda819",
+          "#32a487",
+        ],
+      },
+    ],
+  };
+
+
+// 折线图配置项
+  const lineOption = {
+    title: {
+      text: '各商店月度营业额数据总表',
+      left: 'center'
+    },
+    tooltip: {
+      trigger: "axis",
+    },
+    legend: {
+      data: ["天猫超市", "711便利店", "茶百道"], // 添加三个商店的名称
+      left: 'center',
+      top: 'bottom'
+    },
+    xAxis: {
+      type: "category",
+      data: ["2024-1", "2024-2","2024-3","2024-4","2024-5","2024-6","2024-7"], // 日期轴
+    },
+    yAxis: {
+      type: "value",
+      axisLabel: {
+        formatter: '¥{value}', // 格式化 y 轴的标签为货币
+      },
+    },
+    series: [
+      {
+        name: "天猫超市", // 第一个商店
+        type: "line",
+        data: [1200, 1320, 1010, 1340, 900, 2300, 2100], // 商店A的营业额数据
+        smooth: true, // 平滑曲线
+      },
+      {
+        name: "711便利店", // 第二个商店
+        type: "line",
+        data: [2200, 1820, 1910, 2340, 2900, 3300, 3100], // 商店B的营业额数据
+        smooth: true, // 平滑曲线
+      },
+      {
+        name: "茶百道", // 第三个商店
+        type: "line",
+        data: [1500, 2320, 2010, 1540, 1900, 3300, 4100], // 商店C的营业额数据
+        smooth: true, // 平滑曲线
+      },
+    ],
+  };
+
+
+  // 设置图表选项
+  pieEchart.setOption(pieOption);
+  lineEchart.setOption(lineOption);
+});
 
 const router = useRouter();
 
