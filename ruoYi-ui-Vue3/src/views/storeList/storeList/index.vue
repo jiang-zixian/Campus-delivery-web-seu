@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">             
+  <div class="app-container">     
     <!-- <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="商店编码" prop="sId">
         <el-input
@@ -59,8 +59,10 @@
             <p>{{ splitDescription2(props.row.description) }}</p>
           </template>
         </el-table-column> -->
+        <el-table-column label="" width="100">
+        </el-table-column>
 
-      <el-table-column label="" width="160">
+      <el-table-column label="" width="200">
       <template #default="scope">
         <div class="store-info">
           <image-preview :src="scope.row.logo" alt="商店logo" class="store-logo"/>
@@ -68,11 +70,11 @@
       </template>
     </el-table-column>
     
-      <el-table-column label="外卖神店" width="160">
+      <el-table-column label="外卖神店" width="200">
     <template #default="scope">
       <div class="delivery-info">
         <p class="store-name">{{ scope.row.sname }}</p>
-        <p><span class="star">{{ generateRandomStars() }}</span> 月售 {{ getRandomAvgPrice() }}</p>
+        <p><span class="star">{{ generateRandomStars() }}</span> 月售 {{ getRangeArray() }}</p>
         <p>{{ getRandomTime() }}分钟 | {{ getRandomDistance() }}km</p>
         <p>起送 {{ getRandomMinOrder() }} | 配送 {{ getRandomDeliveryFee() }} | 人均 {{ getRandomAvgPrice() }}</p>
         <p>
@@ -84,6 +86,8 @@
       </div>
     </template>
   </el-table-column>
+  <el-table-column label="" width="50">
+        </el-table-column>
       <!-- <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="110">
         <template #default="scope">
           <el-button link type="primary" icon="ShoppingCart" @click="handlegoshopping(scope.row)">购物</el-button>
@@ -125,7 +129,7 @@
 </template>
 
 <script setup name="StoreList">
-import { listStoreList, getStoreList, delStoreList, addStoreList, updateStoreList } from "@/api/storeList/storeList";
+import { listStoreList, getStoreList, delStoreList, addStoreList, updateStoreList} from "@/api/storeList/storeList";
 
 const { proxy } = getCurrentInstance();
 
@@ -140,6 +144,10 @@ const total = ref(0);
 const title = ref("");
 
 const router = useRouter();
+
+// 递减数组
+let array = [956,947,895,876,632,521,316,215,198,187,176,165,154,143,132,121,110,99,88,77,66,55,44,33,22,11,0];
+let array_index = 0;
 
 const data = reactive({
   form: {},
@@ -302,21 +310,36 @@ function   getRandomAvgPrice() {
       return Math.floor(Math.random() * (50 - 20 + 1)) + 20;
     }
 
-function generateRandomStars() {
-      const stars = [];
-      const maxStars = 5; // 最大星级为5
-      const rating = Math.floor(Math.random() * maxStars) + 1; // 随机生成1到5之间的整数作为评分
-      for (let i = 0; i < rating; i++) {
-        stars.push('★'); // 根据评分添加实心星
-      }
-      for (let i = rating; i < maxStars; i++) {
-        stars.push('☆'); // 剩余的添加空心星
-      }
-      return stars.join('');
+// 生成长度为500 的递减数组，每次调用函数时返回数组的下一个元素
+function getRangeArray() {
+    if (array_index >= array.length) {
+      array_index  = 0;
     }
- function   getRandomSales() {
+    else
+      array_index = array_index + 1;
+  
+    return array[array_index];
+}
+
+function generateRandomStars() {
+  const stars = [];
+  const maxStars = 5; // 最大星级为5
+  const minStars = 3; // 最低星级为3
+  const rating = Math.floor(Math.random() * (maxStars - minStars + 1)) + minStars; // 随机生成最低星级到最大星级之间的整数作为评分
+  for (let i = 0; i < rating; i++) {
+    stars.push('★'); // 根据评分添加实心星
+  }
+  for (let i = rating; i < maxStars; i++) {
+    stars.push('☆'); // 剩余的添加空心星
+  }
+  return stars.join('');
+}
+
+ function  getRandomSales() {
       return Math.floor(Math.random() * (4000 - 1000 + 1)) + 1000; // 随机生成1000到4000之间的月销售数量
     }
+
+
 
 getList();
 </script>

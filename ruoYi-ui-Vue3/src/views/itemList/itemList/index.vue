@@ -45,18 +45,20 @@
       <el-table-column label="商品名" align="center" prop="itemName" />
       <el-table-column label="价格" align="center" prop="price" />
       <el-table-column label="库存数量" align="center" prop="amount" /> -->
-      <el-table-column label="" width="100">
+      <el-table-column label="" width="80">
+      </el-table-column>
+      <el-table-column label="" width="150">
         <template #default="scope">
           <div class="item-info">
             <image-preview :src="scope.row.photo" alt="商店logo" class="item-logo" />
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="外卖商品" width="160">
+      <el-table-column label="外卖商品" width="200">
         <template #default="scope">
           <div class="delivery-info">
             <p class="item-name">{{ scope.row.itemName }}</p>
-            <p>月售 {{ getRandomMinOrder() }} | 赞 {{ getRandomDeliveryFee() }}</p>
+            <p>月售 {{ 242 - scope.row.amount }} | 赞 {{ 54 -3*scope.$index }} | 还剩 {{ scope.row.amount }} 份</p>
             <p class="item-price"> ￥{{ scope.row.price }}</p>
             <!-- <p><span class="star">{{ generateRandomStars() }}</span> 月售 {{ getRandomAvgPrice() }}</p>
         <p>{{ getRandomTime() }}分钟 | {{ getRandomDistance() }}km</p>
@@ -64,11 +66,13 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column align="center" class-name="fixed-width">
+      <el-table-column align="center" class-name="fixed-width" width="150">
         <template #default="scope">
           <el-button type="primary" icon="ShoppingCart" plain circle @click="open1(scope.row)"
             title="加入购物车"></el-button>
         </template>
+      </el-table-column>
+      <el-table-column label="" width="80">
       </el-table-column>
     </el-table>
 
@@ -77,8 +81,7 @@
 
 
     <!-- 购物车列表 -->
-    <el-drawer v-model="drawer" title="我的购物车" :with-header="true" :before-close="handleClose"
-      :bottom="0" size="100%">
+    <el-drawer v-model="drawer" title="我的购物车" :with-header="true" :before-close="handleClose" :bottom="0" size="85%">
       <el-row :gutter="10">
         <el-col :span="15">
           <el-form :model="cart" ref="cartRef" :inline="true" label-width="68px">
@@ -124,13 +127,10 @@
             </template>
           </el-table-column> -->
 
-          <el-table-column label="操作" align="center" width="125">
+          <el-table-column label="操作" align="center" width="400">
             <template #default="scope">
-              <el-row>
-                <el-input-number style= "width:120px;"
-                v-model="scope.row.num" @change="changeNum(scope.row.iId, scope.row.num)"
-                  :min="1"></el-input-number>
-              </el-row>
+              <el-input-number style="width:150px;margin-right: 20px;" v-model="scope.row.num"
+                @change="changeNum(scope.row.iId, scope.row.num)" :min="1"></el-input-number>
               <el-button type="danger" plain @click="changeNum(scope.row.iId, 0),deleoneitem(scope.row.iId)"
                 title="删除">删除</el-button>
             </template>
@@ -214,14 +214,22 @@
 
     </el-dialog>
 
+    <el-dialog title="支付中" v-model="alipaying" width="50%" :show-close = false :close-on-click-modal="false"
+      :close-on-press-escape="false">
+      <div>
+        <p>支付进行中，请稍候...</p>
+        <el-button @click="alipayinghandle">已完成支付</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
 <script setup name="ItemList">
-import { listItemList, getItemList, delItemList, addItemList, updateItemList,postallitem,checkitemnum} from "@/api/itemList/itemList";
+import { listItemList, getItemList, delItemList, addItemList, updateItemList,postallitem,checkitemnum,alipay} from "@/api/itemList/itemList";
 import { useRoute } from "vue-router";
 import dayjs from "dayjs";
-import { ElNotification } from 'element-plus'
+import { ElNotification } from 'element-plus';
 
 const { proxy } = getCurrentInstance();
 
@@ -413,6 +421,7 @@ const allPrice = ref(0);
 
 //订单对话框
 const applyall = ref(false);
+const alipaying = ref(false);
 
 const orderform = ref({});
 
@@ -453,8 +462,9 @@ function addmultipleCart(row) {
 
 //打开购物车界面
 const openCart = () => {
-  getList();
   drawer.value = true;
+  getList();
+
 };
 
 //删除一个商品
@@ -489,54 +499,81 @@ const applyallCart = () => {
 //提交表单
 const cartform = ref({});
 
+const aliform = ref({
+  subject: "",
+  traceNo: "",
+  totalAmount: 0
+});
+
+let dwSafari;
+let completePaymentButton;
 //支付订单
 const payallitem = () => {
   proxy.$refs["orderformRef"].validate(valid => {
-        if (valid) {
-       
-          //reset();
-          orderform.value.allItemPrice = computepriceplusde.value;
-          orderform.value.srcTime = dayjs().format("YYYY-MM-DD HH:mm:ss");  // 确保下单时间已经设置为当前时间并格式化
+    if (valid) {
 
-          //console.log(orderform.value);
+      //reset();
+      orderform.value.allItemPrice = computepriceplusde.value;
+      orderform.value.srcTime = dayjs().format("YYYY-MM-DD HH:mm:ss");  // 确保下单时间已经设置为当前时间并格式化
 
-          cartform.value = {};
+      //console.log(orderform.value);
 
-          for (let i = 0; i < cartList.value.length; i++) {
-            cartform.value[cartList.value[i].iId] = cartList.value[i].num;
-          }
-          console.log(cartform.value);
+      cartform.value = {};
 
-          checkitemnum(cartform.value).then(
-              response => {
-                // if(route.params.sId){
-                //   proxy.$modal.msgError("sid为"+route.params.sId);
-                // }
-                // if(!orderform.value.sId){
-                //   proxy.$modal.msgError("sid为空");
-                // }
-                if (response) {
-                  postallitem(orderform.value).then(response => {
-                    cart.value = [];
-                    cartList.value = [];
-                    allPrice.value = 0;
-
-                    applyall.value = false;
-                    proxy.$modal.msgSuccess("下单成功");
-
-                    getList();
-                  });
-                } else {
-                  proxy.$modal.msgError("库存不足，请重新尝试");
-                  applyall.value = false;
-                  getList();
-
-                }
-              });
-        }
+      for (let i = 0; i < cartList.value.length; i++) {
+        cartform.value[cartList.value[i].iId] = cartList.value[i].num;
       }
+      console.log(cartform.value);
+
+      checkitemnum(cartform.value).then(
+        response => {
+          // if(route.params.sId){
+          //   proxy.$modal.msgError("sid为"+route.params.sId);
+          // }
+          // if(!orderform.value.sId){
+          //   proxy.$modal.msgError("sid为空");
+          // }
+          if (response) {
+            aliform.totalAmount = allPrice.value;
+            aliform.subject = "SEU takeaway";
+            aliform.traceNo = "SEU-2025-" + dayjs().format("YYYYMMDDHHmmss");
+            alipay(aliform).then(response => {
+              alipaying.value = true;
+              //document.write(response);
+              dwSafari = window.open();
+              dwSafari.document.open();
+              let dataObj = response  //这里是后端返回的form支付表单 
+              dwSafari.document.write("<html><head><title></title><meta charset='utf-8'><body>" + dataObj + "</body></html>")
+              dwSafari.document.forms[0].submit();
+            });
+            aliform.totalAmount = 0;
+            aliform.traceNo = "SEU-2025-";
+          } else {
+            getList();
+
+            applyall.value = false;
+            proxy.$modal.msgError("库存不足，请重新尝试");
+          }
+        });
+    }
+  }
   )
 };
+
+function alipayinghandle() {
+  alipaying.value = false;
+  postallitem(orderform.value).then(response => {
+              getList();
+
+              cart.value = [];
+              cartList.value = [];
+              allPrice.value = 0;
+
+              applyall.value = false;
+              drawer.value = false;
+              proxy.$modal.msgSuccess("已查询到您的订单，下单成功");
+            });
+}
 
 function getRandomTime() {
       // 生成随机分钟数，例如10到40分钟
@@ -560,6 +597,8 @@ function   getRandomAvgPrice() {
       // 生成随机人均消费，例如20到50元
       return Math.floor(Math.random() * (50 - 20 + 1)) + 20;
     }
+
+
 
 //一个计算属性，计算总价格,转成int类型
 const computepriceplusde = computed(() => {
