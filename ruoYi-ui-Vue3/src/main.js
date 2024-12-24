@@ -78,6 +78,7 @@ app.component('svg-icon', SvgIcon)
 
 app.use(VueAMap);
 
+
 initAMapApiLoader({
   key: '16d994a24f46afd34d2da4ea7edb43ec', // 高德key
   plugin: ['AMap.Geocoder', 'AMap.PlaceSearch', 'AMap.Geolocation', 'AMap.CitySearch'], // 插件集合，根据自己的需求添加

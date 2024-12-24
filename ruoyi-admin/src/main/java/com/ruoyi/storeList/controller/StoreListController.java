@@ -101,4 +101,6 @@ public class StoreListController extends BaseController
     {
         return toAjax(storeListService.deleteStoreListBySIds(sIds));
     }
+
+
 }

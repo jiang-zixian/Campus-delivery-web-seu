@@ -68,3 +68,14 @@ export function buy(data) {
     data: data
   })
 }
+
+export function alipay(data) {
+  // 使用模板字符串拼接参数到URL中
+  const url = `/alipay/pay?subject=${data.subject}&traceNo=${data.traceNo}&totalAmount=${data.totalAmount}`;
+  console.log(url);
+
+  return request({
+    url: url,
+    method: 'get'
+  });
+}
